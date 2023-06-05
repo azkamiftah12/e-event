@@ -107,7 +107,6 @@ const validasipelatihan = () => {
   //ACC Pelatihan start
   const handleACC = async (id_pelatihan) => {
     const bodyFormData = new FormData();
-    console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
     bodyFormData.append("username_acc", "wawan123");
 
@@ -172,15 +171,11 @@ const validasipelatihan = () => {
     if (sampletime === "" || sampletime == null || sampletime === undefined) {
       return "";
     }
-    const parsedTime = new Date(sampletime);
-    const formattedTime = parsedTime.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
+    const formattedTime = sampletime.split("T")[1].substring(0, 8);
     return formattedTime;
   };
   // timetable parse end
+
   const getTime = async () => {
     const currentDate1 = new Date();
     const currentTime1 = currentDate1.toLocaleTimeString([], {

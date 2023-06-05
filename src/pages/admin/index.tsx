@@ -65,10 +65,10 @@ const index = () => {
     getDatauser();
   }, []);
 
-  const totalPelatihan = datapelatihan.length;
+  const totalPelatihan = datapelatihan?.length ?? 0;
   const totalvalidasiPelatihan = datavalidasipelatihan?.length ?? 0;
-  const totalbatch = databatch.length;
-  const totaluser = datauser.length;
+  const totalbatch = databatch?.length ?? 0;
+  const totaluser = datauser?.length ?? 0;
 
   return (
     <Layout>

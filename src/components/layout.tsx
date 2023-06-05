@@ -31,7 +31,7 @@ import {
   IconPresentationAnalytics,
 } from "@tabler/icons-react";
 import axios from "axios";
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 import { LinksGroup } from "./NavbarLinksGroup";
 import { handleLogout } from "../pages/logout";
 
@@ -58,7 +58,7 @@ export default function Layout({ children }) {
     setDatavalidasipelatihan(response.data.data);
   };
   //get token from cookies start
-  const token = Cookies.get('token')
+  const token = Cookies.get("token");
   //get token from cookies end
 
   useEffect(() => {

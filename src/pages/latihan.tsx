@@ -14,18 +14,35 @@ import {
   TextInput,
   Title,
   modal,
+  Notification,
   RichTextEditor,
   RichTextEditorValue,
+  Flex,
 } from "@mantine/core";
+import Cookies from "js-cookie";
 import HeaderMenu from "../components/HeaderMenu/HeaderMenu";
 import { headerauthorization, ipaddress } from "../components/layout";
 import FooterMenu from "../components/FooterMenu/FooterMenu";
+import { modals } from "@mantine/modals";
+import { IconX } from "@tabler/icons-react";
+import router from "next/router";
 
 const latihan = () => {
   const [data, setData] = useState([]);
   const pageStyle = {
     backgroundColor: "#E0DAD1",
   };
+
+  //get token from cookies start
+  const username = Cookies.get("username");
+  //get token from cookies end
+
+  //notification ACC start
+  const [showNotificationACC, setShowNotificationACC] = useState(false);
+  const handleCloseNotificationACC = () => {
+    setShowNotificationACC(false);
+  };
+  //notification ACC end
 
   const getData = async () => {
     const response = await axios.get(
@@ -47,12 +64,14 @@ const latihan = () => {
   };
 
   // eslint-disable-next-line arrow-body-style
-  const filteredData = data.filter((item) => {
-    return item.judul_pelatihan
-      ?.toString()
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-  });
+  const filteredData = data
+    ? data.filter((item) => {
+        return item.judul_pelatihan
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      })
+    : [];
   //search end
 
   // Custom style to hide the text
@@ -71,6 +90,64 @@ const latihan = () => {
     setIsModalOpen(true);
   };
 
+  //claim start
+  const handleclaim = async (id_pelatihan) => {
+    if (!username) {
+      router.push("/Login"); // Redirect to the login page
+      return;
+    }
+    const bodyFormData = new FormData();
+    bodyFormData.append("id_pelatihan", id_pelatihan);
+    bodyFormData.append("username_peserta", username ?? "");
+    try {
+      await axios.post(
+        `${ipaddress}insert-databatch`,
+        bodyFormData,
+        headerauthorization
+      );
+      getData();
+      setShowNotificationACC(true);
+    } catch (error) {
+      // Handle the error
+      console.error(error);
+    }
+  };
+  //claim end
+
+  //open modal Claim Pelatihan start
+  const openClaimModal = (e) => {
+    modals.openConfirmModal({
+      title: "Terima Event",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Are you sure you want to accept{" "}
+          <strong>Pelatihan {e.judul_pelatihan}</strong>
+        </Text>
+      ),
+      labels: { confirm: "ACC Pelatihan", cancel: "Cancel" },
+      confirmProps: { color: "teal" },
+      onCancel: () => console.log("Cancel"),
+      onConfirm: () => handleclaim(e.id_pelatihan),
+    });
+  };
+  //open model Claim Pelatihan end
+
+  // datetable parse start
+  const formatdatepelatihan = (sampletanggal) => {
+    // const sampletanggal = '2023-05-21T00:00:00Z';
+    if (
+      sampletanggal === "" ||
+      sampletanggal == null ||
+      sampletanggal === undefined
+    ) {
+      return "";
+    }
+    const parsedDate = new Date(sampletanggal);
+    return parsedDate.toISOString().split("T")[0];
+  };
+  // datetable parse end
+
   return (
     <div style={pageStyle}>
       <HeaderMenu />
@@ -86,6 +163,16 @@ const latihan = () => {
         List Pelatihan
       </Title>
       <Container size="xl" px="xl">
+        <Space h="xl" />
+        {showNotificationACC && (
+          <Notification
+            icon={<IconX size="1.1rem" />}
+            color="teal"
+            onClose={handleCloseNotificationACC}
+          >
+            Berhasil Claim Batch
+          </Notification>
+        )}
         <Space h="xl" />
 
         <TextInput
@@ -118,36 +205,49 @@ const latihan = () => {
                   <Text style={hiddenTextStyle} weight={500}>
                     {e.id_pelatihan}
                   </Text>
-                  <Text weight={500}>{e.judul_pelatihan}</Text>
+                  <Text tt="uppercase" weight={500}>
+                    {e.judul_pelatihan}
+                  </Text>
+                  <Badge color="pink" variant="light">
+                    <Text weight={500}>{e.nama_jenis_acara}</Text>
+                  </Badge>
                 </Group>
 
                 <Text size="sm" color="dimmed">
                   {e.deskripsi_pelatihan}
                 </Text>
-                <Text size="sm" color="dimmed">
-                  {e.nama_narasumber}
+                <Text size="md" color="dimmed">
+                  Narasumber: {e.nama_narasumber}
                 </Text>
 
-                <Button
-                  variant="light"
-                  color="blue"
-                  fullWidth
-                  mt="md"
-                  radius="md"
-                  onClick={() => openModal(e.id_pelatihan)}
+                <Flex
+                  mih={50}
+                  gap="md"
+                  justify="flex-start"
+                  align="flex-start"
+                  direction="row"
+                  wrap="wrap"
                 >
-                  View Pelatihan
-                </Button>
+                  <Button
+                    variant="light"
+                    color="blue"
+                    mt="md"
+                    radius="md"
+                    onClick={() => openModal(e.id_pelatihan)}
+                  >
+                    View Pelatihan
+                  </Button>
 
-                <Button
-                  variant="light"
-                  color="blue"
-                  fullWidth
-                  mt="md"
-                  radius="md"
-                >
-                  Claim Pelatihan
-                </Button>
+                  <Button
+                    variant="light"
+                    color="teal"
+                    mt="md"
+                    radius="md"
+                    onClick={() => openClaimModal(e)}
+                  >
+                    Claim Pelatihan
+                  </Button>
+                </Flex>
               </Card>
             </Grid.Col>
           ))}
@@ -164,9 +264,12 @@ const latihan = () => {
         title={selectedPelatihan?.judul_pelatihan}
       >
         {/* Display the selected pelatihan data */}
+
         <Text>{selectedPelatihan?.deskripsi_pelatihan}</Text>
         <Text>{selectedPelatihan?.nama_narasumber}</Text>
-        <Text>{selectedPelatihan?.tanggal_pelatihan_start}</Text>
+        <Text>
+          {formatdatepelatihan(selectedPelatihan?.tanggal_pelatihan_start)}
+        </Text>
         <Text
           dangerouslySetInnerHTML={{
             __html: selectedPelatihan?.deskripsi_pelatihan_khusus,
