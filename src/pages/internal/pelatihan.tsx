@@ -14,6 +14,7 @@ import {
   TextInput,
   CloseButton,
   Textarea,
+  Flex,
 } from "@mantine/core";
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
@@ -568,12 +569,21 @@ const pelatihan = () => {
               <td>{formatdatepelatihan(e.tanggal_pelatihan_acc)}</td>
               <td>{formattimepelatihan(e.waktu_pelatihan_acc)}</td>
               <td>
+              <Flex
+      mih={50}
+      gap="md"
+      justify="flex-start"
+      align="flex-start"
+      direction="row"
+      wrap="wrap"
+    >
                 <Button onClick={() => openDeleteModal(e)} color="red">
                   Delete
                 </Button>
                 <Button color="yellow" onClick={open1}>
                   Edit
                 </Button>
+    </Flex>
               </td>
             </tr>
           ))}

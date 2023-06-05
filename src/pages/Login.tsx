@@ -44,7 +44,6 @@ const Login = () => {
       if (response.status === 200 && !response.data.error) {
         // Save token to local storage or cookie
 
-      localStorage.setItem('token', response.data.data);
       // cookies().set('token', response.data.data)
       Cookies.set('token', response.data.data, { expires: 1 })
       setToken(response.data.data);
@@ -53,8 +52,6 @@ const Login = () => {
       
       const decodedToken = jwt_decode(token2);
       const { username, nama_user } = decodedToken;
-      localStorage.setItem('username', username);
-      localStorage.setItem('nama_user', nama_user);
       Cookies.set('username', username, { expires: 1 })
       Cookies.set('nama_user', nama_user, { expires: 1 })
       // cookies().set('username', username)

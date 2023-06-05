@@ -31,10 +31,11 @@ import {
   IconPresentationAnalytics,
 } from "@tabler/icons-react";
 import axios from "axios";
+import Cookies from 'js-cookie'
 import { LinksGroup } from "./NavbarLinksGroup";
 import { handleLogout } from "../pages/logout";
 
-export const ipaddress = "http://192.168.1.10:8081/";
+export const ipaddress = "http://192.168.1.11:8081/";
 // export const headerauthorization = 'Authorization: localStorage.getItem('token'),';
 export const headerauthorization = {
   headers: {
@@ -56,10 +57,12 @@ export default function Layout({ children }) {
     );
     setDatavalidasipelatihan(response.data.data);
   };
+  //get token from cookies start
+  const token = Cookies.get('token')
+  //get token from cookies end
 
   useEffect(() => {
-    headerauthorization.headers.Authorization =
-      localStorage.getItem("token") ?? "";
+    headerauthorization.headers.Authorization = token ?? "";
     getDatavalidasipelatihan();
   }, []);
 

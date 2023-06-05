@@ -109,7 +109,7 @@ const validasipelatihan = () => {
     const bodyFormData = new FormData();
     console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
-    bodyFormData.append("username_ACC", "wawan123");
+    bodyFormData.append("username_acc", "wawan123");
 
     const currentDate = new Date();
     const currentDateformat = currentDate.toISOString().split("T")[0];
