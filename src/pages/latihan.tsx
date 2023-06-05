@@ -26,6 +26,8 @@ import FooterMenu from "../components/FooterMenu/FooterMenu";
 import { modals } from "@mantine/modals";
 import { IconX } from "@tabler/icons-react";
 import router from "next/router";
+import { Zoom, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const latihan = () => {
   const [data, setData] = useState([]);
@@ -93,6 +95,17 @@ const latihan = () => {
   //claim start
   const handleclaim = async (id_pelatihan) => {
     if (!username) {
+      toast.error('You need to login for claim batch', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Zoom,
+        theme: "dark",
+        });
       router.push("/Login"); // Redirect to the login page
       return;
     }

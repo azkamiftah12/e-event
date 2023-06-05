@@ -2,6 +2,8 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -30,6 +32,7 @@ export default function App(props: AppProps) {
 
         <Component {...pageProps} />
         </ModalsProvider>
+        <ToastContainer />
       </MantineProvider>
       
     </>
