@@ -1,0 +1,286 @@
+import {
+  Notification,
+  Anchor,
+  Box,
+  Button,
+  Checkbox,
+  Grid,
+  Group,
+  Modal,
+  Select,
+  Space,
+  Text,
+  Table,
+  TextInput,
+} from "@mantine/core";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { IconX } from "@tabler/icons-react";
+import { modals } from "@mantine/modals";
+import Layout, {
+  headerauthorization,
+  ipaddress,
+} from "../../components/layout";
+
+const validasipelatihan = () => {
+  const [data, setData] = useState([]);
+
+  //notification delete start
+  const [showNotificationdelete, setShowNotificationdelete] = useState(false);
+  const handleCloseNotificationdelete = () => {
+    setShowNotificationdelete(false);
+  };
+  //notification delete end
+
+  //notification ACC start
+  const [showNotificationACC, setShowNotificationACC] = useState(false);
+  const handleCloseNotificationACC = () => {
+    setShowNotificationACC(false);
+  };
+  //notification ACC end
+
+  const getData = async () => {
+    const response = await axios.get(
+      `${ipaddress}get-datapelatihanvalidasi`,
+      headerauthorization
+    );
+    console.log(response.data.data);
+    setData(response.data.data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  //search
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // eslint-disable-next-line arrow-body-style
+  const filteredData = data
+    ? data.filter((item) => {
+        return item.judul_pelatihan
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      })
+    : [];
+  //search end
+
+  //delete
+  const handleDelete = async (id_pelatihan) => {
+    const bodyFormData = new FormData();
+    console.log(id_pelatihan);
+    bodyFormData.append("idpelatihan", id_pelatihan);
+    await axios.post(
+      `${ipaddress}delete-datapelatihan/:${id_pelatihan}`,
+      bodyFormData,
+      headerauthorization
+    );
+    setShowNotificationdelete(true);
+    setShowNotificationACC(false);
+    getData();
+  };
+  //delete end
+
+  //open modal delete start
+  const openDeleteModal = (e) => {
+    modals.openConfirmModal({
+      title: "Delete your profile",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Are you sure you want to decline{" "}
+          <strong>Pelatihan {e.judul_pelatihan}?</strong>
+        </Text>
+      ),
+      labels: { confirm: "Decline Pelatihan", cancel: "Cancel" },
+      confirmProps: { color: "red" },
+      onCancel: () => console.log("Cancel"),
+      onConfirm: () => handleDelete(e.id_pelatihan),
+    });
+  };
+  //open model delete end
+
+  //ACC Pelatihan start
+  const handleACC = async (id_pelatihan) => {
+    const bodyFormData = new FormData();
+    console.log(id_pelatihan);
+    bodyFormData.append("idpelatihan", id_pelatihan);
+    bodyFormData.append("username_ACC", "wawan123");
+
+    const currentDate = new Date();
+    const currentDateformat = currentDate.toISOString().split("T")[0];
+    bodyFormData.append("tanggal_pelatihan_acc", currentDateformat);
+
+    const currentTime = currentDate.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+    bodyFormData.append("waktu_accpelatihan", currentTime);
+
+    await axios.post(
+      `${ipaddress}updatevalidasi-datapelatihan/:${id_pelatihan}`,
+      bodyFormData,
+      headerauthorization
+    );
+    setShowNotificationdelete(false);
+    setShowNotificationACC(true);
+    getData();
+  };
+  //ACC Pelatihan end
+
+  //open modal ACC Pelatihan start
+  const openACCModal = (e) => {
+    modals.openConfirmModal({
+      title: "Terima Event",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Are you sure you want to accept{" "}
+          <strong>Pelatihan {e.judul_pelatihan}</strong>
+        </Text>
+      ),
+      labels: { confirm: "ACC Pelatihan", cancel: "Cancel" },
+      confirmProps: { color: "teal" },
+      onCancel: () => console.log("Cancel"),
+      onConfirm: () => handleACC(e.id_pelatihan),
+    });
+  };
+  //open model ACC Pelatihan end
+
+  // datetable parse start
+  const formatdate = (sampletanggal) => {
+    // const sampletanggal = '2023-05-21T00:00:00Z';
+    if (
+      sampletanggal === "" ||
+      sampletanggal == null ||
+      sampletanggal === undefined
+    ) {
+      return "";
+    }
+    const parsedDate = new Date(sampletanggal);
+    return parsedDate.toISOString().split("T")[0];
+  };
+  // datetable parse end
+
+  // timetable parse start
+  const formattime = (sampletime) => {
+    if (sampletime === "" || sampletime == null || sampletime === undefined) {
+      return "";
+    }
+    const parsedTime = new Date(sampletime);
+    const formattedTime = parsedTime.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    return formattedTime;
+  };
+  // timetable parse end
+  const getTime = async () => {
+    const currentDate1 = new Date();
+    const currentTime1 = currentDate1.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+    console.log(currentTime1);
+  };
+
+  return (
+    <Layout>
+      <Button onClick={getTime}>test get time</Button>
+      <Space h="md" />
+
+      {showNotificationdelete && (
+        <Notification
+          icon={<IconX size="1.1rem" />}
+          color="red"
+          onClose={handleCloseNotificationdelete}
+        >
+          Pelatihan berhasil ditolak
+        </Notification>
+      )}
+
+      {showNotificationACC && (
+        <Notification
+          icon={<IconX size="1.1rem" />}
+          color="teal"
+          onClose={handleCloseNotificationACC}
+        >
+          Pelatihan berhasil diterima
+        </Notification>
+      )}
+      <Space h="md" />
+      <TextInput
+        placeholder="search pelatihan"
+        value={searchTerm}
+        onChange={handleSearch}
+        style={{ marginTop: "16px" }}
+      />
+
+      <Space h="md" />
+
+      <Table striped highlightOnHover withBorder withColumnBorders>
+        <thead>
+          <tr>
+            <th>Judul Pelatihan</th>
+            <th>Deskripsi Pelatihan</th>
+            <th>Narasumber</th>
+            <th>Tanggal Pelatihan Awal</th>
+            <th>Tanggal Pelatihan Akhir</th>
+            <th>Waktu Pelatihan</th>
+            <th>Link Pelatihan</th>
+            <th>Max Peserta per Batch</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredData.map((e) => (
+            <tr key={e.id_pelatihan}>
+              <td>{e.judul_pelatihan}</td>
+              <td>{e.deskripsi_pelatihan}</td>
+              <td>{e.nama_narasumber}</td>
+              <td>{formatdate(e.tanggal_pelatihan_start)}</td>
+              <td>{formatdate(e.tanggal_pelatihan_end)}</td>
+              <td>{formattime(e.waktu_pelatihan)}</td>
+              <td>
+                <Anchor href={e.link_pelatihan} target="_blank">
+                  {e.link_pelatihan}
+                </Anchor>
+              </td>
+              <td>{e.max_pesertabatch}</td>
+              <td>
+                <Grid>
+                  <Grid.Col span={6}>
+                    <Button
+                      color="teal"
+                      radius="md"
+                      onClick={() => openACCModal(e)}
+                    >
+                      Accept
+                    </Button>
+                  </Grid.Col>
+                  <Grid.Col span={6}>
+                    <Button
+                      color="red"
+                      radius="md"
+                      onClick={() => openDeleteModal(e)}
+                    >
+                      Tolak
+                    </Button>
+                  </Grid.Col>
+                </Grid>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </Layout>
+  );
+};
+export default validasipelatihan;

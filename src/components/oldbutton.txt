@@ -1,0 +1,193 @@
+<Accordion>
+      <Accordion.Item value="customization">
+        <Accordion.Control>Internal</Accordion.Control>
+        <Accordion.Panel>
+        <UnstyledButton
+          component="a"
+          href="/internal/validasipelatihan"
+          sx={(theme) => ({
+        display: 'block',
+        width: '100%',
+        padding: theme.spacing.xs,
+        borderRadius: theme.radius.sm,
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
+        '&:hover': {
+          backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+        },
+      })}
+        >
+      <Group>
+        <Text size="md">Validasi Pelatihan</Text>
+      </Group>
+        </UnstyledButton>
+        </Accordion.Panel>
+
+        <Accordion.Panel>
+        <UnstyledButton
+          component="a"
+          href="/internal/pelatihan"
+          sx={(theme) => ({
+        display: 'block',
+        width: '100%',
+        padding: theme.spacing.xs,
+        borderRadius: theme.radius.sm,
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
+        '&:hover': {
+          backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+        },
+      })}
+        >
+      <Group>
+        <Text size="md">Pelatihan</Text>
+      </Group>
+        </UnstyledButton>
+        </Accordion.Panel>
+
+        <Accordion.Panel>
+        <UnstyledButton
+          component="a"
+          href="/internal/batch"
+          sx={(theme) => ({
+        display: 'block',
+        width: '100%',
+        padding: theme.spacing.xs,
+        borderRadius: theme.radius.sm,
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
+        '&:hover': {
+          backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+        },
+      })}
+        >
+      <Group>
+        <Text size="md">Batch</Text>
+      </Group>
+        </UnstyledButton>
+        </Accordion.Panel>
+        
+      </Accordion.Item>
+          </Accordion>
+            <Accordion>
+      <Accordion.Item value="customization">
+      
+      <Space h="sm" />
+      
+        <Accordion.Control>Manajemen</Accordion.Control>
+        <Accordion.Panel>
+        <UnstyledButton
+          component="a"
+          href="/manajemen/provinsi"
+          sx={(theme) => ({
+        display: 'block',
+        width: '100%',
+        padding: theme.spacing.xs,
+        borderRadius: theme.radius.sm,
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
+        '&:hover': {
+          backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+        },
+      })}
+        >
+      <Group>
+        <Text size="md">Provinsi</Text>
+      </Group>
+        </UnstyledButton>
+        </Accordion.Panel>
+        <Accordion.Panel>
+        <UnstyledButton
+          component="a"
+          href="/manajemen/kabupaten"
+          sx={(theme) => ({
+        display: 'block',
+        width: '100%',
+        padding: theme.spacing.xs,
+        borderRadius: theme.radius.sm,
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
+        '&:hover': {
+          backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+        },
+      })}
+        >
+      <Group>
+        <Text size="md">Kabupaten / Kota</Text>
+      </Group>
+        </UnstyledButton>
+        </Accordion.Panel>
+        <Accordion.Panel>
+        <UnstyledButton
+          component="a"
+          href="/manajemen/jenispekerjaan"
+          sx={(theme) => ({
+        display: 'block',
+        width: '100%',
+        padding: theme.spacing.xs,
+        borderRadius: theme.radius.sm,
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
+        '&:hover': {
+          backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+        },
+      })}
+        >
+      <Group>
+        <Text size="md">Jenis Pekerjaan</Text>
+      </Group>
+        </UnstyledButton>
+        </Accordion.Panel>
+        <Accordion.Panel>
+        <UnstyledButton
+          component="a"
+          href="/manajemen/jenispelatihan"
+          sx={(theme) => ({
+        display: 'block',
+        width: '100%',
+        padding: theme.spacing.xs,
+        borderRadius: theme.radius.sm,
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
+        '&:hover': {
+          backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+        },
+      })}
+        >
+      <Group>
+        <Text size="md">Jenis Pelatihan</Text>
+      </Group>
+        </UnstyledButton>
+        </Accordion.Panel>
+        
+        <Accordion.Panel>
+        <UnstyledButton
+          component="a"
+          href="/manajemen/user"
+          sx={(theme) => ({
+        display: 'block',
+        width: '100%',
+        padding: theme.spacing.xs,
+        borderRadius: theme.radius.sm,
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
+        '&:hover': {
+          backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+        },
+      })}
+        >
+      <Group>
+        <Text size="md">User</Text>
+      </Group>
+        </UnstyledButton>
+        </Accordion.Panel>
+      </Accordion.Item>
+            </Accordion>

@@ -1,0 +1,178 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+import { Box, Button, Checkbox, Group, Modal, Select, Space, Table, TextInput } from '@mantine/core';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useForm } from '@mantine/form';
+import { useDisclosure } from '@mantine/hooks';
+import Layout, { headerauthorization, ipaddress } from '../../components/layout';
+
+const kabupaten = () => {
+  const [data, setData] = useState([]);
+  
+  const getData = async () => {
+    const response = await axios.get(`${ipaddress}get-datakabkot`, headerauthorization);
+    console.log(response.data.data);
+    setData(response.data.data);
+  };
+  
+  useEffect(() => {
+    getData();
+    getDataProvinsi();
+  }, []);
+  
+  //search
+  const [searchTerm, setSearchTerm] = useState('');
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+  
+  // eslint-disable-next-line arrow-body-style
+  const filteredData = data.filter((item) => {
+    return item.nama_kabkot?.toString().toLowerCase().includes(searchTerm.toLowerCase());
+  });
+  //search end
+  
+  //modal start
+  const [opened, { open, close }] = useDisclosure(false);
+  // modal end
+  
+  const [searchValue, onSearchChange] = useState('');
+  const [dataProvinsi, setDataProvinsi] = useState([]);
+  
+  //form start
+  const form = useForm({
+    initialValues: {
+      id_provinsi: '',
+      nama_kabkot: '',
+      // termsOfService: false,
+    },
+    validate: {
+      id_provinsi: (value) => (value.length < 1 ? 'Pilih Provinsi' : null),
+      nama_kabkot: (value) => (value.length < 2 ? 'Masukkan Nama Kabkot' : null),
+    },
+  });
+  //Form End
+  
+  //Insert
+  const handleInsert = async () => {
+    const { nama_kabkot } = form.values;
+
+    // Validate form fields
+    const errors = form.validate();
+  if (errors.hasErrors) {
+    // If there are validation errors, you can handle them accordingly
+    console.log(errors);
+    return;
+  }
+  
+    const selectedOption = dataProvinsi.find((option) => option.label === searchValue);
+    const id_provinsi = selectedOption ? selectedOption.value : '';
+    
+    const bodyFormData = new FormData();
+    bodyFormData.append('id_provinsi', id_provinsi);
+    bodyFormData.append('namakabkot', nama_kabkot);
+
+    try {
+      await axios.post(`${ipaddress}insert-datakabkot`, bodyFormData, headerauthorization);
+
+      // Success, do something after the insert is complete
+      getData();
+    } catch (error) {
+      // Handle the error
+      console.error(error);
+    }
+  };
+  //insert end
+  
+  //delete
+  const handleDelete = async (id_kabkot) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append('idhapus', id_kabkot);
+    await axios.post(`${ipaddress}delete-datakabkot/${id_kabkot}`, bodyFormData, headerauthorization);
+    getData();
+  };
+  //delete end
+
+  const getDataProvinsi = async () => {
+    const response = await axios.get(`${ipaddress}get-dataprovinsi`, headerauthorization);
+    console.log(response.data.data);
+    const temporaryData = response.data.data.map(v => ({ label: v.nama_provinsi, value: v.id_provinsi }));
+    setDataProvinsi(temporaryData);
+  };
+  
+  return (
+    <Layout>
+      <Modal opened={opened} onClose={close} title="Add Kabupaten" centered>
+        <Box maw={300} mx="auto">
+          <form onSubmit={form.onSubmit((values) => console.log(values))}>
+            {/* <TextInput
+              withAsterisk
+              label="ID Kabupaten/kota"
+              placeholder="ID Kabupaten/kota"
+              {...form.getInputProps('id_kabkot')}
+            /> */}
+
+            <Select
+              label="Your favorite framework/library"
+              placeholder="Pick one"
+              searchable
+              onSearchChange={onSearchChange}
+              searchValue={searchValue}
+              nothingFound="No options"
+              data={dataProvinsi}
+              {...form.getInputProps('id_provinsi')}
+            />
+
+            <TextInput
+              withAsterisk
+              label="Nama kabupaten/Kota"
+              placeholder="Nama Kabupaten/Kota"
+              {...form.getInputProps('nama_kabkot')}
+            />
+
+            <Group position="right" mt="md">
+              <Button type="submit" onClick={handleInsert}>Submit</Button>
+            </Group>
+          </form>
+        </Box>
+      </Modal>
+
+      <Group position="center">
+        <Button onClick={open}>Add Kabupaten/Kota</Button>
+      </Group>
+
+      <TextInput
+        placeholder="Search Kabupaten/Kota"
+        value={searchTerm}
+        onChange={handleSearch}
+        style={{ marginTop: '16px' }}
+      />
+      <Space h="md" />
+        <Table striped highlightOnHover withBorder withColumnBorders>
+      <thead>
+        <tr>
+          <th>ID Kabupaten/Kota</th>
+          <th>Kabupaten/Kota</th>
+          <th>Provinsi</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {filteredData.map((e) => (
+            <tr key={e.id_kabkot}>
+              <td>{e.id_kabkot}</td>
+              <td>{e.nama_kabkot}</td>
+              <td>{e.nama_provinsi}</td>
+              <td>
+                <Button onClick={() => handleDelete(e.id_kabkot)} color="red">
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
+      </tbody>
+        </Table>
+    </Layout>
+  );
+};
+export default kabupaten;
