@@ -28,6 +28,8 @@ import {
   TimeInput,
 } from "@mantine/dates";
 import { modals } from "@mantine/modals";
+import { Flip, Slide, ToastContainer, Zoom, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import Highlight from "@tiptap/extension-highlight";
@@ -61,6 +63,46 @@ const pelatihan = () => {
     setShowNotificationcreate(false);
   };
   //notification create end
+
+  const notifysuccess = () => {
+    toast.success('Insert Successfully', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
+  };
+  const notifyerror = () => {
+    toast.error('Delete Successfully', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
+  };
+  const notifywarning = () => {
+    toast.warn('warning', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
+  };
 
   const getData = async () => {
     const response = await axios.get(
@@ -164,6 +206,8 @@ const pelatihan = () => {
 
   const [dataNarasumber, setDataNarasumber] = useState([]);
   const [searchValueNarasumber, onSearchChangeNarasumber] = useState("");
+
+  
   const [content, setContent] = useState(
     "<h1><mark>-- -- -- -- Jadwal 1 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p><p></p><h1><mark>-- -- -- -- Jadwal 2 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p>"
   );
@@ -236,6 +280,7 @@ const pelatihan = () => {
       close(false);
       setShowNotificationdelete(false);
       setShowNotificationcreate(true);
+      notifysuccess();
       getData();
     } catch (error) {
       // Handle the error
@@ -256,6 +301,7 @@ const pelatihan = () => {
     );
     setShowNotificationdelete(true);
     setShowNotificationcreate(false);
+    notifyerror();
     getData();
   };
   //delete end

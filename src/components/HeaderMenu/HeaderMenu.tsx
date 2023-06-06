@@ -140,7 +140,7 @@ const mockdata = [
 const notifysuccess = () => {
   toast.success('success', {
     position: "top-center",
-    autoClose: 5000,
+    autoClose: 10000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -153,7 +153,7 @@ const notifysuccess = () => {
 const notifyerror = () => {
   toast.error('error', {
     position: "top-center",
-    autoClose: 5000,
+    autoClose: 10000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -166,7 +166,7 @@ const notifyerror = () => {
 const notifywarning = () => {
   toast.warn('warning', {
     position: "top-center",
-    autoClose: 5000,
+    autoClose: 10000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,

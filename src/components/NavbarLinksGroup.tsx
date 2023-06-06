@@ -24,6 +24,10 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
     },
+    ...theme.fn.hover({
+      backgroundColor: "#e7b622",
+      color: "#3F2661",
+    }),
   },
 
   link: {
@@ -43,6 +47,10 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
     },
+    ...theme.fn.hover({
+      backgroundColor: "#e7b622",
+      color: "#3F2661",
+    }),
   },
 
   chevron: {

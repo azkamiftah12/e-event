@@ -80,7 +80,7 @@ import { headerauthorization, ipaddress } from '../components/layout';
       email: (value) => (value.length < 2 ? 'Masukkan Email' : null),
       password: (value) => (value.length < 8 ? 'password minimal 8 karakter' : null),
       nama_user: (value) => (value.length < 2 ? 'Masukkan Nama' : null),
-      id_provinsi: (value) => (value.length < 2 ? 'Masukkan ID Provinsin' : null),
+      id_provinsi: (value) => (value.length < 2 ? 'Masukkan ID Provinsi' : null),
       id_kabkot: (value) => (value.length < 2 ? 'Masukkan ID Kabupaten' : null),
       id_pekerjaan: (value) => (value.length < 2 ? 'Masukkan ID Pekerjaan' : null),
       notelp: (value) => (value.length < 2 ? 'Masukkan No Telp' : null),

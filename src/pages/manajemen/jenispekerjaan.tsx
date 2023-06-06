@@ -1,36 +1,57 @@
-import { Box, Button, Checkbox, Group, Modal, Space, Table, TextInput, Text, Notification, Grid } from '@mantine/core';
+import { Box, Button, Checkbox, Group, Modal, Space, Table, TextInput, Text, Grid } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
+import { Flip, Slide, ToastContainer, Zoom, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Layout, { headerauthorization, ipaddress } from '../../components/layout';
 
 const JenisPekerjaan = () => {
   const [data, setData] = useState([]);
   const [selectedData, setSelectedData] = useState(null);
 
-   //notification delete start
-   const [showNotificationdelete, setShowNotificationdelete] = useState(false);
-   const handleCloseNotificationdelete = () => {
-     setShowNotificationdelete(false);
-   };
-   //notification delete end
-   
-   //notification create start
-   const [showNotificationcreate, setShowNotificationcreate] = useState(false);
-   const handleCloseNotificationcreate = () => {
-     setShowNotificationcreate(false);
-   };
-   //notification create end
- 
-   //notification update start
-   const [showNotificationupdate, setShowNotificationupdate] = useState(false);
-   const handleCloseNotificationupdate = () => {
-     setShowNotificationupdate(false);
-   };
-   //notification update end
+   const notifysuccess = () => {
+    toast.success('Add pekerjaan successfully', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
+  };
+  const notifyerror = () => {
+    toast.error('Delete pekerjaan successfully', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
+  };
+  const notifywarning = () => {
+    toast.warn('Edit pekerjaan Successfully', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
+  };
   
   const getData = async () => {
     const response = await axios.get(`${ipaddress}get-datapekerjaan`, headerauthorization);
@@ -92,9 +113,7 @@ const JenisPekerjaan = () => {
     try {
       await axios.post(`${ipaddress}insert-datapekerjaan`, bodyFormData, headerauthorization);
       closeAddModal();
-      setShowNotificationdelete(false);
-      setShowNotificationcreate(true);
-      setShowNotificationupdate(false);
+      notifysuccess();
       // Success, do something after the insert is complete
       getData();
     } catch (error) {
@@ -120,9 +139,7 @@ const JenisPekerjaan = () => {
     
     // Success, do something after the update is complete
     closeEditModal();
-    setShowNotificationdelete(false);
-    setShowNotificationcreate(false);
-    setShowNotificationupdate(true);
+    notifywarning();
     getData();
   } catch (error) {
     // Handle the error
@@ -136,9 +153,7 @@ const handleDelete = async (id_pekerjaan) => {
   const bodyFormData = new FormData();
   bodyFormData.append('idhapus', id_pekerjaan);
   await axios.post(`${ipaddress}delete-datapekerjaan/${id_pekerjaan}`, bodyFormData, headerauthorization);
-  setShowNotificationdelete(true);
-setShowNotificationcreate(false);
-    setShowNotificationupdate(false);
+  notifyerror();
   getData();
 };
 //delete end
@@ -164,7 +179,7 @@ const openDeleteModal = (e) => {
   return (
     <Layout>
 
-      {showNotificationcreate && (
+      {/* {showNotificationcreate && (
       <Notification
         icon={<IconCheck size="1.1rem" />}
         color="teal"
@@ -194,7 +209,7 @@ const openDeleteModal = (e) => {
         >
           Data berhasil dihapus
         </Notification>
-      )}
+      )} */}
       <Modal opened={openedAddModal} onClose={closeAddModal} title="Add Pekerjaan" centered>
         <Box maw={300} mx="auto">
           <form onSubmit={form.onSubmit((values) => console.log(values))}>

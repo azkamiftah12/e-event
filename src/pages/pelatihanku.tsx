@@ -30,7 +30,7 @@ const pelatihanku = () => {
 
   const getData = async () => {
     const response = await axios.get(
-      `${ipaddress}get-datapelatihanku/:${username}`,
+      `${ipaddress}get-datapelatihanku/${username}`,
       headerauthorization
     );
     console.log(response.data.data);

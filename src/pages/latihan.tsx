@@ -39,12 +39,32 @@ const latihan = () => {
   const username = Cookies.get("username");
   //get token from cookies end
 
-  //notification ACC start
-  const [showNotificationACC, setShowNotificationACC] = useState(false);
-  const handleCloseNotificationACC = () => {
-    setShowNotificationACC(false);
+  const notifysuccess = () => {
+    toast.success('Claim batch successfully', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
   };
-  //notification ACC end
+  const notifyerror = () => {
+    toast.error('Please login to claim batch', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
+  };
 
   const getData = async () => {
     const response = await axios.get(
@@ -95,17 +115,7 @@ const latihan = () => {
   //claim start
   const handleclaim = async (id_pelatihan) => {
     if (!username) {
-      toast.error('You need to login for claim batch', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        transition: Zoom,
-        theme: "dark",
-        });
+      notifyerror();
       router.push("/Login"); // Redirect to the login page
       return;
     }
@@ -119,7 +129,7 @@ const latihan = () => {
         headerauthorization
       );
       getData();
-      setShowNotificationACC(true);
+      notifysuccess();
     } catch (error) {
       // Handle the error
       console.error(error);
@@ -176,16 +186,6 @@ const latihan = () => {
         List Pelatihan
       </Title>
       <Container size="xl" px="xl">
-        <Space h="xl" />
-        {showNotificationACC && (
-          <Notification
-            icon={<IconX size="1.1rem" />}
-            color="teal"
-            onClose={handleCloseNotificationACC}
-          >
-            Berhasil Claim Batch
-          </Notification>
-        )}
         <Space h="xl" />
 
         <TextInput

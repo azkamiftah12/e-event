@@ -5,6 +5,8 @@ import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
+import { Flip, Slide, ToastContainer, Zoom, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Layout, { headerauthorization, ipaddress } from '../../components/layout';
 
 const jenispelatihan = () => {
@@ -12,26 +14,66 @@ const jenispelatihan = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedData, setSelectedData] = useState(null);
   
-  //notification delete start
-  const [showNotificationdelete, setShowNotificationdelete] = useState(false);
-  const handleCloseNotificationdelete = () => {
-    setShowNotificationdelete(false);
-  };
-  //notification delete end
+//   //notification delete start
+//   const [showNotificationdelete, setShowNotificationdelete] = useState(false);
+//   const handleCloseNotificationdelete = () => {
+//     setShowNotificationdelete(false);
+//   };
+//   //notification delete end
   
-  //notification create start
-  const [showNotificationcreate, setShowNotificationcreate] = useState(false);
-  const handleCloseNotificationcreate = () => {
-    setShowNotificationcreate(false);
-  };
-  //notification create end
+//   //notification create start
+//   const [showNotificationcreate, setShowNotificationcreate] = useState(false);
+//   const handleCloseNotificationcreate = () => {
+//     setShowNotificationcreate(false);
+//   };
+//   //notification create end
   
-//notification update start
-const [showNotificationupdate, setShowNotificationupdate] = useState(false);
-const handleCloseNotificationupdate = () => {
-  setShowNotificationupdate(false);
+// //notification update start
+// const [showNotificationupdate, setShowNotificationupdate] = useState(false);
+// const handleCloseNotificationupdate = () => {
+//   setShowNotificationupdate(false);
+// };
+// //notification update end
+
+const notifysuccess = () => {
+  toast.success('Add jenis pelatihan successfully', {
+    position: "top-center",
+    autoClose: 10000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    transition: Zoom,
+    theme: "dark",
+    });
 };
-//notification update end
+const notifyerror = () => {
+  toast.error('Delete jenis pelatihan successfully', {
+    position: "top-center",
+    autoClose: 10000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    transition: Zoom,
+    theme: "dark",
+    });
+};
+const notifywarning = () => {
+  toast.warn('Edit jenis pekerjaan successfully', {
+    position: "top-center",
+    autoClose: 10000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    transition: Zoom,
+    theme: "dark",
+    });
+};
 
   const getData = async () => {
     const response = await axios.get(`${ipaddress}get-dataacara`, headerauthorization);
@@ -93,9 +135,10 @@ const handleCloseNotificationupdate = () => {
       await axios.post(`${ipaddress}insert-dataacara`, bodyFormData, headerauthorization);
       // Success, do something after the insert is complete
       closeAddModal(false);
-      setShowNotificationdelete(false);
-      setShowNotificationcreate(true);
-      setShowNotificationupdate(false);
+      // setShowNotificationdelete(false);
+      // setShowNotificationcreate(true);
+      // setShowNotificationupdate(false);
+      notifysuccess();
       getData();
     } catch (error) {
       // Handle the error
@@ -119,9 +162,10 @@ const handleCloseNotificationupdate = () => {
     await axios.post(`${ipaddress}update-dataacara`, bodyFormData, headerauthorization);
     // Success, do something after the update is complete
     closeEditModal();
-    setShowNotificationdelete(false);
-    setShowNotificationcreate(false);
-    setShowNotificationupdate(true);
+    // setShowNotificationdelete(false);
+    // setShowNotificationcreate(false);
+    // setShowNotificationupdate(true);
+    notifywarning();
     getData();
   } catch (error) {
     // Handle the error
@@ -155,9 +199,10 @@ const handleDelete = async (id_jenis_acara) => {
   const bodyFormData = new FormData();
   bodyFormData.append('idhapus', id_jenis_acara);
   await axios.post(`${ipaddress}delete-dataacara/${id_jenis_acara}`, bodyFormData, headerauthorization);
-  setShowNotificationdelete(true);
-  setShowNotificationcreate(false);
-  setShowNotificationupdate(false);
+  // setShowNotificationdelete(true);
+  // setShowNotificationcreate(false);
+  // setShowNotificationupdate(false);
+  notifyerror();
   getData();
 };
 //delete end
@@ -165,7 +210,7 @@ const handleDelete = async (id_jenis_acara) => {
   return (
     <Layout>
 
-{showNotificationcreate && (
+{/* {showNotificationcreate && (
       <Notification
         icon={<IconCheck size="1.1rem" />}
         color="teal"
@@ -195,7 +240,7 @@ const handleDelete = async (id_jenis_acara) => {
         >
           Data berhasil dihapus
         </Notification>
-      )}
+      )} */}
       
       <Modal opened={openedAddModal} onClose={closeAddModal} title="Add Jenis Pelatihan" centered>
         <Box maw={300} mx="auto">

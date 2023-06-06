@@ -6,31 +6,52 @@ import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
+import { Flip, Slide, ToastContainer, Zoom, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Layout, { headerauthorization, ipaddress } from '../../components/layout';
 
 const User = () => {
   const [data, setData] = useState([]);
 
-  //notification delete start
-  const [showNotificationdelete, setShowNotificationdelete] = useState(false);
-  const handleCloseNotificationdelete = () => {
-    setShowNotificationdelete(false);
+  const notifysuccess = () => {
+    toast.success('Add User Successfully', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
   };
-  //notification delete end
-  
-  //notification create start
-  const [showNotificationcreate, setShowNotificationcreate] = useState(false);
-  const handleCloseNotificationcreate = () => {
-    setShowNotificationcreate(false);
+  const notifyerror = () => {
+    toast.error('Delete User Successfully', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
   };
-  //notification create end
-
-  //notification update start
-  const [showNotificationupdate, setShowNotificationupdate] = useState(false);
-  const handleCloseNotificationupdate = () => {
-    setShowNotificationupdate(false);
+  const notifywarning = () => {
+    toast.warn('Update User Successfully', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
   };
-  //notification update end
   
   const getData = async () => {
     const response = await axios.get(`${ipaddress}get-datauser`, headerauthorization);
@@ -167,9 +188,7 @@ const User = () => {
     try {
       await axios.post(`${ipaddress}insert-datauser`, bodyFormData, headerauthorization);
       closeAddModal(false);
-      setShowNotificationdelete(false);
-      setShowNotificationcreate(true);
-      setShowNotificationupdate(false);
+      notifysuccess();
       getData();
     } catch (error) {
       // Handle the error
@@ -199,9 +218,7 @@ const User = () => {
     
     // Success, do something after the update is complete
     closeEditModal();
-    setShowNotificationdelete(false);
-      setShowNotificationcreate(false);
-      setShowNotificationupdate(true);
+    notifywarning();
     getData();
   } catch (error) {
     // Handle the error
@@ -234,9 +251,7 @@ const handleDelete = async (username) => {
   const bodyFormData = new FormData();
   bodyFormData.append('usernamehapus', username);
   await axios.post(`${ipaddress}delete-datauser/${username}`, bodyFormData, headerauthorization);
-  setShowNotificationdelete(true);
-  setShowNotificationcreate(false);
-      setShowNotificationupdate(false);
+  notifyerror();
   getData();
 };
 //delete end
@@ -271,38 +286,6 @@ const handleProvinsiChange = (event) => {
   
   return (
     <Layout>
-
-{showNotificationcreate && (
-      <Notification
-        icon={<IconCheck size="1.1rem" />}
-        color="teal"
-        title="Notification"
-        onClose={handleCloseNotificationcreate}
-      >
-        Data berhasil diinput
-      </Notification>
-    )}
-
-{showNotificationupdate && (
-      <Notification
-        icon={<IconCheck size="1.1rem" />}
-        color="yellow"
-        title="Notification"
-        onClose={handleCloseNotificationupdate}
-      >
-        Data berhasil diedit
-      </Notification>
-    )}
-
-    {showNotificationdelete && (
-        <Notification
-          icon={<IconX size="1.1rem" />}
-          color="red"
-          onClose={handleCloseNotificationdelete}
-        >
-          Data berhasil dihapus
-        </Notification>
-      )}
 
        {/* modal add start */} 
       <Modal size="70%" opened={openedAddModal} onClose={closeAddModal} title="Add User" centered>

@@ -16,6 +16,8 @@ import {
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
 import { IconX } from "@tabler/icons";
+import { Flip, Slide, ToastContainer, Zoom, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { SHA256 } from "crypto-js";
 // import { cookies } from 'next/headers';
 import jwt_decode from "jwt-decode";
@@ -32,12 +34,52 @@ const Login = () => {
   const [token, setToken] = useState(null);
   const [errorlogin, seterrorlogin] = useState(null);
 
-  //notification gagal start
-  const [showNotificationdelete, setShowNotificationdelete] = useState(false);
-  const handleCloseNotificationdelete = () => {
-    setShowNotificationdelete(false);
+  // //notification gagal start
+  // const [showNotificationdelete, setShowNotificationdelete] = useState(false);
+  // const handleCloseNotificationdelete = () => {
+  //   setShowNotificationdelete(false);
+  // };
+  // //notification gagal end
+
+  const notifysuccess = () => {
+    toast.success('success', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
   };
-  //notification gagal end
+  const notifyerror = () => {
+    toast.error(`${errorlogin ?? 'Error login'}`, {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
+  };
+  const notifywarning = () => {
+    toast.warn('warning', {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
+  };
 
   const pageStyle = {
     backgroundColor: "#E0DAD1",
@@ -78,7 +120,8 @@ const Login = () => {
       } else {
         console.log("Login error:", response.data.error);
         seterrorlogin(response.data.error);
-        setShowNotificationdelete(true);
+        // setShowNotificationdelete(true);
+        notifyerror();
         // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw response;
         // Display error message
@@ -87,7 +130,8 @@ const Login = () => {
       console.log(ex);
       seterrorlogin(ex.response.data.pesan);
       // // seterrorlogin(response.data.error);
-      setShowNotificationdelete(true);
+      // setShowNotificationdelete(true);
+      notifyerror();
       // seterrorlogin(response.data.error);
       // Display error message
     }
@@ -99,7 +143,7 @@ const Login = () => {
       <div style={pageStyle}>
         <HeaderMenu />
         <Container size={470} my={108}>
-          {showNotificationdelete && (
+          {/* {showNotificationdelete && (
             <Notification
               icon={<IconX size="1.1rem" />}
               color="red"
@@ -107,7 +151,7 @@ const Login = () => {
             >
               {errorlogin}
             </Notification>
-          )}
+          )} */}
 
           <Space h="xl" />
 
