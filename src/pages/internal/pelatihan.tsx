@@ -50,20 +50,6 @@ const pelatihan = () => {
   const [data, setData] = useState([]);
   const ref = useRef<HTMLInputElement>();
 
-  //notification delete start
-  const [showNotificationdelete, setShowNotificationdelete] = useState(false);
-  const handleCloseNotificationdelete = () => {
-    setShowNotificationdelete(false);
-  };
-  //notification delete end
-
-  //notification create start
-  const [showNotificationcreate, setShowNotificationcreate] = useState(false);
-  const handleCloseNotificationcreate = () => {
-    setShowNotificationcreate(false);
-  };
-  //notification create end
-
   const notifysuccess = () => {
     toast.success('Insert Successfully', {
       position: "top-center",
@@ -278,8 +264,6 @@ const pelatihan = () => {
         headerauthorization
       );
       close(false);
-      setShowNotificationdelete(false);
-      setShowNotificationcreate(true);
       notifysuccess();
       getData();
     } catch (error) {
@@ -299,8 +283,6 @@ const pelatihan = () => {
       bodyFormData,
       headerauthorization
     );
-    setShowNotificationdelete(true);
-    setShowNotificationcreate(false);
     notifyerror();
     getData();
   };
@@ -368,26 +350,6 @@ const pelatihan = () => {
 
   return (
     <Layout>
-      {showNotificationcreate && (
-        <Notification
-          icon={<IconCheck size="1.1rem" />}
-          color="teal"
-          title="Notification"
-          onClose={handleCloseNotificationcreate}
-        >
-          Pelatihan berhasil diinput. Tunggu untuk verifikasi pelatihan
-        </Notification>
-      )}
-
-      {showNotificationdelete && (
-        <Notification
-          icon={<IconCheck size="1.1rem" />}
-          color="red"
-          onClose={handleCloseNotificationdelete}
-        >
-          Data berhasil dihapus
-        </Notification>
-      )}
 
       <Modal
         size="70%"

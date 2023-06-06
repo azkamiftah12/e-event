@@ -27,20 +27,6 @@ import Layout, {
 const validasipelatihan = () => {
   const [data, setData] = useState([]);
 
-  //notification delete start
-  const [showNotificationdelete, setShowNotificationdelete] = useState(false);
-  const handleCloseNotificationdelete = () => {
-    setShowNotificationdelete(false);
-  };
-  //notification delete end
-
-  //notification ACC start
-  const [showNotificationACC, setShowNotificationACC] = useState(false);
-  const handleCloseNotificationACC = () => {
-    setShowNotificationACC(false);
-  };
-  //notification ACC end
-
   const notifysuccess = () => {
     toast.success('Accept pelatihan Successfully', {
       position: "top-center",
@@ -55,7 +41,7 @@ const validasipelatihan = () => {
       });
   };
   const notifyerror = () => {
-    toast.error('error', {
+    toast.error('Decline pelatihan successfully', {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -121,8 +107,6 @@ const validasipelatihan = () => {
       bodyFormData,
       headerauthorization
     );
-    setShowNotificationdelete(true);
-    setShowNotificationACC(false);
     notifyerror();
     getData();
   };
@@ -169,8 +153,6 @@ const validasipelatihan = () => {
       bodyFormData,
       headerauthorization
     );
-    setShowNotificationdelete(false);
-    setShowNotificationACC(true);
     notifysuccess();
     getData();
   };
@@ -235,25 +217,6 @@ const validasipelatihan = () => {
       <Button onClick={getTime}>test get time</Button>
       <Space h="md" />
 
-      {showNotificationdelete && (
-        <Notification
-          icon={<IconX size="1.1rem" />}
-          color="red"
-          onClose={handleCloseNotificationdelete}
-        >
-          Pelatihan berhasil ditolak
-        </Notification>
-      )}
-
-      {showNotificationACC && (
-        <Notification
-          icon={<IconX size="1.1rem" />}
-          color="teal"
-          onClose={handleCloseNotificationACC}
-        >
-          Pelatihan berhasil diterima
-        </Notification>
-      )}
       <Space h="md" />
       <TextInput
         placeholder="search pelatihan"
@@ -310,7 +273,7 @@ const validasipelatihan = () => {
                       radius="md"
                       onClick={() => openDeleteModal(e)}
                     >
-                      Tolak
+                      Decline
                     </Button>
                   </Grid.Col>
                 </Grid>

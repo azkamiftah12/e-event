@@ -31,13 +31,22 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const latihan = () => {
   const [data, setData] = useState([]);
+  const [databatch, setDatabatch] = useState([]);
+
   const pageStyle = {
     backgroundColor: "#E0DAD1",
   };
 
-  //get token from cookies start
+  const getDatabatch = async () => {
+    const response = await axios.get(`${ipaddress}get-databatch`, headerauthorization);
+    console.log(response.data.data);
+    setDatabatch(response.data.data);
+  };
+
+  //get username from cookies start
   const username = Cookies.get("username");
-  //get token from cookies end
+  const getusername = username
+  //get username from cookies end
 
   const notifysuccess = () => {
     toast.success('Claim batch successfully', {
@@ -77,6 +86,7 @@ const latihan = () => {
 
   useEffect(() => {
     getData();
+    getDatabatch();
   }, []);
 
   //search
@@ -129,6 +139,7 @@ const latihan = () => {
         headerauthorization
       );
       getData();
+      getDatabatch();
       notifysuccess();
     } catch (error) {
       // Handle the error
@@ -199,6 +210,7 @@ const latihan = () => {
         {/* Card Start */}
         <Grid>
           {filteredData.map((e) => (
+            // eslint-disable-next-line react/jsx-key
             <Grid.Col span={4}>
               <Card
                 key={e.id_pelatihan}
@@ -257,8 +269,17 @@ const latihan = () => {
                     mt="md"
                     radius="md"
                     onClick={() => openClaimModal(e)}
+                    disabled={databatch.some(
+                      (item) =>
+                        item.username_peserta === username && item.id_pelatihan === e.id_pelatihan
+                    )}
                   >
-                    Claim Pelatihan
+                    {databatch.some(
+                      (item) =>
+                        item.username_peserta === username && item.id_pelatihan === e.id_pelatihan
+                    )
+                      ? "Claimed"
+                      : "Claim Pelatihan"}
                   </Button>
                 </Flex>
               </Card>

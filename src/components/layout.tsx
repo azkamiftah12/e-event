@@ -35,7 +35,7 @@ import Cookies from "js-cookie";
 import { LinksGroup } from "./NavbarLinksGroup";
 import { handleLogout } from "../pages/logout";
 
-export const ipaddress = "http://192.168.1.10:8081/";
+export const ipaddress = "http://192.168.1.7:8081/";
 // export const headerauthorization = 'Authorization: localStorage.getItem('token'),';
 export const headerauthorization = {
   headers: {

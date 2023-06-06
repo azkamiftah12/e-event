@@ -135,48 +135,6 @@ const mockdata = [
   },
 ];
 
-
-
-const notifysuccess = () => {
-  toast.success('success', {
-    position: "top-center",
-    autoClose: 10000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    transition: Zoom,
-    theme: "dark",
-    });
-};
-const notifyerror = () => {
-  toast.error('error', {
-    position: "top-center",
-    autoClose: 10000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    transition: Zoom,
-    theme: "dark",
-    });
-};
-const notifywarning = () => {
-  toast.warn('warning', {
-    position: "top-center",
-    autoClose: 10000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    transition: Zoom,
-    theme: "dark",
-    });
-};
-
 export default function HeaderMenu() {
   const { classes, theme } = useStyles();
 
@@ -225,9 +183,6 @@ export default function HeaderMenu() {
             </a>
           </Group>
           <Group className={classes.hiddenMobile}>
-            <Button onClick={notifysuccess}>notify success</Button>
-            <Button onClick={notifyerror}>notify error</Button>
-            <Button onClick={notifywarning}>notify warning</Button>
             <Button
               component="a"
               href="/Login"

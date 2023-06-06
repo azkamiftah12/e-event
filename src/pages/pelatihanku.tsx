@@ -24,14 +24,19 @@ const pelatihanku = () => {
     backgroundColor: "#E0DAD1",
   };
 
+
   //get token from cookies start
   const username = Cookies.get("username");
+  const getusername = username
+  //get token from cookies end
+
+  //get token from cookies start
+  const token = Cookies.get("token");
   //get token from cookies end
 
   const getData = async () => {
     const response = await axios.get(
-      `${ipaddress}get-datapelatihanku/${username}`,
-      headerauthorization
+      `${ipaddress}get-databatch`, headerauthorization
     );
     console.log(response.data.data);
     setData(response.data.data);
@@ -39,6 +44,8 @@ const pelatihanku = () => {
 
   useEffect(() => {
     getData();
+    getusername;
+    console.log(getusername)
   }, []);
 
   //search
@@ -90,7 +97,9 @@ const pelatihanku = () => {
         <Space h="xl" />
 
         <Grid>
-          {filteredData.map((e) => (
+        {filteredData
+  .filter((e) => e.username === `${getusername}`)
+  .map((e) => (
             <Grid.Col span={4}>
               <Card
                 key={e.id_pelatihan}
