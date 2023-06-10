@@ -16,8 +16,8 @@ import {
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
 import { IconX } from "@tabler/icons";
-import { Flip, Slide, ToastContainer, Zoom, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { SHA256 } from "crypto-js";
 // import { cookies } from 'next/headers';
 import jwt_decode from "jwt-decode";
@@ -42,7 +42,7 @@ const Login = () => {
   // //notification gagal end
 
   const notifysuccess = () => {
-    toast.success('success', {
+    toast.success("success", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -52,10 +52,10 @@ const Login = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
   const notifyerror = () => {
-    toast.error(`${errorlogin ?? 'Error login'}`, {
+    toast.error(`${errorlogin ?? "Error login"}`, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -65,10 +65,10 @@ const Login = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
   const notifywarning = () => {
-    toast.warn('warning', {
+    toast.warn("warning", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -78,7 +78,7 @@ const Login = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
 
   const pageStyle = {

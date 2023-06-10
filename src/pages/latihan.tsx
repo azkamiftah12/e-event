@@ -27,7 +27,7 @@ import { modals } from "@mantine/modals";
 import { IconX } from "@tabler/icons-react";
 import router from "next/router";
 import { Zoom, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const latihan = () => {
   const [data, setData] = useState([]);
@@ -38,18 +38,22 @@ const latihan = () => {
   };
 
   const getDatabatch = async () => {
-    const response = await axios.get(`${ipaddress}get-databatch`, headerauthorization);
+    const response = await axios.get(
+      `${ipaddress}get-databatch`,
+      headerauthorization
+    );
     console.log(response.data.data);
     setDatabatch(response.data.data);
   };
 
   //get username from cookies start
   const username = Cookies.get("username");
-  const getusername = username
+  const getusername = username;
   //get username from cookies end
 
+  //notifikasi toast start
   const notifysuccess = () => {
-    toast.success('Claim batch successfully', {
+    toast.success("Claim batch successfully", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -59,10 +63,10 @@ const latihan = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
   const notifyerror = () => {
-    toast.error('Please login to claim batch', {
+    toast.error("Please login to claim batch", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -72,8 +76,9 @@ const latihan = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
+  //notifikasi toast end
 
   const getData = async () => {
     const response = await axios.get(
@@ -226,22 +231,23 @@ const latihan = () => {
                     alt="Norway"
                   />
                 </Card.Section>
-                <Group position="apart" mt="md" mb="xs">
-                  <Text style={hiddenTextStyle} weight={500}>
-                    {e.id_pelatihan}
-                  </Text>
-                  <Text tt="uppercase" weight={500}>
-                    {e.judul_pelatihan}
-                  </Text>
+                <Group position="right" mt="md" mb="xs">
                   <Badge color="pink" variant="light">
                     <Text weight={500}>{e.nama_jenis_acara}</Text>
                   </Badge>
                 </Group>
+                <Group position="left" mt="md" mb="xs">
+                  <Text style={hiddenTextStyle} weight={500}>
+                    {e.id_pelatihan}
+                  </Text>
 
-                <Text size="sm" color="dimmed">
-                  {e.deskripsi_pelatihan}
-                </Text>
-                <Text size="md" color="dimmed">
+                  <Text tt="uppercase" weight={500}>
+                    {e.judul_pelatihan}
+                  </Text>
+                  <Text weight={200}>Tanggal: {e.tanggal_pelatihan_start}</Text>
+                </Group>
+
+                <Text className="bold" size="md" color="dimmed">
                   Narasumber: {e.nama_narasumber}
                 </Text>
 
@@ -260,7 +266,7 @@ const latihan = () => {
                     radius="md"
                     onClick={() => openModal(e.id_pelatihan)}
                   >
-                    View Pelatihan
+                    Detail
                   </Button>
 
                   <Button
@@ -271,15 +277,17 @@ const latihan = () => {
                     onClick={() => openClaimModal(e)}
                     disabled={databatch.some(
                       (item) =>
-                        item.username_peserta === username && item.id_pelatihan === e.id_pelatihan
+                        item.username_peserta === username &&
+                        item.id_pelatihan === e.id_pelatihan
                     )}
                   >
                     {databatch.some(
                       (item) =>
-                        item.username_peserta === username && item.id_pelatihan === e.id_pelatihan
+                        item.username_peserta === username &&
+                        item.id_pelatihan === e.id_pelatihan
                     )
                       ? "Claimed"
-                      : "Claim Pelatihan"}
+                      : "Claim"}
                   </Button>
                 </Flex>
               </Card>
@@ -291,7 +299,7 @@ const latihan = () => {
         <Space h="xl" />
       </Container>
       <FooterMenu />
-      {/* New Modal component */}
+      {/* View Modal component */}
       <Modal
         opened={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -301,6 +309,7 @@ const latihan = () => {
 
         <Text>{selectedPelatihan?.deskripsi_pelatihan}</Text>
         <Text>{selectedPelatihan?.nama_narasumber}</Text>
+
         <Text>
           {formatdatepelatihan(selectedPelatihan?.tanggal_pelatihan_start)}
         </Text>

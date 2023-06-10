@@ -16,8 +16,8 @@ import {
   rem,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Flip, Slide, ToastContainer, Zoom, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   IconNotification,
   IconCode,
@@ -27,6 +27,24 @@ import {
   IconCoin,
   IconChevronDown,
 } from "@tabler/icons-react";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+
+// Utility function to check if a cookie exists
+function checkCookieExists(cookieName) {
+  const cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith(cookieName + "=")) {
+      return true;
+    }
+  }
+  return false;
+}
+
+//get token from cookies start
+const token = Cookies.get("token");
+//get token from cookies end
 
 // EDIT WARNA TEXT
 const useStyles = createStyles((theme) => ({
@@ -137,6 +155,12 @@ const mockdata = [
 
 export default function HeaderMenu() {
   const { classes, theme } = useStyles();
+  const [tokenExists, setTokenExists] = useState(false);
+
+  useEffect(() => {
+    const exists = checkCookieExists("token");
+    setTokenExists(exists);
+  }, []);
 
   {
     /* EDIT ICON */
@@ -183,45 +207,56 @@ export default function HeaderMenu() {
             </a>
           </Group>
           <Group className={classes.hiddenMobile}>
-            <Button
-              component="a"
-              href="/Login"
-              styles={(theme) => ({
-                root: {
-                  backgroundColor: "#E0DAD1",
-                  color: "#3F2661",
-                  height: rem(32),
-                  fontWeight: "bold",
-                  paddingLeft: rem(20),
-                  paddingRight: rem(20),
-                  "&:not([data-disabled])": theme.fn.hover({
-                    backgroundColor: "#e7b622",
-                    color: theme.fn.darken("#3F2661", 0.15),
-                  }),
-                },
-              })}
-            >
-              Log In
-            </Button>
-            <Button
-              onClick={handleLogout}
-              styles={(theme) => ({
-                root: {
-                  backgroundColor: "#E0DAD1",
-                  color: "#3F2661",
-                  height: rem(32),
-                  fontWeight: "bold",
-                  paddingLeft: rem(20),
-                  paddingRight: rem(20),
-                  "&:not([data-disabled])": theme.fn.hover({
-                    backgroundColor: "#e7b622",
-                    color: theme.fn.darken("#3F2661", 0.15),
-                  }),
-                },
-              })}
-            >
-              Log Out
-            </Button>
+            {/* Conditional rendering based on token existence */}
+            {!tokenExists && (
+              <Group className={classes.hiddenMobile}>
+                <Button
+                  component="a"
+                  href="/Login"
+                  styles={(theme) => ({
+                    root: {
+                      backgroundColor: "#E0DAD1",
+                      color: "#3F2661",
+                      height: rem(32),
+                      fontWeight: "bold",
+                      paddingLeft: rem(20),
+                      paddingRight: rem(20),
+                      "&:not([data-disabled])": theme.fn.hover({
+                        backgroundColor: "#e7b622",
+                        color: theme.fn.darken("#3F2661", 0.15),
+                      }),
+                    },
+                  })}
+                >
+                  Log In
+                </Button>
+              </Group>
+            )}
+
+            {/* Logout button */}
+            {tokenExists && (
+              <Group className={classes.hiddenMobile}>
+                <Button
+                  onClick={handleLogout}
+                  styles={(theme) => ({
+                    root: {
+                      backgroundColor: "#E0DAD1",
+                      color: "#3F2661",
+                      height: rem(32),
+                      fontWeight: "bold",
+                      paddingLeft: rem(20),
+                      paddingRight: rem(20),
+                      "&:not([data-disabled])": theme.fn.hover({
+                        backgroundColor: "#e7b622",
+                        color: theme.fn.darken("#3F2661", 0.15),
+                      }),
+                    },
+                  })}
+                >
+                  Log Out
+                </Button>
+              </Group>
+            )}
           </Group>
         </Group>
       </Header>
