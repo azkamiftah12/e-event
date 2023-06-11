@@ -35,8 +35,8 @@ const jenispelatihan = () => {
 // };
 // //notification update end
 
-const notifysuccess = () => {
-  toast.success('Add jenis pelatihan successfully', {
+const notifysuccess = (msg) => {
+  toast.success(msg, {
     position: "top-center",
     autoClose: 10000,
     hideProgressBar: false,
@@ -48,8 +48,8 @@ const notifysuccess = () => {
     theme: "dark",
     });
 };
-const notifyerror = () => {
-  toast.error('Delete jenis pelatihan successfully', {
+const notifyerror = (msg) => {
+  toast.error(msg, {
     position: "top-center",
     autoClose: 10000,
     hideProgressBar: false,
@@ -61,8 +61,8 @@ const notifyerror = () => {
     theme: "dark",
     });
 };
-const notifywarning = () => {
-  toast.warn('Edit jenis pekerjaan successfully', {
+const notifywarning = (msg) => {
+  toast.warn(msg, {
     position: "top-center",
     autoClose: 10000,
     hideProgressBar: false,
@@ -132,17 +132,24 @@ const notifywarning = () => {
     bodyFormData.append('nama_acara', nama_jenis_acara);
 
     try {
-      await axios.post(`${ipaddress}insert-dataacara`, bodyFormData, headerauthorization);
-      // Success, do something after the insert is complete
-      closeAddModal(false);
-      // setShowNotificationdelete(false);
-      // setShowNotificationcreate(true);
-      // setShowNotificationupdate(false);
-      notifysuccess();
-      getData();
-    } catch (error) {
+      const response = await axios.post(`${ipaddress}insert-dataacara`, bodyFormData, headerauthorization);
+      if (response.data.error===true) {
+        // Handle the error condition based on the response
+        // For example, you can show an error message to the user or perform any necessary actions
+        notifyerror(response.data.pesan);
+      } else {
+        close(false);
+        notifysuccess('Insert Successfully');
+        getData();
+      }
+    } catch (ex: any) {
+      console.error(ex);
+      if (ex.response && ex.response.data && ex.response.data.pesan) {
+        notifyerror(ex.response.data.pesan);
+      } else {
+        notifyerror("An error occurred while making the request. Check your Connection");
+      }
       // Handle the error
-      console.error(error);
     }
   };
   //insert end
@@ -165,7 +172,7 @@ const notifywarning = () => {
     // setShowNotificationdelete(false);
     // setShowNotificationcreate(false);
     // setShowNotificationupdate(true);
-    notifywarning();
+    notifywarning('Update Successfully');
     getData();
   } catch (error) {
     // Handle the error
@@ -202,7 +209,7 @@ const handleDelete = async (id_jenis_acara) => {
   // setShowNotificationdelete(true);
   // setShowNotificationcreate(false);
   // setShowNotificationupdate(false);
-  notifyerror();
+  notifyerror('Delete Successfully');
   getData();
 };
 //delete end

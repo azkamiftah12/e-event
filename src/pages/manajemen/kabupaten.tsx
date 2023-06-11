@@ -5,9 +5,37 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import Layout, { headerauthorization, ipaddress } from '../../components/layout';
+import { toast, Zoom } from 'react-toastify';
 
 const kabupaten = () => {
   const [data, setData] = useState([]);
+
+  const notifysuccess = (msg) => {
+    toast.success(msg, {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
+  };
+  const notifyerror = (msg) => {
+    toast.error(msg, {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+      });
+  };
   
   const getData = async () => {
     const response = await axios.get(`${ipaddress}get-datakabkot`, headerauthorization);
@@ -73,13 +101,24 @@ const kabupaten = () => {
     bodyFormData.append('namakabkot', nama_kabkot);
 
     try {
-      await axios.post(`${ipaddress}insert-datakabkot`, bodyFormData, headerauthorization);
-
-      // Success, do something after the insert is complete
-      getData();
-    } catch (error) {
+      const response = await axios.post(`${ipaddress}insert-datakabkot`, bodyFormData, headerauthorization);
+      if (response.data.error===true) {
+        // Handle the error condition based on the response
+        // For example, you can show an error message to the user or perform any necessary actions
+        notifyerror(response.data.pesan);
+      } else {
+        close(false);
+        notifysuccess('Insert Successfully');
+        getData();
+      }
+    } catch (ex: any) {
+      console.error(ex);
+      if (ex.response && ex.response.data && ex.response.data.pesan) {
+        notifyerror(ex.response.data.pesan);
+      } else {
+        notifyerror("An error occurred while making the request. Check your Connection");
+      }
       // Handle the error
-      console.error(error);
     }
   };
   //insert end
@@ -89,6 +128,7 @@ const kabupaten = () => {
     const bodyFormData = new FormData();
     bodyFormData.append('idhapus', id_kabkot);
     await axios.post(`${ipaddress}delete-datakabkot/${id_kabkot}`, bodyFormData, headerauthorization);
+    notifyerror('Delete Kabupaten Successfully')
     getData();
   };
   //delete end

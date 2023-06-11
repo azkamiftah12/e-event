@@ -29,8 +29,8 @@ import Layout, {
 const User = () => {
   const [data, setData] = useState([]);
 
-  const notifysuccess = () => {
-    toast.success("Add User Successfully", {
+  const notifysuccess = (msg) => {
+    toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -42,8 +42,8 @@ const User = () => {
       theme: "dark",
     });
   };
-  const notifyerror = () => {
-    toast.error("Delete User Successfully", {
+  const notifyerror = (msg) => {
+    toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -55,8 +55,8 @@ const User = () => {
       theme: "dark",
     });
   };
-  const notifywarning = () => {
-    toast.warn("Update User Successfully", {
+  const notifywarning = (msg) => {
+    toast.warn(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -242,17 +242,28 @@ const User = () => {
     bodyFormData.append("role_user", role_user);
 
     try {
-      await axios.post(
+      const response = await axios.post(
         `${ipaddress}insert-datauser`,
         bodyFormData,
         headerauthorization
       );
-      closeAddModal(false);
-      notifysuccess();
-      getData();
-    } catch (error) {
+      if (response.data.error===true) {
+        // Handle the error condition based on the response
+        // For example, you can show an error message to the user or perform any necessary actions
+        notifyerror(response.data.pesan);
+      } else {
+        close(false);
+        notifysuccess('Insert Successfully');
+        getData();
+      }
+    } catch (ex : any) {
+      console.error(ex);
+      if (ex.response && ex.response.data && ex.response.data.pesan) {
+        notifyerror(ex.response.data.pesan);
+      } else {
+        notifyerror("An error occurred while making the request. Check your Connection");
+      }
       // Handle the error
-      console.error(error);
     }
   };
   //insert end
@@ -282,7 +293,7 @@ const User = () => {
     bodyFormData.append("notlp", notlp);
 
     try {
-      await axios.post(
+      const response = await axios.post(
         `${ipaddress}update-datauser`,
         bodyFormData,
         headerauthorization
@@ -290,9 +301,10 @@ const User = () => {
 
       // Success, do something after the update is complete
       closeEditModal();
-      notifywarning();
+      notifywarning('Update User Successfully');
       getData();
-    } catch (error) {
+    } catch (ex:any) {
+      notifyerror(ex.response.data.pesan)
       // Handle the error
       console.error(error);
     }
@@ -325,7 +337,7 @@ const User = () => {
       bodyFormData,
       headerauthorization
     );
-    notifyerror();
+    notifyerror('Delete User Successfully');
     getData();
   };
   //delete end

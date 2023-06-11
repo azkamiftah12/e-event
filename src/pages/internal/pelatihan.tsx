@@ -52,8 +52,8 @@ const pelatihan = () => {
   const [selectedData, setSelectedData] = useState(null);
   const ref = useRef<HTMLInputElement>();
 
-  const notifysuccess = () => {
-    toast.success('Insert Successfully', {
+  const notifysuccess = (msg) => {
+    toast.success(msg , {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -65,8 +65,8 @@ const pelatihan = () => {
       theme: "dark",
       });
   };
-  const notifyerror = () => {
-    toast.error('Delete Successfully', {
+  const notifyerror = (msg) => {
+    toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -299,17 +299,28 @@ const pelatihan = () => {
     bodyFormData.append("deskripsi_pelatihan_khusus", editor?.getHTML() ?? "");
 
     try {
-      await axios.post(
+      const response = await axios.post(
         `${ipaddress}insert-datapelatihan`,
         bodyFormData,
         headerauthorization
       );
-      close(false);
-      notifysuccess();
-      getData();
-    } catch (error) {
+      if (response.data.error===true) {
+        // Handle the error condition based on the response
+        // For example, you can show an error message to the user or perform any necessary actions
+        notifyerror(response.data.pesan);
+      } else {
+        close(false);
+        notifysuccess('Insert Successfully');
+        getData();
+      }
+    } catch (ex: any) {
+      console.error(ex);
+      if (ex.response && ex.response.data && ex.response.data.pesan) {
+        notifyerror(ex.response.data.pesan);
+      } else {
+        notifyerror("An error occurred while making the request. Check your Connection");
+      }
       // Handle the error
-      console.error(error);
     }
   };
   //insert end

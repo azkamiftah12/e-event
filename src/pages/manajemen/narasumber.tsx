@@ -13,8 +13,8 @@ import Layout, { headerauthorization, ipaddress } from '../../components/layout'
 const Narasumber = () => {
   const [data, setData] = useState([]);
 
-  const notifysuccess = () => {
-    toast.success('Add narasumber successfully', {
+  const notifysuccess = (msg) => {
+    toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -26,8 +26,8 @@ const Narasumber = () => {
       theme: "dark",
       });
   };
-  const notifyerror = () => {
-    toast.error('Delete Narasumber successfully', {
+  const notifyerror = (msg) => {
+    toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -39,8 +39,8 @@ const Narasumber = () => {
       theme: "dark",
       });
   };
-  const notifywarning = () => {
-    toast.warn('Edit narasumber successfully', {
+  const notifywarning = (msg) => {
+    toast.warn(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -154,13 +154,24 @@ const Narasumber = () => {
     bodyFormData.append('id_kabkot', id_kabkot);
     
     try {
-      await axios.post(`${ipaddress}insert-datanarasumber`, bodyFormData, headerauthorization);
-      closeAddModal(false);
-      notifysuccess();
-      getData();
-    } catch (error) {
+      const response = await axios.post(`${ipaddress}insert-datanarasumber`, bodyFormData, headerauthorization);
+      if (response.data.error===true) {
+        // Handle the error condition based on the response
+        // For example, you can show an error message to the user or perform any necessary actions
+        notifyerror(response.data.pesan);
+      } else {
+        close(false);
+        notifysuccess('Insert Successfully');
+        getData();
+      }
+    } catch (ex: any) {
+      console.error(ex);
+      if (ex.response && ex.response.data && ex.response.data.pesan) {
+        notifyerror(ex.response.data.pesan);
+      } else {
+        notifyerror("An error occurred while making the request. Check your Connection");
+      }
       // Handle the error
-      console.error(error);
     }
   };
   //insert end
@@ -183,7 +194,7 @@ const Narasumber = () => {
     
     // Success, do something after the update is complete
     closeEditModal();
-    notifywarning();
+    notifywarning('Update Successfully');
     getData();
   } catch (error) {
     // Handle the error
@@ -216,7 +227,7 @@ const handleDelete = async (id_narasumber) => {
   const bodyFormData = new FormData();
   bodyFormData.append('id_narasumber', id_narasumber);
   await axios.post(`${ipaddress}delete-datanarasumber/${id_narasumber}`, bodyFormData, headerauthorization);
-  notifyerror();
+  notifyerror('Delete Narasumber Successfully');
   getData();
 };
 //delete end

@@ -32,7 +32,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const router = useRouter();
   const [token, setToken] = useState(null);
-  const [errorlogin, seterrorlogin] = useState(null);
 
   // //notification gagal start
   // const [showNotificationdelete, setShowNotificationdelete] = useState(false);
@@ -54,8 +53,9 @@ const Login = () => {
       theme: "dark",
     });
   };
-  const notifyerror = () => {
-    toast.error(`${errorlogin ?? "Invalid username or password"}`, {
+
+  const notifyerror = (msg) => {
+    toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -67,6 +67,7 @@ const Login = () => {
       theme: "dark",
     });
   };
+  
   const notifywarning = () => {
     toast.warn("warning", {
       position: "top-center",
@@ -125,21 +126,21 @@ const Login = () => {
         }
       } else {
         console.log("Login error:", response.data.error);
-        seterrorlogin(response.data.error);
         // setShowNotificationdelete(true);
-        notifyerror();
-        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        notifyerror(response.data.error);
         throw response;
         // Display error message
       }
     } catch (ex: any) {
       console.log(ex);
-      seterrorlogin(ex.response.data.pesan);
-      // // seterrorlogin(response.data.error);
+      if (ex.response && ex.response.data && ex.response.data.pesan) {
+        notifyerror(ex.response.data.pesan);
+      } else {
+        notifyerror("An error occurred while making the request. Check your Connection");
+      }
       // setShowNotificationdelete(true);
-      notifyerror();
-      // seterrorlogin(response.data.error);
-      // Display error message
+      // notifyerror(ex.response.data.pesan);
+      
     }
   };
   //login end

@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import HeaderMenu from '../components/HeaderMenu/HeaderMenu';
 import FooterMenu from '../components/FooterMenu/FooterMenu';
 import { headerauthorization, ipaddress } from '../components/layout';
+import { Zoom, toast } from 'react-toastify';
   
   const SignUp = () => {
     const [data, setData] = useState([]);
@@ -13,7 +14,21 @@ import { headerauthorization, ipaddress } from '../components/layout';
     const pageStyle = {
         backgroundColor: '#E0DAD1',
       };
-
+    
+      const notifyerror = (msg) => {
+        toast.error(msg, {
+          position: "top-center",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          transition: Zoom,
+          theme: "dark",
+        });
+      };
+    
       const getDataProvinsi = async () => {
         const response = await axios.get(`${ipaddress}get-dataprovinsi`, headerauthorization);
         console.log(response.data.data);
@@ -126,11 +141,17 @@ import { headerauthorization, ipaddress } from '../components/layout';
     bodyFormData.append('role_user', 'Peserta');
     
     try {
-      await axios.post(`${ipaddress}insert-datauser`, bodyFormData, headerauthorization);
+      const response = await axios.post(`${ipaddress}insert-datauser`, bodyFormData, headerauthorization);
+      notifyerror(response.data)
       router.push('/Login');
-    } catch (error) {
+    } catch (ex : any) {
+      console.error(ex);
+      if (ex.response && ex.response.data && ex.response.data.pesan) {
+        notifyerror(ex.response.data.pesan);
+      } else {
+        notifyerror("An error occurred while making the request. Check your Connection");
+      }
       // Handle the error
-      console.error(error);
     }
       };
       //signup start

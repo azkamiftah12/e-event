@@ -34,15 +34,16 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { LinksGroup } from "./NavbarLinksGroup";
 import { handleLogout } from "../pages/logout";
+import { headerauthorization, ipaddress } from "./layout";
 
-export const ipaddress = "http://192.168.43.38:8081/";
-// export const headerauthorization = 'Authorization: localStorage.getItem('token'),';
-export const headerauthorization = {
-  headers: {
-    "Content-Type": "multipart/form-data",
-    Authorization: "",
-  },
-};
+// export const ipaddress = "http://192.168.43.38:8081/";
+// // export const headerauthorization = 'Authorization: localStorage.getItem('token'),';
+// export const headerauthorization = {
+//   headers: {
+//     "Content-Type": "multipart/form-data",
+//     Authorization: "",
+//   },
+// };
 
 export default function LayoutPenyelenggara({ children }) {
   const theme = useMantineTheme();
