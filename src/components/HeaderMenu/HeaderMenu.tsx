@@ -114,7 +114,7 @@ export default function HeaderMenu() {
       <Header
         height={75}
         px="md"
-        style={{ backgroundColor: "#3F2661", margin: -5, border: "none" }}
+        style={{ backgroundColor: "#3F2661", border: "none" }}
       >
         <Group position="apart" sx={{ height: "100%" }}>
           {/* <Text component="a" href="/" className={classes.title}>

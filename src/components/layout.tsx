@@ -63,13 +63,12 @@ export default function Layout({ children }) {
   //get token from cookies end
   const totalvalidasiPelatihan = datavalidasipelatihan?.length ?? 0;
   // badge function untuk hitung total data END
-  
+
   useEffect(() => {
     headerauthorization.headers.Authorization = token ?? "";
     getDatavalidasipelatihan();
     console.log(totalvalidasiPelatihan);
   }, []);
-
 
   // scrolldown menu start
   const [opened, setOpened] = useState(false);
@@ -83,9 +82,9 @@ export default function Layout({ children }) {
         {
           label: `Validasi Pelatihan${(
             <>
-            <Badge color="pink" variant="light">
-              Jumlah: {totalvalidasiPelatihan.toString()}
-            </Badge>
+              <Badge color="pink" variant="light">
+                Jumlah: {totalvalidasiPelatihan.toString()}
+              </Badge>
             </>
           )}`,
           link: "/internal/validasipelatihan",
@@ -162,7 +161,7 @@ export default function Layout({ children }) {
           <Header
             height={75}
             px="md"
-            style={{ backgroundColor: "#3F2661", margin: 0, border: "none" }}
+            style={{ backgroundColor: "#3F2661", border: "none" }}
           >
             <Group position="apart" sx={{ height: "100%" }}>
               {/* <MediaQuery largerThan="sm" styles={{ display: 'none', justifyContent: 'flex-end' }}>
@@ -237,9 +236,7 @@ export default function Layout({ children }) {
                     size="md"
                     fullWidth
                   >
-                    <Text size="lg" color="gray.0">
-                      Home
-                    </Text>
+                    <Text size="lg">Home</Text>
                   </Button>
                 </Grid.Col>
               </Grid>
@@ -274,8 +271,12 @@ export default function Layout({ children }) {
         //navbar side end
         // navbar footer start
         footer={
-          <Footer height={60} p="md">
-            <Text ta="center" size="xs" fw={100}>
+          <Footer
+            height={60}
+            p="md"
+            style={{ backgroundColor: "#3F2661", margin: 0, border: "none" }}
+          >
+            <Text ta="center" size="xs" fw={100} color="white">
               E-Event @Copyright TI-CCIT 6
             </Text>
           </Footer>

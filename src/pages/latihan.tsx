@@ -158,7 +158,7 @@ const latihan = () => {
   //open modal Claim Pelatihan start
   const openClaimModal = (e) => {
     modals.openConfirmModal({
-      title: "Terima Event",
+      title: "Claim Event",
       centered: true,
       children: (
         <Text size="sm">
@@ -167,7 +167,7 @@ const latihan = () => {
         </Text>
       ),
       labels: { confirm: "ACC Pelatihan", cancel: "Cancel" },
-      confirmProps: { color: "teal" },
+      confirmProps: { color: "pink.9" },
       onCancel: () => console.log("Cancel"),
       onConfirm: () => handleclaim(e.id_pelatihan),
     });
@@ -294,9 +294,7 @@ const latihan = () => {
                     </Button>
 
                     <Button
-                      style={{
-                        backgroundColor: "#e7b622",
-                      }}
+                      color="pink.9"
                       mt="md"
                       radius="md"
                       onClick={() => openClaimModal(e)}
@@ -329,11 +327,16 @@ const latihan = () => {
       <Modal
         opened={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={selectedPelatihan?.judul_pelatihan}
+        title="Detail Pelatihan"
         styles={{
           modal: {
             borderRadius: 12,
             boxShadow: "0px 8px 32px rgba(17, 17, 17, 0.16)",
+          },
+          title: {
+            fontSize: "18px",
+            fontWeight: "bold",
+            marginLeft: "8px",
           },
           body: {
             padding: 24,
