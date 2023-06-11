@@ -221,7 +221,7 @@ const User = () => {
       (option) => option.label === selectedRole
     );
     // const role_user = selectedOptionRole ? selectedOptionRole.value : '';
-    const role_user = selectedRole;
+    const role_user = selectedOptionRole ? selectedOptionRole.value : "";
 
     // Validate form fields
     const errors = form.validate();
@@ -346,14 +346,6 @@ const User = () => {
     }));
     setDataKabupaten(temporaryData);
   };
-
-  // const roleOptions = [
-  //   { value: 'superadmin', label: 'superadmin' },
-  //   { value: 'penyelenggara', label: 'penyelenggara' },
-  //   { value: 'pemateri', label: 'pemateri' },
-  //   { value: 'peserta', label: 'peserta' },
-  //   // Add more options as needed
-  // ];
 
   const [selectedRole, setSelectedRole] = useState("");
 
@@ -494,34 +486,25 @@ const User = () => {
 
               <TextInput
                 withAsterisk
-                disabled
-                label="ID Pekerjaan"
-                placeholder="ID Pekerjaan"
-                value={selectedData.id_pekerjaan}
-                onChange={(e) =>
-                  setSelectedData({
-                    ...selectedData,
-                    id_pekerjaan: e.target.value,
-                  })
-                }
-              />
-              <TextInput
-                withAsterisk
-                disabled
-                label="password"
-                placeholder="password"
-                value={selectedData.password}
-                onChange={(e) =>
-                  setSelectedData({ ...selectedData, password: e.target.value })
-                }
-              />
-              <TextInput
-                withAsterisk
                 label="Nomor Telp"
                 placeholder="Nomor Telp"
                 value={selectedData.notlp}
                 onChange={(e) =>
                   setSelectedData({ ...selectedData, notlp: e.target.value })
+                }
+              />
+              <Select
+                data={dataRole}
+                placeholder="Pilih Role"
+                label="Pilih Jenis Role"
+                value={selectedData?.role_user || ""}
+                searchValue={selectedRole}
+                onSearchChange={handleRoleChange}
+                onChange={(value) =>
+                  setSelectedData({
+                    ...selectedData,
+                    role_user: value,
+                  })
                 }
               />
               <Group position="right" mt="md">

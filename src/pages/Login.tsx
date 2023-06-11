@@ -55,7 +55,7 @@ const Login = () => {
     });
   };
   const notifyerror = () => {
-    toast.error(`${errorlogin ?? "Error login"}`, {
+    toast.error(`${errorlogin ?? "Invalid username or password"}`, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -109,14 +109,20 @@ const Login = () => {
         const token2 = response.data.data;
 
         const decodedToken = jwt_decode(token2);
-        const { username, nama_user } = decodedToken;
+        const { username, role_user, nama_user } = decodedToken;
         Cookies.set("username", username, { expires: 1 });
         Cookies.set("nama_user", nama_user, { expires: 1 });
         // cookies().set('username', username)
         // cookies().set('nama_user', nama_user)
 
         // Redirect to user profile page
-        router.push("/admin");
+        if (role_user.toString().toLowerCase() === "penyelenggara") {
+          // Redirect to penyelenggara page
+          router.push("/penyelenggara");
+        } else {
+          // Redirect to admin page
+          router.push("/admin");
+        }
       } else {
         console.log("Login error:", response.data.error);
         seterrorlogin(response.data.error);
