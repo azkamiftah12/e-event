@@ -1,32 +1,6 @@
 import { handleLogout } from "@/pages/logout";
-import {
-  createStyles,
-  Header,
-  HoverCard,
-  Group,
-  Button,
-  UnstyledButton,
-  Text,
-  SimpleGrid,
-  ThemeIcon,
-  Anchor,
-  Divider,
-  Center,
-  Box,
-  rem,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import { createStyles, Header, Group, Button, Box, rem } from "@mantine/core";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  IconNotification,
-  IconCode,
-  IconBook,
-  IconChartPie3,
-  IconFingerprint,
-  IconCoin,
-  IconChevronDown,
-} from "@tabler/icons-react";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
@@ -120,38 +94,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 //ICON DI FEATURES//
-const mockdata = [
-  {
-    icon: IconCode,
-    title: "Open source",
-    description: "This Pokémon’s cry is very loud and distracting",
-  },
-  {
-    icon: IconCoin,
-    title: "Free for everyone",
-    description: "The fluid of Smeargle’s tail secretions changes",
-  },
-  {
-    icon: IconBook,
-    title: "Documentation",
-    description: "Yanma is capable of seeing 360 degrees without",
-  },
-  {
-    icon: IconFingerprint,
-    title: "Security",
-    description: "The shell’s rounded shape and the grooves on its.",
-  },
-  {
-    icon: IconChartPie3,
-    title: "Analytics",
-    description: "This Pokémon uses its flying ability to quickly chase",
-  },
-  {
-    icon: IconNotification,
-    title: "Notifications",
-    description: "Combusken battles with the intensely hot flames it spews",
-  },
-];
 
 export default function HeaderMenu() {
   const { classes, theme } = useStyles();
@@ -165,23 +107,6 @@ export default function HeaderMenu() {
   {
     /* EDIT ICON */
   }
-  const links = mockdata.map((item) => (
-    <UnstyledButton className={classes.subLink} key={item.title}>
-      <Group noWrap align="flex-start">
-        <ThemeIcon size={34} radius="md" style={{ backgroundColor: "#E0DAD1" }}>
-          <item.icon size={rem(20)} style={{ color: "#e14658" }} />
-        </ThemeIcon>
-        <div>
-          <Text size="sm" fw={500}>
-            {item.title}
-          </Text>
-          <Text size="xs" color="dimmed">
-            {item.description}
-          </Text>
-        </div>
-      </Group>
-    </UnstyledButton>
-  ));
 
   // NAVBAR //
   return (

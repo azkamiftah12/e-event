@@ -283,8 +283,9 @@ const latihan = () => {
                     wrap="wrap"
                   >
                     <Button
-                      variant="light"
-                      color="blue"
+                      style={{
+                        backgroundColor: "#3F2661",
+                      }}
                       mt="md"
                       radius="md"
                       onClick={() => openModal(e.id_pelatihan)}
@@ -293,8 +294,9 @@ const latihan = () => {
                     </Button>
 
                     <Button
-                      variant="light"
-                      color="teal"
+                      style={{
+                        backgroundColor: "#e7b622",
+                      }}
                       mt="md"
                       radius="md"
                       onClick={() => openClaimModal(e)}
