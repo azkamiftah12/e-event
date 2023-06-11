@@ -193,6 +193,7 @@ const pelatihan = () => {
       id_jenis_acara: "",
       judul_pelatihan: "",
       deskripsi_pelatihan: "",
+      username_penyelenggara: "",
       nama_narasumber: "",
       tanggal_pelatihan_start: new Date(),
       tanggal_pelatihan_end: "",
@@ -207,6 +208,8 @@ const pelatihan = () => {
       judul_pelatihan: (value) =>
         value.length < 2 ? "Please Fill This!" : null,
       deskripsi_pelatihan: (value) =>
+        value.length < 2 ? "Please Fill This!" : null,
+      username_penyelenggara: (value) =>
         value.length < 2 ? "Please Fill This!" : null,
       nama_narasumber: (value) =>
         value.length < 2 ? "Please Fill This!" : null,
@@ -258,6 +261,7 @@ const pelatihan = () => {
     const { id_jenis_acara } = form.values;
     const { judul_pelatihan } = form.values;
     const { deskripsi_pelatihan } = form.values;
+    const { username_penyelenggara } = form.values;
     const selectedOptionNarasumber = dataNarasumber.find(
       (option) => option.label === searchValueNarasumber
     );
@@ -285,6 +289,7 @@ const pelatihan = () => {
     bodyFormData.append("id_jenis_acara", id_jenis_acara);
     bodyFormData.append("judul_pelatihan", judul_pelatihan);
     bodyFormData.append("deskripsi_pelatihan", deskripsi_pelatihan);
+    bodyFormData.append("username_penyelenggara", username_penyelenggara);
     bodyFormData.append("id_narasumber", id_narasumber);
     bodyFormData.append("tanggal_pelatihan_start", tanggal_pelatihan_start);
     bodyFormData.append("tanggal_pelatihan_end", tanggal_pelatihan_end);
@@ -387,7 +392,7 @@ const pelatihan = () => {
   return (
     <Layout>
 
-      {/* modal edit start */}
+      {/* modal lihat peserta start */}
       <Modal size="70%" opened={isModalOpen} onClose={() => setIsModalOpen(false)} title="Lihat Peserta Pelatihan" centered>
   {selectedData && (
     <Box my="lg" mx="auto" mah="70%" maw="70%">
@@ -426,7 +431,7 @@ const pelatihan = () => {
     </Box>
         )}
       </Modal>
-      {/* modal edit End */}
+      {/* modal lihat peserta End */}
 
       <Modal
         size="70%"
@@ -463,6 +468,14 @@ const pelatihan = () => {
                   label="Deskripsi Pelatihan"
                   placeholder="Deskripsi Pelatihan"
                   {...form.getInputProps("deskripsi_pelatihan")}
+                />
+
+                <Space h="md" />
+                <TextInput
+                  withAsterisk
+                  label="Username Penyelenggara"
+                  placeholder="Username Penyelenggara"
+                  {...form.getInputProps("username_penyelenggara")}
                 />
 
                 <Space h="md" />
@@ -629,6 +642,7 @@ const pelatihan = () => {
             <th>Jam Pelatihan</th>
             <th>Link Pelatihan</th>
             <th>Max Peserta per Batch</th>
+            <th>Username Penyelenggara</th>
             <th>Username ACC pelatihan</th>
             <th>Tanggal ACC Pelatihan</th>
             <th>Waktu ACC Pelatihan</th>
@@ -650,6 +664,7 @@ const pelatihan = () => {
                 </Anchor>
               </td>
               <td>{e.max_pesertabatch}</td>
+              <td>{e.username_penyelenggara}</td>
               <td>{e.username_acc}</td>
               <td>{formatdatepelatihan(e.tanggal_pelatihan_acc)}</td>
               <td>{formattimepelatihan(e.waktu_pelatihan_acc)}</td>

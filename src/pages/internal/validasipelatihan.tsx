@@ -23,6 +23,7 @@ import Layout, {
   headerauthorization,
   ipaddress,
 } from "../../components/layout";
+import Cookies from "js-cookie";
 
 const validasipelatihan = () => {
   const [data, setData] = useState([]);
@@ -75,6 +76,10 @@ const validasipelatihan = () => {
     console.log(response.data.data);
     setData(response.data.data);
   };
+  
+  //get token from cookies start
+  const username = Cookies.get("username");
+  //get token from cookies end
 
   useEffect(() => {
     getData();
@@ -135,7 +140,7 @@ const validasipelatihan = () => {
   const handleACC = async (id_pelatihan) => {
     const bodyFormData = new FormData();
     bodyFormData.append("idpelatihan", id_pelatihan);
-    bodyFormData.append("username_acc", "wawan123");
+    bodyFormData.append("username_acc", username);
 
     const currentDate = new Date();
     const currentDateformat = currentDate.toISOString().split("T")[0];
@@ -233,6 +238,7 @@ const validasipelatihan = () => {
             <th>Judul Pelatihan</th>
             <th>Deskripsi Pelatihan</th>
             <th>Narasumber</th>
+            <th>Penyelenggara</th>
             <th>Tanggal Pelatihan Awal</th>
             <th>Tanggal Pelatihan Akhir</th>
             <th>Waktu Pelatihan</th>
@@ -247,6 +253,7 @@ const validasipelatihan = () => {
               <td>{e.judul_pelatihan}</td>
               <td>{e.deskripsi_pelatihan}</td>
               <td>{e.nama_narasumber}</td>
+              <td>{e.username_penyelenggara}</td>
               <td>{formatdate(e.tanggal_pelatihan_start)}</td>
               <td>{formatdate(e.tanggal_pelatihan_end)}</td>
               <td>{formattime(e.waktu_pelatihan)}</td>

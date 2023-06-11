@@ -42,8 +42,9 @@ import SubScript from "@tiptap/extension-subscript";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "../../components/layoutpenyelenggara";
 import LayoutPenyelenggara from "@/components/layoutpenyelenggara";
+import Cookies from "js-cookie";
 
 // const content =
 //   '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>';
@@ -93,9 +94,13 @@ const managepelatihan = () => {
     });
   };
 
+    //get token from cookies start
+    const username = Cookies.get("username");
+    //get token from cookies end
+
   const getData = async () => {
     const response = await axios.get(
-      `${ipaddress}get-datapelatihan`,
+      `${ipaddress}get-datapelatihanpenyelenggara?username_penyelenggara=${username}`,
       headerauthorization
     );
     console.log(response.data.data);
@@ -150,12 +155,12 @@ const managepelatihan = () => {
   };
 
   // eslint-disable-next-line arrow-body-style
-  const filteredData = data.filter((item) => {
+  const filteredData = data ? data.filter((item) => {
     return item.judul_pelatihan
       ?.toString()
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-  });
+  }):[];
   //search end
 
   const [datalihatpeserta, setDataLihatPeserta] = useState([]);
@@ -283,11 +288,13 @@ const managepelatihan = () => {
     const tanggal_pelatihan_end = adjustedDate.toISOString().split("T")[0];
 
     console.log(editor?.getHTML(), "data rictect");
+    
 
     const bodyFormData = new FormData();
     bodyFormData.append("id_jenis_acara", id_jenis_acara);
     bodyFormData.append("judul_pelatihan", judul_pelatihan);
     bodyFormData.append("deskripsi_pelatihan", deskripsi_pelatihan);
+    bodyFormData.append("username_penyelenggara", username);
     bodyFormData.append("id_narasumber", id_narasumber);
     bodyFormData.append("tanggal_pelatihan_start", tanggal_pelatihan_start);
     bodyFormData.append("tanggal_pelatihan_end", tanggal_pelatihan_end);
@@ -626,6 +633,15 @@ const managepelatihan = () => {
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
       />
+
+      <Space h="md" />
+      
+      <Text>
+        Total Peserta:
+        <Badge color="pink" size="lg" variant="light">
+          {filteredData.length}
+        </Badge>
+      </Text>
 
       <Space h="md" />
       <Table striped highlightOnHover withBorder withColumnBorders>
