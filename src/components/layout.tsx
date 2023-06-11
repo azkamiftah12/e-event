@@ -35,7 +35,7 @@ import Cookies from "js-cookie";
 import { LinksGroup } from "./NavbarLinksGroup";
 import { handleLogout } from "../pages/logout";
 
-export const ipaddress = "http://localhost:8081/";
+export const ipaddress = "http://192.168.43.38:8081/";
 // export const headerauthorization = 'Authorization: localStorage.getItem('token'),';
 export const headerauthorization = {
   headers: {
@@ -56,18 +56,20 @@ export default function Layout({ children }) {
       headerauthorization
     );
     setDatavalidasipelatihan(response.data.data);
+    console.log(response.data.data);
   };
   //get token from cookies start
   const token = Cookies.get("token");
   //get token from cookies end
-
+  const totalvalidasiPelatihan = datavalidasipelatihan?.length ?? 0;
+  // badge function untuk hitung total data END
+  
   useEffect(() => {
     headerauthorization.headers.Authorization = token ?? "";
     getDatavalidasipelatihan();
+    console.log(totalvalidasiPelatihan);
   }, []);
 
-  const totalvalidasiPelatihan = datavalidasipelatihan?.length ?? 0;
-  // badge function untuk hitung total data END
 
   // scrolldown menu start
   const [opened, setOpened] = useState(false);
@@ -80,9 +82,11 @@ export default function Layout({ children }) {
         { label: "Pelatihan", link: "/internal/pelatihan" },
         {
           label: `Validasi Pelatihan${(
+            <>
             <Badge color="pink" variant="light">
-              Jumlah: {totalvalidasiPelatihan}
+              Jumlah: {totalvalidasiPelatihan.toString()}
             </Badge>
+            </>
           )}`,
           link: "/internal/validasipelatihan",
         },

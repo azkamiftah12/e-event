@@ -34,9 +34,17 @@ const pelatihanku = () => {
   const token = Cookies.get("token");
   //get token from cookies end
 
+  // const getData = async () => {
+  //   const response = await axios.get(
+  //     `${ipaddress}get-databatch`, headerauthorization
+  //   );
+  //   console.log(response.data.data);
+  //   setData(response.data.data);
+  // };
+
   const getData = async () => {
     const response = await axios.get(
-      `${ipaddress}get-databatch`, headerauthorization
+      `${ipaddress}get-datapelatihanku?username=${username}`, headerauthorization
     );
     console.log(response.data.data);
     setData(response.data.data);
@@ -54,7 +62,6 @@ const pelatihanku = () => {
     setSearchTerm(event.target.value);
   };
 
-  // eslint-disable-next-line arrow-body-style
   // eslint-disable-next-line arrow-body-style
   const filteredData = data
     ? data.filter((item) => {
@@ -97,9 +104,7 @@ const pelatihanku = () => {
         <Space h="xl" />
 
         <Grid>
-        {filteredData
-  .filter((e) => e.username === `${getusername}`)
-  .map((e) => (
+        {filteredData.map((e) => (
             <Grid.Col span={4}>
               <Card
                 key={e.id_pelatihan}

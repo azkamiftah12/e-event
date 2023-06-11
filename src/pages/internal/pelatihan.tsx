@@ -15,6 +15,7 @@ import {
   CloseButton,
   Textarea,
   Flex,
+  Badge,
 } from "@mantine/core";
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
@@ -48,6 +49,7 @@ import Layout, {
 
 const pelatihan = () => {
   const [data, setData] = useState([]);
+  const [selectedData, setSelectedData] = useState(null);
   const ref = useRef<HTMLInputElement>();
 
   const notifysuccess = () => {
@@ -124,12 +126,19 @@ const pelatihan = () => {
     }));
     setDataNarasumber(temporaryData);
   };
-
+  
+  const getDatalihatpeserta = async (id_pelatihan) => {
+    const response = await axios.get(`${ipaddress}get-datalihatpeserta?id_pelatihan=${id_pelatihan}`, headerauthorization);
+    console.log(response.data.data);
+    setDataLihatPeserta(response.data.data);
+  };
+  
   useEffect(() => {
     getData();
     getDataJenisacara();
     getDataNarasumber();
   }, []);
+  
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
@@ -146,9 +155,36 @@ const pelatihan = () => {
   });
   //search end
 
+  const [datalihatpeserta, setDataLihatPeserta] = useState([]);
+  
+  //search lihat peserta start
+  const [searchTermlihatpeserta, setSearchTermlihatpeserta] = useState("");
+  const handleSearchlihatpeserta = (event) => {
+    setSearchTermlihatpeserta(event.target.value);
+  };
+
+  // eslint-disable-next-line arrow-body-style
+  const filteredDatalihatpeserta = datalihatpeserta
+  ? datalihatpeserta.filter((item)  => {
+    return item.username_peserta
+      ?.toString()
+      .toLowerCase()
+      .includes(searchTermlihatpeserta.toLowerCase());
+  })
+  : [];
+  //search lihat peserta end
+
   //modal start
   const [opened, { open, close }] = useDisclosure(false);
-  const [opened1, { open1, close1 }] = useDisclosure(false);
+  const [openedEditModal, { open: openEditModal, close: closeEditModal }] = useDisclosure(false);
+  // const [openedlihatpesertaModal, { open: openlihatpesertaModal, close: closelihatpesertaModal }] = useDisclosure(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const openlihatpesertaModal = async (e) => {
+    await getDatalihatpeserta(e.id_pelatihan);
+    setSelectedData(datalihatpeserta);
+    setIsModalOpen(true);
+  };
   // modal end
 
   //form start
@@ -350,6 +386,47 @@ const pelatihan = () => {
 
   return (
     <Layout>
+
+      {/* modal edit start */}
+      <Modal size="70%" opened={isModalOpen} onClose={() => setIsModalOpen(false)} title="Lihat Peserta Pelatihan" centered>
+  {selectedData && (
+    <Box my="lg" mx="auto" mah="70%" maw="70%">
+
+      <TextInput
+        placeholder="Search peserta"
+        value={searchTermlihatpeserta}
+        onChange={handleSearchlihatpeserta}
+        style={{ marginTop: "16px" }}
+      />
+
+        <Space h="md" />
+        <Text>Total Peserta: <Badge color="pink" size="lg" variant="light">
+        { filteredDatalihatpeserta.length }
+              </Badge></Text>
+        <Space h="md" />
+        
+      <Table striped highlightOnHover withBorder withColumnBorders>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Judul Pelatihan</th>
+            <th>Username Peserta</th>
+          </tr>
+        </thead>
+        <tbody>
+        {filteredDatalihatpeserta.map((e, i) => (
+              <tr key={e?.id_pelatihan}>
+                <td>{ i + 1}</td>
+                <td>{e?.judul_pelatihan}</td>
+                <td>{e?.username_peserta}</td>
+              </tr>
+            ))}
+        </tbody>
+      </Table>
+    </Box>
+        )}
+      </Modal>
+      {/* modal edit End */}
 
       <Modal
         size="70%"
@@ -578,20 +655,23 @@ const pelatihan = () => {
               <td>{formattimepelatihan(e.waktu_pelatihan_acc)}</td>
               <td>
               <Flex
-      mih={50}
-      gap="md"
-      justify="flex-start"
-      align="flex-start"
-      direction="row"
-      wrap="wrap"
-    >
+                mih={50}
+                gap="md"
+                justify="flex-start"
+                align="flex-start"
+                direction="row"
+                wrap="wrap"
+              >
                 <Button onClick={() => openDeleteModal(e)} color="red">
                   Delete
                 </Button>
-                <Button color="yellow" onClick={open1}>
+                <Button color="yellow" onClick={() => { setSelectedData(e); openEditModal(); }}>
                   Edit
                 </Button>
-    </Flex>
+                <Button color="blue" onClick={() => { openlihatpesertaModal(e); }}>
+                  Lihat Peserta
+              </Button>
+              </Flex>
               </td>
             </tr>
           ))}

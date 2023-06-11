@@ -72,6 +72,7 @@ return formattedTime;
           <th>ID Batch</th>
           <th>ID Pelatihan</th>
           <th>ID Jenis Acara</th>
+          <th>Judul Pelatihan</th>
           <th>Username Peserta</th>
           <th>Deskripsi Batch</th>
           <th>Jadwal Batch</th>
@@ -88,6 +89,7 @@ return formattedTime;
               <td>{e.id_batch}</td>
               <td>{e.id_pelatihan}</td>
               <td>{e.id_jenis_acara}</td>
+              <td>{e.judul_pelatihan}</td>
               <td>{e.username_peserta}</td>
               <td>{e.deskripsi_batch}</td>
               <td>{formatdatebatch(e.jadwal_batch)}</td>
