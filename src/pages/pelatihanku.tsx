@@ -6,12 +6,15 @@ import {
   Card,
   Container,
   Grid,
+  Image,
   Group,
   Space,
   TextInput,
   Title,
   Text,
   Badge,
+  Flex,
+  Modal,
 } from "@mantine/core";
 import { openModal } from "@mantine/modals";
 import Cookies from "js-cookie";
@@ -24,10 +27,9 @@ const pelatihanku = () => {
     backgroundColor: "#E0DAD1",
   };
 
-
   //get token from cookies start
   const username = Cookies.get("username");
-  const getusername = username
+  const getusername = username;
   //get token from cookies end
 
   //get token from cookies start
@@ -44,7 +46,8 @@ const pelatihanku = () => {
 
   const getData = async () => {
     const response = await axios.get(
-      `${ipaddress}get-datapelatihanku?username=${username}`, headerauthorization
+      `${ipaddress}get-datapelatihanku?username=${username}`,
+      headerauthorization
     );
     console.log(response.data.data);
     setData(response.data.data);
@@ -53,7 +56,7 @@ const pelatihanku = () => {
   useEffect(() => {
     getData();
     getusername;
-    console.log(getusername)
+    console.log(getusername);
   }, []);
 
   //search
@@ -78,68 +81,220 @@ const pelatihanku = () => {
     display: "none",
   };
 
+  //menampilkan modal info pelatihan
+  const [selectedPelatihan, setSelectedPelatihan] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = (id) => {
+    const pelatihan = data.find((item) => item.id_pelatihan === id);
+    setSelectedPelatihan(pelatihan);
+    setIsModalOpen(true);
+  };
   return (
-    <div style={pageStyle}>
-      <HeaderMenu />
-      <Space h="xl" />
-      <Title
-        align="center"
-        sx={(theme) => ({
-          fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-          fontWeight: 900,
-          fontSize: "45px",
-        })}
-      >
-        List Pelatihanku
-      </Title>
-      <Container size="xl" px="xl">
+    <>
+      <div style={pageStyle}>
+        <HeaderMenu />
         <Space h="xl" />
+        <Title
+          align="center"
+          sx={(theme) => ({
+            fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+            fontWeight: 900,
+            fontSize: "45px",
+          })}
+        >
+          List Pelatihanku
+        </Title>
+        <Container size="xl" px="xl">
+          <Space h="xl" />
 
-        <TextInput
-          placeholder="search pelatihan"
-          value={searchTerm}
-          onChange={handleSearch}
-          style={{ marginTop: "16px" }}
-        />
-        <Space h="xl" />
+          <TextInput
+            placeholder="search pelatihan"
+            value={searchTerm}
+            onChange={handleSearch}
+            style={{ marginTop: "16px" }}
+          />
+          <Space h="xl" />
 
-        <Grid>
-        {filteredData.map((e) => (
-            <Grid.Col span={4}>
-              <Card
-                key={e.id_pelatihan}
-                shadow="sm"
-                padding="lg"
-                radius="md"
-                withBorder
-              >
-                <Group position="apart" mt="md" mb="xs">
-                  <Text weight={500}>{e.judul_pelatihan}</Text>
-                  <Badge color="pink" variant="light">
-                    On Sale
-                  </Badge>
-                </Group>
-
-                <Text weight={500}>{e.deskripsi_pelatihan}</Text>
-
-                <Button
-                  variant="light"
-                  color="blue"
-                  fullWidth
-                  mt="md"
+          {/* Card Start */}
+          <Grid>
+            {filteredData.map((e) => (
+              // eslint-disable-next-line react/jsx-key
+              <Grid.Col span={3}>
+                <Card
+                  key={e.id_pelatihan}
+                  shadow="sm"
+                  padding="lg"
                   radius="md"
+                  withBorder
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
                 >
-                  detail
-                </Button>
-              </Card>
-            </Grid.Col>
-          ))}
-        </Grid>
+                  <Card.Section>
+                    <Image
+                      src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+                      height={160}
+                      alt="Norway"
+                    />
+                  </Card.Section>
+                  <Group position="right" mt="md" mb="xs">
+                    <Badge color="pink" variant="light">
+                      <Text weight={500}>{e.nama_jenis_acara}</Text>
+                    </Badge>
+                  </Group>
+                  <Group position="left" mt="md" mb="xs">
+                    <Text style={hiddenTextStyle} weight={500}>
+                      {e.id_pelatihan}
+                    </Text>
+                    <Text tt="uppercase" weight={500}>
+                      {e.judul_pelatihan}
+                    </Text>
+                  </Group>
+                  <Group position="left" mt="md" mb="xs" align="center">
+                    <Flex gap="xs">
+                      <Image
+                        src="/img/schedule.png"
+                        alt="Icon"
+                        width={30}
+                        height={30}
+                      />
+                      <Text weight={400}>
+                        {e.tanggal_pelatihan_start
+                          ? e.tanggal_pelatihan_start.substring(0, 10)
+                          : "Coming Soon"}
+                      </Text>
+                    </Flex>
+                  </Group>
 
-        <Space h="xl" />
-      </Container>
-      <FooterMenu />
-    </div>
+                  <Text className="bold" size="md" color="dimmed">
+                    Narasumber:{" "}
+                    {e.nama_narasumber ? e.nama_narasumber : "Coming Soon"}
+                  </Text>
+
+                  <Group position="center" mt="md" mb="xs" align="center">
+                    <Flex
+                      mih={50}
+                      gap="md"
+                      justify="flex-start"
+                      align="flex-start"
+                      direction="row"
+                      wrap="wrap"
+                    >
+                      <Button
+                        variant="light"
+                        color="blue"
+                        mt="md"
+                        radius="md"
+                        onClick={() => openModal(e.id_pelatihan)}
+                      >
+                        Detail
+                      </Button>
+                    </Flex>
+                  </Group>
+                </Card>
+              </Grid.Col>
+            ))}
+          </Grid>
+          {/* Card End */}
+
+          <Space h="xl" />
+        </Container>
+        <FooterMenu />
+      </div>
+      <Modal
+        size={520}
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={selectedPelatihan?.judul_pelatihan}
+        styles={{
+          modal: {
+            borderRadius: 12,
+            boxShadow: "0px 8px 32px rgba(17, 17, 17, 0.16)",
+            width: "100%", // Custom width for the modal
+            maxWidth: "2000px", // Optionally, set a maximum width
+          },
+          body: {
+            padding: 24,
+          },
+        }}
+      >
+        <Card
+          key={selectedPelatihan?.id_pelatihan}
+          shadow="sm"
+          padding="lg"
+          radius="md"
+          withBorder
+          style={{
+            width: "100%", // Custom width for the card
+            maxWidth: "100%", // Optionally, set a maximum width
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          {/* Card content */}
+          <Card.Section>
+            <Image
+              src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+              height={160}
+              alt="Norway"
+            />
+          </Card.Section>
+          <Group position="right" mt="md" mb="xs">
+            <Badge color="pink" variant="light">
+              <Text weight={500}>{selectedPelatihan?.nama_jenis_acara}</Text>
+            </Badge>
+          </Group>
+          <Group position="left" mt="md" mb="xs">
+            <Text style={hiddenTextStyle} weight={500}>
+              {selectedPelatihan?.id_pelatihan}
+            </Text>
+            <Text tt="uppercase" weight={500}>
+              {selectedPelatihan?.judul_pelatihan}
+            </Text>
+          </Group>
+          <Group position="left" mt="md" mb="xs" align="center">
+            <Flex gap="xs">
+              <Image
+                src="/img/schedule.png"
+                alt="Icon"
+                width={30}
+                height={30}
+              />
+              <Text weight={400}>
+                {selectedPelatihan?.tanggal_pelatihan_start
+                  ? selectedPelatihan?.tanggal_pelatihan_start.substring(0, 10)
+                  : "Coming Soon"}
+              </Text>
+            </Flex>
+          </Group>
+          <Text className="bold" size="md" color="dimmed">
+            Narasumber:{" "}
+            {selectedPelatihan?.nama_narasumber
+              ? selectedPelatihan?.nama_narasumber
+              : "Coming Soon"}
+          </Text>
+
+          <Text className="bold" size="md" color="dimmed">
+            Deskripsi:{" "}
+            {selectedPelatihan?.deskripsi_pelatihan
+              ? selectedPelatihan?.deskripsi_pelatihan
+              : "Coming Soon"}
+          </Text>
+          <Text
+            dangerouslySetInnerHTML={{
+              __html: selectedPelatihan?.deskripsi_pelatihan_khusus
+                ? selectedPelatihan?.deskripsi_pelatihan_khusus
+                : "<b>Jadwal Coming Soon !</b>",
+            }}
+          />
+        </Card>
+      </Modal>
+    </>
   );
 };
 export default pelatihanku;
