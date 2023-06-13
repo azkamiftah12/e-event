@@ -20,6 +20,14 @@ import { openModal } from "@mantine/modals";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { RichTextEditor, Link } from "@mantine/tiptap";
+import { useEditor } from "@tiptap/react";
+import Highlight from "@tiptap/extension-highlight";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
+import Superscript from "@tiptap/extension-superscript";
+import SubScript from "@tiptap/extension-subscript";
 
 const pelatihanku = () => {
   const [data, setData] = useState([]);
@@ -53,12 +61,6 @@ const pelatihanku = () => {
     setData(response.data.data);
   };
 
-  useEffect(() => {
-    getData();
-    getusername;
-    console.log(getusername);
-  }, []);
-
   //search
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (event) => {
@@ -84,11 +86,29 @@ const pelatihanku = () => {
   //menampilkan modal info pelatihan
   const [selectedPelatihan, setSelectedPelatihan] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const openModal = (id) => {
     const pelatihan = data.find((item) => item.id_pelatihan === id);
     setSelectedPelatihan(pelatihan);
     setIsModalOpen(true);
   };
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+    ],
+  });
+
+  useEffect(() => {
+    getData();
+    getusername;
+    console.log(getusername);
+  }, []);
   return (
     <>
       <div style={pageStyle}>
@@ -293,6 +313,61 @@ const pelatihanku = () => {
                 : "<b>Jadwal Coming Soon !</b>",
             }}
           />
+
+          <RichTextEditor
+            editor={editor}
+            contentEditable={selectedPelatihan?.deskripsi_pelatihan_khusus}
+          >
+            <RichTextEditor.Toolbar sticky stickyOffset={60}>
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.Bold />
+                <RichTextEditor.Italic />
+                <RichTextEditor.Underline />
+                <RichTextEditor.Strikethrough />
+                <RichTextEditor.ClearFormatting />
+                <RichTextEditor.Highlight />
+                <RichTextEditor.Code />
+              </RichTextEditor.ControlsGroup>
+
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.H1 />
+                <RichTextEditor.H2 />
+                <RichTextEditor.H3 />
+                <RichTextEditor.H4 />
+              </RichTextEditor.ControlsGroup>
+
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.Blockquote />
+                <RichTextEditor.Hr />
+                <RichTextEditor.BulletList />
+                <RichTextEditor.OrderedList />
+                <RichTextEditor.Subscript />
+                <RichTextEditor.Superscript />
+              </RichTextEditor.ControlsGroup>
+
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.Link />
+                <RichTextEditor.Unlink />
+              </RichTextEditor.ControlsGroup>
+
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.AlignLeft />
+                <RichTextEditor.AlignCenter />
+                <RichTextEditor.AlignJustify />
+                <RichTextEditor.AlignRight />
+              </RichTextEditor.ControlsGroup>
+            </RichTextEditor.Toolbar>
+
+            <RichTextEditor.Content>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    selectedPelatihan?.deskripsi_pelatihan_khusus ||
+                    "<b>Jadwal Coming Soon !</b>",
+                }}
+              />
+            </RichTextEditor.Content>
+          </RichTextEditor>
         </Card>
       </Modal>
     </>

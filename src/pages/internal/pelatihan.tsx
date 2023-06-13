@@ -29,8 +29,8 @@ import {
   TimeInput,
 } from "@mantine/dates";
 import { modals } from "@mantine/modals";
-import { Flip, Slide, ToastContainer, Zoom, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import Highlight from "@tiptap/extension-highlight";
@@ -53,7 +53,7 @@ const pelatihan = () => {
   const ref = useRef<HTMLInputElement>();
 
   const notifysuccess = (msg) => {
-    toast.success(msg , {
+    toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -63,7 +63,7 @@ const pelatihan = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
   const notifyerror = (msg) => {
     toast.error(msg, {
@@ -76,10 +76,10 @@ const pelatihan = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
   const notifywarning = () => {
-    toast.warn('warning', {
+    toast.warn("warning", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -89,7 +89,7 @@ const pelatihan = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
 
   const getData = async () => {
@@ -126,19 +126,21 @@ const pelatihan = () => {
     }));
     setDataNarasumber(temporaryData);
   };
-  
+
   const getDatalihatpeserta = async (id_pelatihan) => {
-    const response = await axios.get(`${ipaddress}get-datalihatpeserta?id_pelatihan=${id_pelatihan}`, headerauthorization);
+    const response = await axios.get(
+      `${ipaddress}get-datalihatpeserta?id_pelatihan=${id_pelatihan}`,
+      headerauthorization
+    );
     console.log(response.data.data);
     setDataLihatPeserta(response.data.data);
   };
-  
+
   useEffect(() => {
     getData();
     getDataJenisacara();
     getDataNarasumber();
   }, []);
-  
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
@@ -156,7 +158,7 @@ const pelatihan = () => {
   //search end
 
   const [datalihatpeserta, setDataLihatPeserta] = useState([]);
-  
+
   //search lihat peserta start
   const [searchTermlihatpeserta, setSearchTermlihatpeserta] = useState("");
   const handleSearchlihatpeserta = (event) => {
@@ -165,21 +167,22 @@ const pelatihan = () => {
 
   // eslint-disable-next-line arrow-body-style
   const filteredDatalihatpeserta = datalihatpeserta
-  ? datalihatpeserta.filter((item)  => {
-    return item.username_peserta
-      ?.toString()
-      .toLowerCase()
-      .includes(searchTermlihatpeserta.toLowerCase());
-  })
-  : [];
+    ? datalihatpeserta.filter((item) => {
+        return item.username_peserta
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTermlihatpeserta.toLowerCase());
+      })
+    : [];
   //search lihat peserta end
 
   //modal start
   const [opened, { open, close }] = useDisclosure(false);
-  const [openedEditModal, { open: openEditModal, close: closeEditModal }] = useDisclosure(false);
+  const [openedEditModal, { open: openEditModal, close: closeEditModal }] =
+    useDisclosure(false);
   // const [openedlihatpesertaModal, { open: openlihatpesertaModal, close: closelihatpesertaModal }] = useDisclosure(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   const openlihatpesertaModal = async (e) => {
     await getDatalihatpeserta(e.id_pelatihan);
     setSelectedData(datalihatpeserta);
@@ -232,7 +235,6 @@ const pelatihan = () => {
   const [dataNarasumber, setDataNarasumber] = useState([]);
   const [searchValueNarasumber, onSearchChangeNarasumber] = useState("");
 
-  
   const [content, setContent] = useState(
     "<h1><mark>-- -- -- -- Jadwal 1 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p><p></p><h1><mark>-- -- -- -- Jadwal 2 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p>"
   );
@@ -304,13 +306,13 @@ const pelatihan = () => {
         bodyFormData,
         headerauthorization
       );
-      if (response.data.error===true) {
+      if (response.data.error === true) {
         // Handle the error condition based on the response
         // For example, you can show an error message to the user or perform any necessary actions
         notifyerror(response.data.pesan);
       } else {
         close(false);
-        notifysuccess('Insert Successfully');
+        notifysuccess("Insert Successfully");
         getData();
       }
     } catch (ex: any) {
@@ -318,7 +320,9 @@ const pelatihan = () => {
       if (ex.response && ex.response.data && ex.response.data.pesan) {
         notifyerror(ex.response.data.pesan);
       } else {
-        notifyerror("An error occurred while making the request. Check your Connection");
+        notifyerror(
+          "An error occurred while making the request. Check your Connection"
+        );
       }
       // Handle the error
     }
@@ -402,44 +406,51 @@ const pelatihan = () => {
 
   return (
     <Layout>
-
       {/* modal lihat peserta start */}
-      <Modal size="70%" opened={isModalOpen} onClose={() => setIsModalOpen(false)} title="Lihat Peserta Pelatihan" centered>
-  {selectedData && (
-    <Box my="lg" mx="auto" mah="70%" maw="70%">
+      <Modal
+        size="70%"
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Lihat Peserta Pelatihan"
+        centered
+      >
+        {selectedData && (
+          <Box my="lg" mx="auto" mah="70%" maw="70%">
+            <TextInput
+              placeholder="Search peserta"
+              value={searchTermlihatpeserta}
+              onChange={handleSearchlihatpeserta}
+              style={{ marginTop: "16px" }}
+            />
 
-      <TextInput
-        placeholder="Search peserta"
-        value={searchTermlihatpeserta}
-        onChange={handleSearchlihatpeserta}
-        style={{ marginTop: "16px" }}
-      />
+            <Space h="md" />
+            <Text>
+              Total Peserta:{" "}
+              <Badge color="pink" size="lg" variant="light">
+                {filteredDatalihatpeserta.length}
+              </Badge>
+            </Text>
+            <Space h="md" />
 
-        <Space h="md" />
-        <Text>Total Peserta: <Badge color="pink" size="lg" variant="light">
-        { filteredDatalihatpeserta.length }
-              </Badge></Text>
-        <Space h="md" />
-        
-      <Table striped highlightOnHover withBorder withColumnBorders>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Judul Pelatihan</th>
-            <th>Username Peserta</th>
-          </tr>
-        </thead>
-        <tbody>
-        {filteredDatalihatpeserta.map((e, i) => (
-              <tr key={e?.id_pelatihan}>
-                <td>{ i + 1}</td>
-                <td>{e?.judul_pelatihan}</td>
-                <td>{e?.username_peserta}</td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
-    </Box>
+            <Table striped highlightOnHover withBorder withColumnBorders>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Judul Pelatihan</th>
+                  <th>Username Peserta</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredDatalihatpeserta.map((e, i) => (
+                  <tr key={e?.id_pelatihan}>
+                    <td>{i + 1}</td>
+                    <td>{e?.judul_pelatihan}</td>
+                    <td>{e?.username_peserta}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Box>
         )}
       </Modal>
       {/* modal lihat peserta End */}
@@ -607,9 +618,7 @@ const pelatihan = () => {
                   </RichTextEditor.ControlsGroup>
                 </RichTextEditor.Toolbar>
 
-                <RichTextEditor.Content
-                  {...form.getInputProps("deskripsi_pelatihan_khusus")}
-                />
+                <RichTextEditor.Content />
               </RichTextEditor>
               <div dangerouslySetInnerHTML={{ __html: htmlNya }} />
             </Grid>
@@ -680,24 +689,35 @@ const pelatihan = () => {
               <td>{formatdatepelatihan(e.tanggal_pelatihan_acc)}</td>
               <td>{formattimepelatihan(e.waktu_pelatihan_acc)}</td>
               <td>
-              <Flex
-                mih={50}
-                gap="md"
-                justify="flex-start"
-                align="flex-start"
-                direction="row"
-                wrap="wrap"
-              >
-                <Button onClick={() => openDeleteModal(e)} color="red">
-                  Delete
-                </Button>
-                <Button color="yellow" onClick={() => { setSelectedData(e); openEditModal(); }}>
-                  Edit
-                </Button>
-                <Button color="blue" onClick={() => { openlihatpesertaModal(e); }}>
-                  Lihat Peserta
-              </Button>
-              </Flex>
+                <Flex
+                  mih={50}
+                  gap="md"
+                  justify="flex-start"
+                  align="flex-start"
+                  direction="row"
+                  wrap="wrap"
+                >
+                  <Button onClick={() => openDeleteModal(e)} color="red">
+                    Delete
+                  </Button>
+                  <Button
+                    color="yellow"
+                    onClick={() => {
+                      setSelectedData(e);
+                      openEditModal();
+                    }}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    color="blue"
+                    onClick={() => {
+                      openlihatpesertaModal(e);
+                    }}
+                  >
+                    Lihat Peserta
+                  </Button>
+                </Flex>
               </td>
             </tr>
           ))}

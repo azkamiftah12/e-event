@@ -75,23 +75,6 @@ const index = () => {
       <Title>Dashboard</Title>
       <Space h="xl" />
       <Container>
-        <RingProgress
-          size={330}
-          thickness={24}
-          roundCaps
-          label={
-            <Text size="xl" align="center">
-              Jenis Pelatihan
-            </Text>
-          }
-          sections={[
-            { value: 40, color: "cyan", tooltip: "Pelatihan Memasak - 40" },
-            { value: 15, color: "orange", tooltip: "Pelatihan Militer - 15" },
-            { value: 15, color: "grape", tooltip: "Pelatihan Kesehatan - 15" },
-            { value: 15, color: "teal", tooltip: "Pelatihan Komputer - 15" },
-          ]}
-        />
-
         <Space h="xl" />
 
         {/* Card Start */}
@@ -145,7 +128,7 @@ const index = () => {
           <Grid.Col span={4}>
             <Card shadow="sm" padding="lg" radius="md" withBorder>
               <Group position="apart" mt="md" mb="xs">
-                <Text weight={500}>Batch</Text>
+                <Text weight={500}>Peserta</Text>
               </Group>
               <Badge color="pink" variant="light">
                 Jumlah: {totalbatch}
@@ -154,31 +137,6 @@ const index = () => {
               <Button
                 component="a"
                 href="/internal/batch"
-                variant="light"
-                color="blue"
-                fullWidth
-                mt="md"
-                radius="md"
-              >
-                Detail
-              </Button>
-            </Card>
-          </Grid.Col>
-          {/* ))} */}
-
-          {/* {filteredData.map((e) => ( */}
-          <Grid.Col span={4}>
-            <Card shadow="sm" padding="lg" radius="md" withBorder>
-              <Group position="apart" mt="md" mb="xs">
-                <Text weight={500}>User</Text>
-              </Group>
-              <Badge color="pink" variant="light">
-                Jumlah: {totaluser}
-              </Badge>
-
-              <Button
-                component="a"
-                href="/manajemen/user"
                 variant="light"
                 color="blue"
                 fullWidth

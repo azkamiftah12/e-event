@@ -247,21 +247,23 @@ const User = () => {
         bodyFormData,
         headerauthorization
       );
-      if (response.data.error===true) {
+      if (response.data.error === true) {
         // Handle the error condition based on the response
         // For example, you can show an error message to the user or perform any necessary actions
         notifyerror(response.data.pesan);
       } else {
         close(false);
-        notifysuccess('Insert Successfully');
+        notifysuccess("Insert Successfully");
         getData();
       }
-    } catch (ex : any) {
+    } catch (ex: any) {
       console.error(ex);
       if (ex.response && ex.response.data && ex.response.data.pesan) {
         notifyerror(ex.response.data.pesan);
       } else {
-        notifyerror("An error occurred while making the request. Check your Connection");
+        notifyerror(
+          "An error occurred while making the request. Check your Connection"
+        );
       }
       // Handle the error
     }
@@ -301,10 +303,10 @@ const User = () => {
 
       // Success, do something after the update is complete
       closeEditModal();
-      notifywarning('Update User Successfully');
+      notifywarning("Update User Successfully");
       getData();
-    } catch (ex:any) {
-      notifyerror(ex.response.data.pesan)
+    } catch (ex: any) {
+      notifyerror(ex.response.data.pesan);
       // Handle the error
       console.error(error);
     }
@@ -337,7 +339,7 @@ const User = () => {
       bodyFormData,
       headerauthorization
     );
-    notifyerror('Delete User Successfully');
+    notifyerror("Delete User Successfully");
     getData();
   };
   //delete end
@@ -507,9 +509,9 @@ const User = () => {
               <TextInput
                 withAsterisk
                 disabled
-                label="ID Pekerjaan"
-                placeholder="ID Pekerjaan"
-                value={selectedData.id_pekerjaan}
+                label="Pekerjaan"
+                placeholder="Pekerjaan"
+                value={selectedData.nama_job}
                 onChange={(e) =>
                   setSelectedData({
                     ...selectedData,
@@ -517,16 +519,7 @@ const User = () => {
                   })
                 }
               />
-              <TextInput
-                withAsterisk
-                disabled
-                label="password"
-                placeholder="password"
-                value={selectedData.password}
-                onChange={(e) =>
-                  setSelectedData({ ...selectedData, password: e.target.value })
-                }
-              />
+
               <TextInput
                 withAsterisk
                 label="Nomor Telp"
@@ -534,6 +527,20 @@ const User = () => {
                 value={selectedData.notlp}
                 onChange={(e) =>
                   setSelectedData({ ...selectedData, notlp: e.target.value })
+                }
+              />
+
+              <TextInput
+                disabled
+                withAsterisk
+                label="Role"
+                placeholder="Role"
+                value={selectedData.role_user}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    role_user: e.target.value,
+                  })
                 }
               />
               <Group position="right" mt="md">

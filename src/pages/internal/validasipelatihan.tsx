@@ -13,8 +13,8 @@ import {
   Table,
   TextInput,
 } from "@mantine/core";
-import { Flip, Slide, ToastContainer, Zoom, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { IconX } from "@tabler/icons-react";
@@ -29,7 +29,7 @@ const validasipelatihan = () => {
   const [data, setData] = useState([]);
 
   const notifysuccess = () => {
-    toast.success('Accept pelatihan Successfully', {
+    toast.success("Accept pelatihan Successfully", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -39,10 +39,10 @@ const validasipelatihan = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
   const notifyerror = () => {
-    toast.error('Decline pelatihan successfully', {
+    toast.error("Decline pelatihan successfully", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -52,10 +52,10 @@ const validasipelatihan = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
   const notifywarning = () => {
-    toast.warn('warning', {
+    toast.warn("warning", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -65,7 +65,7 @@ const validasipelatihan = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
 
   const getData = async () => {
@@ -76,7 +76,7 @@ const validasipelatihan = () => {
     console.log(response.data.data);
     setData(response.data.data);
   };
-  
+
   //get token from cookies start
   const username = Cookies.get("username");
   //get token from cookies end
@@ -219,7 +219,6 @@ const validasipelatihan = () => {
 
   return (
     <Layout>
-      <Button onClick={getTime}>test get time</Button>
       <Space h="md" />
 
       <Space h="md" />
