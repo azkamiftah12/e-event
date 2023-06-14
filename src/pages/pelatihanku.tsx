@@ -16,16 +16,46 @@ import {
   Flex,
   Modal,
 } from "@mantine/core";
-import { openModal } from "@mantine/modals";
+import { modals, openModal } from "@mantine/modals";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { toast, Zoom } from "react-toastify";
 
 const pelatihanku = () => {
   const [data, setData] = useState([]);
   const pageStyle = {
     backgroundColor: "#E0DAD1",
   };
+
+  //notifikasi toast start
+  const notifysuccess = () => {
+    toast.success("Claim batch successfully", {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+    });
+  };
+  const notifyerror = (msg) => {
+    toast.error(msg, {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+    });
+  };
+  //notifikasi toast end
 
   //get token from cookies start
   const username = Cookies.get("username");
@@ -81,7 +111,7 @@ const pelatihanku = () => {
     display: "none",
   };
 
-  //menampilkan modal info pelatihan
+  //menampilkan modal info pelatihan start
   const [selectedPelatihan, setSelectedPelatihan] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = (id) => {
@@ -89,6 +119,41 @@ const pelatihanku = () => {
     setSelectedPelatihan(pelatihan);
     setIsModalOpen(true);
   };
+  //menampilkan modal info pelatihan end
+
+  //delete
+  const handleDelete = async (id_batch) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("idbatch", id_batch);
+    const response = await axios.post(
+      `${ipaddress}delete-databatch/:${id_batch}`,
+      bodyFormData,
+      headerauthorization
+    );
+    console.log(id_batch);
+    notifyerror(response.data.pesan);
+    getData();
+  };
+  //delete end
+
+  //open model delete start
+  const openDeleteModal = (e) => {
+    modals.openConfirmModal({
+      title: "Delete your profile",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Are you sure you want to delete <strong>{e.judul_pelatihan}?</strong>
+        </Text>
+      ),
+      labels: { confirm: "Delete Pelatihan", cancel: "Cancel" },
+      confirmProps: { color: "red" },
+      onCancel: () => console.log("Cancel"),
+      onConfirm: () => handleDelete(e.id_batch),
+    });
+  };
+  //open model delete end
+
   return (
     <>
       <div style={pageStyle}>
@@ -121,7 +186,7 @@ const pelatihanku = () => {
               // eslint-disable-next-line react/jsx-key
               <Grid.Col span={3}>
                 <Card
-                  key={e.id_pelatihan}
+                  key={e.id_batch}
                   shadow="sm"
                   padding="lg"
                   radius="md"
@@ -191,6 +256,15 @@ const pelatihanku = () => {
                         onClick={() => openModal(e.id_pelatihan)}
                       >
                         Detail
+                      </Button>
+                      <Button
+                        variant="light"
+                        color="red"
+                        mt="md"
+                        radius="md"
+                        onClick={() => openDeleteModal(e)}
+                      >
+                        Keluar
                       </Button>
                     </Flex>
                   </Group>

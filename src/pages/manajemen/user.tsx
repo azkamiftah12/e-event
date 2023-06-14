@@ -323,7 +323,7 @@ const User = () => {
         <Text size="sm">Are you sure you want to delete this user</Text>
       ),
       labels: { confirm: "Delete account", cancel: "No don't delete it" },
-      confirmProps: { color: "red" },
+      confirmProps: { variant: "outline", color: "red" },
       onCancel: () => console.log("Cancel"),
       onConfirm: () => handleDelete(e.username),
     });
@@ -508,6 +508,19 @@ const User = () => {
 
               <TextInput
                 withAsterisk
+                label="Password"
+                placeholder="Password"
+                value={selectedData.password}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    password: e.target.value,
+                  })
+                }
+              />
+
+              <TextInput
+                withAsterisk
                 disabled
                 label="Pekerjaan"
                 placeholder="Pekerjaan"
@@ -543,8 +556,14 @@ const User = () => {
                   })
                 }
               />
+
               <Group position="right" mt="md">
-                <Button type="submit" color="yellow" onClick={handleUpdate}>
+                <Button
+                  type="submit"
+                  variant="outline"
+                  color="yellow"
+                  onClick={handleUpdate}
+                >
                   Edit
                 </Button>
               </Group>
@@ -557,7 +576,7 @@ const User = () => {
       <Grid justify="flex-end">
         <Grid.Col span={3}>
           <Group position="center">
-            <Button onClick={openAddModal} color="indigo">
+            <Button onClick={openAddModal} variant="outline" color="indigo">
               Add User
             </Button>
           </Group>
@@ -599,6 +618,7 @@ const User = () => {
               <td>{e.role_user}</td>
               <td>
                 <Button
+                  variant="outline"
                   color="yellow"
                   onClick={() => {
                     setSelectedData(e);
@@ -608,7 +628,11 @@ const User = () => {
                   Edit
                 </Button>
                 <Space h="sm" />
-                <Button onClick={() => openDeleteModal(e)} color="red">
+                <Button
+                  onClick={() => openDeleteModal(e)}
+                  variant="outline"
+                  color="red"
+                >
                   Delete
                 </Button>
               </td>

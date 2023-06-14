@@ -1,19 +1,33 @@
-import { Box, Button, Checkbox, Group, Modal, Space, Table, TextInput, Text, Grid } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import { useForm } from '@mantine/form';
-import { IconCheck, IconX } from '@tabler/icons-react';
-import { modals } from '@mantine/modals';
-import { Flip, Slide, ToastContainer, Zoom, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Layout, { headerauthorization, ipaddress } from '../../components/layout';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Group,
+  Modal,
+  Space,
+  Table,
+  TextInput,
+  Text,
+  Grid,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useForm } from "@mantine/form";
+import { IconCheck, IconX } from "@tabler/icons-react";
+import { modals } from "@mantine/modals";
+import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Layout, {
+  headerauthorization,
+  ipaddress,
+} from "../../components/layout";
 
 const JenisPekerjaan = () => {
   const [data, setData] = useState([]);
   const [selectedData, setSelectedData] = useState(null);
 
-   const notifysuccess = (msg) => {
+  const notifysuccess = (msg) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -24,7 +38,7 @@ const JenisPekerjaan = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
   const notifyerror = (msg) => {
     toast.error(msg, {
@@ -37,7 +51,7 @@ const JenisPekerjaan = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
   const notifywarning = (msg) => {
     toast.warn(msg, {
@@ -50,11 +64,14 @@ const JenisPekerjaan = () => {
       progress: undefined,
       transition: Zoom,
       theme: "dark",
-      });
+    });
   };
-  
+
   const getData = async () => {
-    const response = await axios.get(`${ipaddress}get-datapekerjaan`, headerauthorization);
+    const response = await axios.get(
+      `${ipaddress}get-datapekerjaan`,
+      headerauthorization
+    );
     console.log(response.data.data);
     setData(response.data.data);
   };
@@ -63,42 +80,48 @@ const JenisPekerjaan = () => {
     getData();
   }, []);
 
-   //modal add start
-   const [openedAddModal, { open: openAddModal, close: closeAddModal }] = useDisclosure(false);
-   // modal add end
-   
-   //modal edit start
-   const [openedEditModal, { open: openEditModal, close: closeEditModal }] = useDisclosure(false);
-   // modal edit end
-   
-   //search
-   const [searchTerm, setSearchTerm] = useState('');
-   const handleSearch = (event) => {
-     setSearchTerm(event.target.value);
+  //modal add start
+  const [openedAddModal, { open: openAddModal, close: closeAddModal }] =
+    useDisclosure(false);
+  // modal add end
+
+  //modal edit start
+  const [openedEditModal, { open: openEditModal, close: closeEditModal }] =
+    useDisclosure(false);
+  // modal edit end
+
+  //search
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
   };
-  
+
   // eslint-disable-next-line arrow-body-style
   const filteredData = data.filter((item) => {
-    return item.nama_job?.toString().toLowerCase().includes(searchTerm.toLowerCase());
+    return item.nama_job
+      ?.toString()
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
   });
   //search end
 
   //form start
   const form = useForm({
     initialValues: {
-      nama_job: '',
+      nama_job: "",
     },
 
     validate: {
-      nama_job: (value) => (value.length < 2 ? 'Masukkan Jenis Pekerjaan' : null),
+      nama_job: (value) =>
+        value.length < 2 ? "Masukkan Jenis Pekerjaan" : null,
     },
   });
   //Form End
-  
+
   //Insert
   const handleInsert = async () => {
     const { nama_job } = form.values;
-    
+
     // Validate form fields
     const errors = form.validate();
     if (errors.hasErrors) {
@@ -106,27 +129,33 @@ const JenisPekerjaan = () => {
       console.log(errors);
       return;
     }
-    
+
     const bodyFormData = new FormData();
-    bodyFormData.append('nama_job', nama_job);
-    
+    bodyFormData.append("nama_job", nama_job);
+
     try {
-      const response = await axios.post(`${ipaddress}insert-datapekerjaan`, bodyFormData, headerauthorization);
-      if (response.data.error===true) {
+      const response = await axios.post(
+        `${ipaddress}insert-datapekerjaan`,
+        bodyFormData,
+        headerauthorization
+      );
+      if (response.data.error === true) {
         // Handle the error condition based on the response
         // For example, you can show an error message to the user or perform any necessary actions
         notifyerror(response.data.pesan);
       } else {
         close(false);
-        notifysuccess('Insert Successfully');
+        notifysuccess("Insert Successfully");
         getData();
       }
-    } catch (ex:any) {
+    } catch (ex: any) {
       console.error(ex);
       if (ex.response && ex.response.data && ex.response.data.pesan) {
         notifyerror(ex.response.data.pesan);
       } else {
-        notifyerror("An error occurred while making the request. Check your Connection");
+        notifyerror(
+          "An error occurred while making the request. Check your Connection"
+        );
       }
       // Handle the error
     }
@@ -136,59 +165,64 @@ const JenisPekerjaan = () => {
   // Update
   const handleUpdate = async () => {
     if (!selectedData) return; // No selected data, return early
-    
+
     // eslint-disable-next-line max-len
     const { id_pekerjaan, nama_job } = selectedData;
-    
+
     const bodyFormData = new FormData();
-    bodyFormData.append('oldid', id_pekerjaan);
-    bodyFormData.append('nama_job', nama_job);
-    
+    bodyFormData.append("oldid", id_pekerjaan);
+    bodyFormData.append("nama_job", nama_job);
+
     try {
-    await axios.post(`${ipaddress}update-datapekerjaan`, bodyFormData, headerauthorization);
-    
-    // Success, do something after the update is complete
-    closeEditModal();
-    notifywarning('Update Successfully');
-    getData();
-  } catch (error) {
-    // Handle the error
-    console.error(error);
-  }
-};
-// update end
+      await axios.post(
+        `${ipaddress}update-datapekerjaan`,
+        bodyFormData,
+        headerauthorization
+      );
 
-//delete
-const handleDelete = async (id_pekerjaan) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append('idhapus', id_pekerjaan);
-  await axios.post(`${ipaddress}delete-datapekerjaan/${id_pekerjaan}`, bodyFormData, headerauthorization);
-  notifyerror('Delete Successfully');
-  getData();
-};
-//delete end
-
-//open model delete end
-const openDeleteModal = (e) => {
-  modals.openConfirmModal({
-    title: 'Delete your profile',
-    centered: true,
-    children: (
-      <Text size="sm">
-        Are you sure you want to delete this user
-      </Text>
-    ),
-    labels: { confirm: 'Delete account', cancel: "No don't delete it" },
-    confirmProps: { color: 'red' },
-    onCancel: () => console.log('Cancel'),
-    onConfirm: () => handleDelete(e.id_pekerjaan),
-  });
+      // Success, do something after the update is complete
+      closeEditModal();
+      notifywarning("Update Successfully");
+      getData();
+    } catch (error) {
+      // Handle the error
+      console.error(error);
+    }
   };
-    //open model delete end
+  // update end
+
+  //delete
+  const handleDelete = async (id_pekerjaan) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("idhapus", id_pekerjaan);
+    await axios.post(
+      `${ipaddress}delete-datapekerjaan/${id_pekerjaan}`,
+      bodyFormData,
+      headerauthorization
+    );
+    notifyerror("Delete Successfully");
+    getData();
+  };
+  //delete end
+
+  //open model delete end
+  const openDeleteModal = (e) => {
+    modals.openConfirmModal({
+      title: "Delete your profile",
+      centered: true,
+      children: (
+        <Text size="sm">Are you sure you want to delete this user</Text>
+      ),
+      labels: { confirm: "Delete account", cancel: "No don't delete it" },
+      confirmProps: { variant: "outline", color: "red" },
+      onCancel: () => console.log("Cancel"),
+      onConfirm: () => handleDelete(e.id_pekerjaan),
+    });
+  };
+  //open model delete end
 
   return (
     <Layout>
-
       {/* {showNotificationcreate && (
       <Notification
         icon={<IconCheck size="1.1rem" />}
@@ -220,54 +254,72 @@ const openDeleteModal = (e) => {
           Data berhasil dihapus
         </Notification>
       )} */}
-      <Modal opened={openedAddModal} onClose={closeAddModal} title="Add Pekerjaan" centered>
+      <Modal
+        opened={openedAddModal}
+        onClose={closeAddModal}
+        title="Add Pekerjaan"
+        centered
+      >
         <Box maw={300} mx="auto">
           <form onSubmit={form.onSubmit((values) => console.log(values))}>
             <TextInput
               withAsterisk
               label="Jenis Pekerjaan"
               placeholder="Jenis Pekerjaan"
-              {...form.getInputProps('nama_job')}
+              {...form.getInputProps("nama_job")}
             />
 
             <Group position="right" mt="md">
-              <Button type="submit" onClick={handleInsert}>Submit</Button>
+              <Button type="submit" onClick={handleInsert}>
+                Submit
+              </Button>
             </Group>
           </form>
         </Box>
       </Modal>
 
-      <Modal opened={openedEditModal} onClose={closeEditModal} title="Edit Pekerjaan" centered>
-      {selectedData && (
-        <Box maw={300} mx="auto">
-          <form onSubmit={form.onSubmit((values) => console.log(values))}>
-            <TextInput
-              withAsterisk
-              label="Jenis Pekerjaan"
-              placeholder="Jenis Pekerjaan"
-              value={selectedData.nama_job}
-              onChange={(e) => setSelectedData({ ...selectedData, nama_job: e.target.value })}
-            />
+      <Modal
+        opened={openedEditModal}
+        onClose={closeEditModal}
+        title="Edit Pekerjaan"
+        centered
+      >
+        {selectedData && (
+          <Box maw={300} mx="auto">
+            <form onSubmit={form.onSubmit((values) => console.log(values))}>
+              <TextInput
+                withAsterisk
+                label="Jenis Pekerjaan"
+                placeholder="Jenis Pekerjaan"
+                value={selectedData.nama_job}
+                onChange={(e) =>
+                  setSelectedData({ ...selectedData, nama_job: e.target.value })
+                }
+              />
 
-            <Group position="right" mt="md">
-              <Button type="submit" onClick={handleUpdate}>Submit</Button>
-            </Group>
-          </form>
-        </Box>
+              <Group position="right" mt="md">
+                <Button type="submit" onClick={handleUpdate}>
+                  Submit
+                </Button>
+              </Group>
+            </form>
+          </Box>
         )}
       </Modal>
 
       <Space h="md" />
 
       <Group position="center">
-        <Button color="indigo" onClick={openAddModal}>Add Pekerjaan</Button>
+        <Button variant="outline" color="indigo" onClick={openAddModal}>
+          Add Pekerjaan
+        </Button>
       </Group>
 
       <TextInput
         placeholder="Search pekerjaan"
         value={searchTerm}
         onChange={handleSearch}
-        style={{ marginTop: '16px' }}
+        style={{ marginTop: "16px" }}
       />
       <Space h="md" />
 
@@ -283,20 +335,30 @@ const openDeleteModal = (e) => {
             <tr key={e.id_pekerjaan}>
               <td>{e.nama_job}</td>
               <td>
-              <Grid>
-                <Grid.Col span={3}>
-              <Button color="yellow" onClick={() => { setSelectedData(e); openEditModal(); }}>
-                  Edit
-              </Button>
-              <Space w="lg" />
-                </Grid.Col>
-                <Grid.Col span={3}>
-              <Button onClick={() => openDeleteModal(e)} color="red">
-                  Delete
-              </Button>
-
-                </Grid.Col>
-              </Grid>
+                <Grid>
+                  <Grid.Col span={3}>
+                    <Button
+                      variant="outline"
+                      color="yellow"
+                      onClick={() => {
+                        setSelectedData(e);
+                        openEditModal();
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Space w="lg" />
+                  </Grid.Col>
+                  <Grid.Col span={3}>
+                    <Button
+                      onClick={() => openDeleteModal(e)}
+                      variant="outline"
+                      color="red"
+                    >
+                      Delete
+                    </Button>
+                  </Grid.Col>
+                </Grid>
               </td>
             </tr>
           ))}

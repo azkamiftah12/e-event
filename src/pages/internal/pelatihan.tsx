@@ -78,8 +78,8 @@ const pelatihan = () => {
       theme: "dark",
     });
   };
-  const notifywarning = () => {
-    toast.warn("warning", {
+  const notifywarning = (msg) => {
+    toast.warn(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -312,7 +312,7 @@ const pelatihan = () => {
         notifyerror(response.data.pesan);
       } else {
         close(false);
-        notifysuccess("Insert Successfully");
+        notifysuccess(response.d);
         getData();
       }
     } catch (ex: any) {
@@ -334,12 +334,12 @@ const pelatihan = () => {
     const bodyFormData = new FormData();
     console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
-    await axios.post(
+    const response = await axios.post(
       `${ipaddress}delete-datapelatihan/:${id_pelatihan}`,
       bodyFormData,
       headerauthorization
     );
-    notifyerror();
+    notifyerror(response.data.pesan);
     getData();
   };
   //delete end
@@ -361,6 +361,39 @@ const pelatihan = () => {
     });
   };
   //open model delete end
+
+  //selesai start
+  const handleSelesai = async (id_pelatihan) => {
+    const bodyFormData = new FormData();
+    console.log(id_pelatihan);
+    bodyFormData.append("idpelatihan", id_pelatihan);
+    const response = await axios.post(
+      `${ipaddress}updateend-datapelatihan/:${id_pelatihan}`,
+      bodyFormData,
+      headerauthorization
+    );
+    notifyerror("pelatihan berhasil diakhiri");
+    getData();
+  };
+  //selesai end
+
+  //open modal selesai start
+  const openSelesaiModal = (e) => {
+    modals.openConfirmModal({
+      title: "Akhiri Pelatihan",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Yakin Akhiri Pelatihan <strong>{e.judul_pelatihan}?</strong>
+        </Text>
+      ),
+      labels: { confirm: "Akhiri Pelatihan", cancel: "Cancel" },
+      confirmProps: { variant: "outline", color: "red" },
+      onCancel: () => console.log("Cancel"),
+      onConfirm: () => handleSelesai(e.id_pelatihan),
+    });
+  };
+  //open modal selesai end
 
   // datetable parse start
   const formatdatepelatihan = (sampletanggal) => {
@@ -404,8 +437,137 @@ const pelatihan = () => {
     setHtmlNya(editor?.getHTML() ?? "");
   };
 
+  // Edit Pelatihan start
+  const handleUpdate = async () => {
+    if (!selectedData) return;
+
+    const { id_pelatihan } = selectedData;
+    const { id_jenis_acara } = selectedData;
+    const { judul_pelatihan } = selectedData;
+    const { deskripsi_pelatihan } = selectedData;
+    const { username_penyelenggara } = selectedData;
+    const { tanggal_pelatihan_start } = selectedData;
+    const { tanggal_pelatihan_end } = selectedData;
+    const { waktu_pelatihan } = selectedData;
+    const { link_pelatihan } = selectedData;
+    const { max_pesertabatch } = selectedData;
+    const { deskripsi_pelatihan_khusus } = selectedData;
+
+    const formatwaktupelatihan = formattimepelatihan(waktu_pelatihan);
+
+    const bodyFormData = new FormData();
+
+    bodyFormData.append("oldid", id_pelatihan);
+    bodyFormData.append("id_jenis_acara", id_jenis_acara);
+    bodyFormData.append("judul_pelatihan", judul_pelatihan);
+    bodyFormData.append("deskripsi_pelatihan", deskripsi_pelatihan);
+    bodyFormData.append("tanggal_pelatihan_start", tanggal_pelatihan_start);
+    bodyFormData.append("tanggal_pelatihan_end", tanggal_pelatihan_end);
+    bodyFormData.append("waktu_pelatihan", formatwaktupelatihan);
+    bodyFormData.append("link_pelatihan", link_pelatihan);
+    bodyFormData.append("max_pesertabatch", max_pesertabatch);
+    bodyFormData.append(
+      "deskripsi_pelatihan_khusus",
+      deskripsi_pelatihan_khusus
+    );
+    bodyFormData.append("username_penyelenggara", username_penyelenggara);
+
+    try {
+      const response = await axios.post(
+        `${ipaddress}update-datapelatihan`,
+        bodyFormData,
+        headerauthorization
+      );
+
+      // Success, do something after the update is complete
+      closeEditModal();
+      notifywarning(response.data.pesan);
+      getData();
+    } catch (ex: any) {
+      notifyerror(ex.response.data.pesan);
+      // Handle the error
+      console.error(error);
+    }
+  };
+  // Edit Pelatihan End
+
   return (
     <Layout>
+      {/* modal edit start */}
+      <Modal
+        size="70%"
+        opened={openedEditModal}
+        onClose={closeEditModal}
+        title="Edit Pelatihan"
+        centered
+      >
+        {selectedData && (
+          <Box my="lg" mx="auto" mah="70%" maw="70%">
+            <form onSubmit={form.onSubmit((values) => console.log(values))}>
+              <TextInput
+                withAsterisk
+                label="Id Jenis Acara"
+                placeholder="Id Jenis Acara"
+                value={selectedData.id_jenis_acara}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    id_jenis_acara: e.target.value,
+                  })
+                }
+              />
+              <TextInput
+                withAsterisk
+                label="Judul Pelatihan"
+                placeholder="Judul Pelatihan"
+                value={selectedData.judul_pelatihan}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    judul_pelatihan: e.target.value,
+                  })
+                }
+              />
+              <TextInput
+                withAsterisk
+                label="Deskripsi Pelaihan"
+                placeholder="Deskripsi Pelatihan"
+                value={selectedData.deskripsi_pelatihan}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    deskripsi_pelatihan: e.target.value,
+                  })
+                }
+              />
+              <TextInput
+                withAsterisk
+                label="Max Peserta"
+                placeholder="Max Peserta"
+                value={selectedData.max_pesertabatch}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    max_pesertabatch: e.target.value,
+                  })
+                }
+              />
+              <Group position="right" mt="md">
+                <Button
+                  type="submit"
+                  variant="outline"
+                  color="yellow"
+                  onClick={handleUpdate}
+                >
+                  Edit
+                </Button>
+              </Group>
+            </form>
+          </Box>
+        )}
+      </Modal>
+      {/* modal edit end */}
+
       {/* modal lihat peserta start */}
       <Modal
         size="70%"
@@ -455,6 +617,7 @@ const pelatihan = () => {
       </Modal>
       {/* modal lihat peserta End */}
 
+      {/* modal add peserta start */}
       <Modal
         size="70%"
         opened={opened}
@@ -627,7 +790,7 @@ const pelatihan = () => {
               <Button type="submit" onClick={handleInsert}>
                 Submit
               </Button>
-              <Button color="indigo" onClick={setRichText}>
+              <Button variant="outline" color="indigo" onClick={setRichText}>
                 Coba Set
               </Button>
             </Group>
@@ -636,9 +799,11 @@ const pelatihan = () => {
           </form>
         </Box>
       </Modal>
+      {/* end modal add pelatihan */}
+
       <Space h="md" />
       <Group position="center">
-        <Button color="indigo" onClick={open}>
+        <Button variant="outline" color="indigo" onClick={open}>
           Add Pelatihan
         </Button>
       </Group>
@@ -697,10 +862,15 @@ const pelatihan = () => {
                   direction="row"
                   wrap="wrap"
                 >
-                  <Button onClick={() => openDeleteModal(e)} color="red">
+                  <Button
+                    onClick={() => openDeleteModal(e)}
+                    variant="outline"
+                    color="red"
+                  >
                     Delete
                   </Button>
                   <Button
+                    variant="outline"
                     color="yellow"
                     onClick={() => {
                       setSelectedData(e);
@@ -710,12 +880,22 @@ const pelatihan = () => {
                     Edit
                   </Button>
                   <Button
+                    variant="outline"
                     color="blue"
                     onClick={() => {
                       openlihatpesertaModal(e);
                     }}
                   >
                     Lihat Peserta
+                  </Button>
+                  <Button
+                    variant="outline"
+                    color="red"
+                    onClick={() => {
+                      openSelesaiModal(e);
+                    }}
+                  >
+                    Pelatihan Selesai
                   </Button>
                 </Flex>
               </td>

@@ -19,7 +19,7 @@ import {
 import { openModal } from "@mantine/modals";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import Highlight from "@tiptap/extension-highlight";
@@ -86,12 +86,16 @@ const pelatihanku = () => {
   //menampilkan modal info pelatihan
   const [selectedPelatihan, setSelectedPelatihan] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [content, setContent] = useState("");
   const openModal = (id) => {
     const pelatihan = data.find((item) => item.id_pelatihan === id);
     setSelectedPelatihan(pelatihan);
     setIsModalOpen(true);
+
+    // Set content of RichTextEditor
+    setContent(selectedPelatihan?.deskripsi_pelatihan_khusus || "");
   };
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -102,6 +106,7 @@ const pelatihanku = () => {
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
+    content,
   });
 
   useEffect(() => {
@@ -109,6 +114,27 @@ const pelatihanku = () => {
     getusername;
     console.log(getusername);
   }, []);
+
+  //start khusus set data richtext editor
+  const defaultValueRef = useRef(selectedPelatihan?.deskripsi_pelatihan_khusus);
+
+  useEffect(() => {
+    if (
+      defaultValueRef.current !== selectedPelatihan?.deskripsi_pelatihan_khusus
+    ) {
+      handleChange({
+        target: { value: selectedPelatihan?.deskripsi_pelatihan_khusus },
+      });
+      defaultValueRef.current = selectedPelatihan?.deskripsi_pelatihan_khusus;
+    }
+  }, [selectedPelatihan]);
+
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setContent(value);
+    editor.chain().setContent(value).focus().run();
+  };
+  //end khusus set data richtext editor
   return (
     <>
       <div style={pageStyle}>
@@ -306,6 +332,7 @@ const pelatihanku = () => {
               ? selectedPelatihan?.deskripsi_pelatihan
               : "Coming Soon"}
           </Text>
+
           <Text
             dangerouslySetInnerHTML={{
               __html: selectedPelatihan?.deskripsi_pelatihan_khusus
@@ -314,10 +341,16 @@ const pelatihanku = () => {
             }}
           />
 
-          <RichTextEditor
-            editor={editor}
-            contentEditable={selectedPelatihan?.deskripsi_pelatihan_khusus}
-          >
+          {/* textinput khusus get data untuk richtexteditor */}
+          <TextInput
+            disabled
+            defaultValue={defaultValueRef.current}
+            placeholder="Content"
+            label="Content"
+            withAsterisk
+            style={{ display: "none" }}
+          />
+          <RichTextEditor editor={editor}>
             <RichTextEditor.Toolbar sticky stickyOffset={60}>
               <RichTextEditor.ControlsGroup>
                 <RichTextEditor.Bold />
@@ -358,15 +391,7 @@ const pelatihanku = () => {
               </RichTextEditor.ControlsGroup>
             </RichTextEditor.Toolbar>
 
-            <RichTextEditor.Content>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html:
-                    selectedPelatihan?.deskripsi_pelatihan_khusus ||
-                    "<b>Jadwal Coming Soon !</b>",
-                }}
-              />
-            </RichTextEditor.Content>
+            <RichTextEditor.Content></RichTextEditor.Content>
           </RichTextEditor>
         </Card>
       </Modal>

@@ -244,7 +244,11 @@ const kabupaten = () => {
               <td>{e.nama_kabkot}</td>
               <td>{e.nama_provinsi}</td>
               <td>
-                <Button onClick={() => handleDelete(e.id_kabkot)} color="red">
+                <Button
+                  onClick={() => handleDelete(e.id_kabkot)}
+                  variant="outline"
+                  color="red"
+                >
                   Delete
                 </Button>
               </td>

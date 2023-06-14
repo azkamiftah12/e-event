@@ -28,8 +28,8 @@ import Cookies from "js-cookie";
 const validasipelatihan = () => {
   const [data, setData] = useState([]);
 
-  const notifysuccess = () => {
-    toast.success("Accept pelatihan Successfully", {
+  const notifysuccess = (msg) => {
+    toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -41,8 +41,8 @@ const validasipelatihan = () => {
       theme: "dark",
     });
   };
-  const notifyerror = () => {
-    toast.error("Decline pelatihan successfully", {
+  const notifyerror = (msg) => {
+    toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -107,12 +107,12 @@ const validasipelatihan = () => {
     const bodyFormData = new FormData();
     console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
-    await axios.post(
+    const response = await axios.post(
       `${ipaddress}delete-datapelatihan/:${id_pelatihan}`,
       bodyFormData,
       headerauthorization
     );
-    notifyerror();
+    notifyerror(response.data.pesan);
     getData();
   };
   //delete end
@@ -124,17 +124,58 @@ const validasipelatihan = () => {
       centered: true,
       children: (
         <Text size="sm">
-          Are you sure you want to decline{" "}
+          Are you sure you want to delete{" "}
           <strong>Pelatihan {e.judul_pelatihan}?</strong>
         </Text>
       ),
-      labels: { confirm: "Decline Pelatihan", cancel: "Cancel" },
-      confirmProps: { color: "red" },
+      labels: { confirm: "delete Pelatihan", cancel: "Cancel" },
+      confirmProps: { variant: "outline", color: "red" },
       onCancel: () => console.log("Cancel"),
       onConfirm: () => handleDelete(e.id_pelatihan),
     });
   };
   //open model delete end
+
+  const [pesan_tolak, setpesan_tolak] = useState("");
+  //Decline start
+  const handleDecline = async (id_pelatihan) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("idpelatihan", id_pelatihan);
+    bodyFormData.append("pesan_tolak", pesan_tolak);
+
+    const response = await axios.post(
+      `${ipaddress}updatetolak-datapelatihan/:${id_pelatihan}`,
+      bodyFormData,
+      headerauthorization
+    );
+    notifyerror(response.data.pesan);
+    getData();
+  };
+  //Decline end
+
+  //open modal decline start
+  const openDeclineModal = (e) => {
+    modals.openConfirmModal({
+      title: `Decline Pelatihan ${e.judul_pelatihan}`,
+      centered: true,
+      children: (
+        <TextInput
+          placeholder="Pesan"
+          label="Pesan Tolak"
+          withAsterisk
+          defaultValue={pesan_tolak}
+          Value={pesan_tolak}
+          onChange={(e) => setpesan_tolak(e.target.value)}
+        />
+      ),
+      labels: { confirm: "Decline Pelatihan", cancel: "Cancel" },
+      confirmProps: { variant: "outline", color: "red" },
+      onCancel: () => console.log("Cancel"),
+      onConfirm: () => console.log(pesan_tolak),
+      // onConfirm: () => handleDecline(e.id_pelatihan),
+    });
+  };
+  //open model decline end
 
   //ACC Pelatihan start
   const handleACC = async (id_pelatihan) => {
@@ -158,7 +199,7 @@ const validasipelatihan = () => {
       bodyFormData,
       headerauthorization
     );
-    notifysuccess();
+    notifysuccess("Pelatihan berhasil di accept");
     getData();
   };
   //ACC Pelatihan end
@@ -175,7 +216,7 @@ const validasipelatihan = () => {
         </Text>
       ),
       labels: { confirm: "ACC Pelatihan", cancel: "Cancel" },
-      confirmProps: { color: "teal" },
+      confirmProps: { variant: "outline", color: "teal" },
       onCancel: () => console.log("Cancel"),
       onConfirm: () => handleACC(e.id_pelatihan),
     });
@@ -266,6 +307,7 @@ const validasipelatihan = () => {
                 <Grid>
                   <Grid.Col span={6}>
                     <Button
+                      variant="outline"
                       color="teal"
                       radius="md"
                       onClick={() => openACCModal(e)}
@@ -275,11 +317,22 @@ const validasipelatihan = () => {
                   </Grid.Col>
                   <Grid.Col span={6}>
                     <Button
+                      variant="outline"
+                      color="red"
+                      radius="md"
+                      onClick={() => openDeclineModal(e)}
+                    >
+                      Decline
+                    </Button>
+                  </Grid.Col>
+                  <Grid.Col span={6}>
+                    <Button
+                      variant="outline"
                       color="red"
                       radius="md"
                       onClick={() => openDeleteModal(e)}
                     >
-                      Decline
+                      Delete
                     </Button>
                   </Grid.Col>
                 </Grid>

@@ -67,8 +67,8 @@ const latihan = () => {
       theme: "dark",
     });
   };
-  const notifyerror = () => {
-    toast.error("Please login to claim batch", {
+  const notifyerror = (msg) => {
+    toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -132,7 +132,7 @@ const latihan = () => {
   //claim start
   const handleclaim = async (id_pelatihan) => {
     if (!username) {
-      notifyerror();
+      notifyerror("LOGIN TO CLAIM BATCH");
       router.push("/Login"); // Redirect to the login page
       return;
     }

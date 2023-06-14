@@ -55,7 +55,7 @@ const managepelatihan = () => {
   const ref = useRef<HTMLInputElement>();
 
   const notifysuccess = (msg) => {
-    toast.success(msg , {
+    toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -68,7 +68,7 @@ const managepelatihan = () => {
     });
   };
   const notifyerror = (msg) => {
-    toast.error(msg , {
+    toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -94,9 +94,9 @@ const managepelatihan = () => {
     });
   };
 
-    //get token from cookies start
-    const username = Cookies.get("username");
-    //get token from cookies end
+  //get token from cookies start
+  const username = Cookies.get("username");
+  //get token from cookies end
 
   const getData = async () => {
     const response = await axios.get(
@@ -155,12 +155,14 @@ const managepelatihan = () => {
   };
 
   // eslint-disable-next-line arrow-body-style
-  const filteredData = data ? data.filter((item) => {
-    return item.judul_pelatihan
-      ?.toString()
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-  }):[];
+  const filteredData = data
+    ? data.filter((item) => {
+        return item.judul_pelatihan
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      })
+    : [];
   //search end
 
   const [datalihatpeserta, setDataLihatPeserta] = useState([]);
@@ -288,7 +290,6 @@ const managepelatihan = () => {
     const tanggal_pelatihan_end = adjustedDate.toISOString().split("T")[0];
 
     console.log(editor?.getHTML(), "data rictect");
-    
 
     const bodyFormData = new FormData();
     bodyFormData.append("id_jenis_acara", id_jenis_acara);
@@ -309,13 +310,13 @@ const managepelatihan = () => {
         bodyFormData,
         headerauthorization
       );
-      if (response.data.error===true) {
+      if (response.data.error === true) {
         // Handle the error condition based on the response
         // For example, you can show an error message to the user or perform any necessary actions
         notifyerror(response.data.pesan);
       } else {
         close(false);
-        notifysuccess('Insert Successfully');
+        notifysuccess(response.data.pesan);
         getData();
       }
     } catch (ex: any) {
@@ -323,7 +324,9 @@ const managepelatihan = () => {
       if (ex.response && ex.response.data && ex.response.data.pesan) {
         notifyerror(ex.response.data.pesan);
       } else {
-        notifyerror("An error occurred while making the request. Check your Connection");
+        notifyerror(
+          "An error occurred while making the request. Check your Connection"
+        );
       }
       // Handle the error
     }
@@ -340,7 +343,7 @@ const managepelatihan = () => {
       bodyFormData,
       headerauthorization
     );
-    notifyerror('Delete Successfully');
+    notifyerror("Delete Successfully");
     getData();
   };
   //delete end
@@ -356,12 +359,45 @@ const managepelatihan = () => {
         </Text>
       ),
       labels: { confirm: "Delete Pelatihan", cancel: "Cancel" },
-      confirmProps: { color: "red" },
+      confirmProps: { variant: "outline", color: "red" },
       onCancel: () => console.log("Cancel"),
       onConfirm: () => handleDelete(e.id_pelatihan),
     });
   };
   //open model delete end
+
+  //selesai start
+  const handleSelesai = async (id_pelatihan) => {
+    const bodyFormData = new FormData();
+    console.log(id_pelatihan);
+    bodyFormData.append("idpelatihan", id_pelatihan);
+    const response = await axios.post(
+      `${ipaddress}updateend-datapelatihan/:${id_pelatihan}`,
+      bodyFormData,
+      headerauthorization
+    );
+    notifyerror("pelatihan berhasil diakhiri");
+    getData();
+  };
+  //selesai end
+
+  //open modal selesai start
+  const openSelesaiModal = (e) => {
+    modals.openConfirmModal({
+      title: "Akhiri Pelatihan",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Yakin Akhiri Pelatihan <strong>{e.judul_pelatihan}?</strong>
+        </Text>
+      ),
+      labels: { confirm: "Akhiri Pelatihan", cancel: "Cancel" },
+      confirmProps: { variant: "outline", color: "red" },
+      onCancel: () => console.log("Cancel"),
+      onConfirm: () => handleSelesai(e.id_pelatihan),
+    });
+  };
+  //open modal selesai end
 
   // datetable parse start
   const formatdatepelatihan = (sampletanggal) => {
@@ -407,7 +443,7 @@ const managepelatihan = () => {
 
   return (
     <LayoutPenyelenggara>
-      {/* modal edit start */}
+      {/* modal Modal lihat peserta start */}
       <Modal
         size="70%"
         opened={isModalOpen}
@@ -454,7 +490,7 @@ const managepelatihan = () => {
           </Box>
         )}
       </Modal>
-      {/* modal edit End */}
+      {/* modal Lihat Peserta End */}
 
       <Modal
         size="70%"
@@ -622,7 +658,7 @@ const managepelatihan = () => {
               <Button type="submit" onClick={handleInsert}>
                 Submit
               </Button>
-              <Button color="indigo" onClick={setRichText}>
+              <Button variant="outline" color="indigo" onClick={setRichText}>
                 Coba Set
               </Button>
             </Group>
@@ -633,7 +669,7 @@ const managepelatihan = () => {
       </Modal>
       <Space h="md" />
       <Group position="center">
-        <Button color="indigo" onClick={open}>
+        <Button variant="outline" color="indigo" onClick={open}>
           Add Pelatihan
         </Button>
       </Group>
@@ -646,7 +682,7 @@ const managepelatihan = () => {
       />
 
       <Space h="md" />
-      
+
       <Text>
         Total Pelatihan Saya:
         <Badge color="pink" size="lg" variant="light">
@@ -699,10 +735,15 @@ const managepelatihan = () => {
                   direction="row"
                   wrap="wrap"
                 >
-                  <Button onClick={() => openDeleteModal(e)} color="red">
+                  <Button
+                    variant="outline"
+                    color="red"
+                    onClick={() => openDeleteModal(e)}
+                  >
                     Delete
                   </Button>
                   <Button
+                    variant="outline"
                     color="yellow"
                     onClick={() => {
                       setSelectedData(e);
@@ -712,12 +753,22 @@ const managepelatihan = () => {
                     Edit
                   </Button>
                   <Button
+                    variant="outline"
                     color="blue"
                     onClick={() => {
                       openlihatpesertaModal(e);
                     }}
                   >
                     Lihat Peserta
+                  </Button>
+                  <Button
+                    variant="outline"
+                    color="pink"
+                    onClick={() => {
+                      openSelesaiModal(e);
+                    }}
+                  >
+                    Pelatihan Selesai
                   </Button>
                 </Flex>
               </td>

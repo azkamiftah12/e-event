@@ -50,15 +50,6 @@ export default function LayoutPenyelenggara({ children }) {
 
   // badge function untuk hitung total data START
   const [datavalidasipelatihan, setDatavalidasipelatihan] = useState([]);
-
-  const getDatavalidasipelatihan = async () => {
-    const response = await axios.get(
-      `${ipaddress}get-datapelatihanvalidasi`,
-      headerauthorization
-    );
-    setDatavalidasipelatihan(response.data.data);
-    console.log(response.data.data);
-  };
   //get token from cookies start
   const token = Cookies.get("token");
   //get token from cookies end
@@ -67,7 +58,6 @@ export default function LayoutPenyelenggara({ children }) {
 
   useEffect(() => {
     headerauthorization.headers.Authorization = token ?? "";
-    getDatavalidasipelatihan();
     console.log(totalvalidasiPelatihan);
   }, []);
 
@@ -75,34 +65,17 @@ export default function LayoutPenyelenggara({ children }) {
   const [opened, setOpened] = useState(false);
   const mockdata = [
     {
-      label: "Internal",
+      label: "Pelatihan",
       icon: IconNotes,
       initiallyOpened: false,
       links: [
-        { label: "Pelatihan", link: "/internal/pelatihan" },
+        { label: "Pelatihanku", link: "/penyelenggara/managepelatihan" },
         {
-          label: `Validasi Pelatihan${(
-            <>
-              <Badge color="pink" variant="light">
-                Jumlah: {totalvalidasiPelatihan.toString()}
-              </Badge>
-            </>
-          )}`,
-          link: "/internal/validasipelatihan",
+          label: `Pelatihan Ditolak`,
+          link: "/penyelenggara/pelatihankuditolak",
         },
-        { label: "Batch", link: "/internal/batch" },
-      ],
-    },
-    {
-      label: "Manajemen",
-      icon: IconAdjustments,
-      links: [
-        { label: "Provinsi", link: "/manajemen/provinsi" },
-        { label: "Kabupaten", link: "/manajemen/kabupaten" },
-        { label: "Jenis Pekerjaan", link: "/manajemen/jenispekerjaan" },
-        { label: "Jenis Pelatihan", link: "/manajemen/jenispelatihan" },
-        { label: "Narasumber", link: "/manajemen/narasumber" },
-        { label: "User", link: "/manajemen/user" },
+        { label: "Pelatihan Pending", link: "/penyelenggara/pelatihanpending" },
+        { label: "Pelatihan Selesai", link: "/penyelenggara/pelatihankuend" },
       ],
     },
   ];
@@ -260,18 +233,7 @@ export default function LayoutPenyelenggara({ children }) {
                   </Box>
                 </Text>
 
-                <Text<"a">
-                  component="a"
-                  className={classes.control}
-                  href="/penyelenggara/managepelatihan"
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <ThemeIcon variant="light" size={30}>
-                      <IconGauge size={18} />
-                    </ThemeIcon>
-                    <Box ml="md">Pelatihanku</Box>
-                  </Box>
-                </Text>
+                <div>{links}</div>
               </Navbar.Section>
             </Navbar>
           </ScrollArea>

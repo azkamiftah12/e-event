@@ -2,8 +2,35 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import jwt_decode from "jwt-decode";
+import { toast, Zoom } from "react-toastify";
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
+  const notifysuccess = (msg) => {
+    toast.success(msg, {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+    });
+  };
+  const notifyerror = (msg) => {
+    toast.error(msg, {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Zoom,
+      theme: "dark",
+    });
+  };
   // console.log(request.nextUrl.pathname, 'urlnyaa')
   // console.log(request.cookies, 'cookie')
   const urlAdmin = [
@@ -11,6 +38,8 @@ export function middleware(request: NextRequest) {
     "/internal/pelatihan",
     "/internal/validasipelatihan",
     "/internal/batch",
+    "/internal/pelatihanditolak",
+    "/internal/pelatihanend",
     "/manajemen/jenispekerjaan",
     "/manajemen/jenispelatihan",
     "/manajemen/kabupaten",
@@ -18,7 +47,13 @@ export function middleware(request: NextRequest) {
     "/manajemen/provinsi",
     "/manajemen/user",
   ];
-  const urlPenyelenggara = ["/penyelenggara", "/penyelenggara/managepelatihan"];
+  const urlPenyelenggara = [
+    "/penyelenggara",
+    "/penyelenggara/managepelatihan",
+    "/penyelenggara/pelatihankuditolak",
+    "/penyelenggara/pelatihankuend",
+    "/penyelenggara/pelatihanpending",
+  ];
 
   try {
     const token = request.cookies.get("token");
