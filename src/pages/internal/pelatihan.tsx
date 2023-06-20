@@ -44,9 +44,6 @@ import Layout, {
   ipaddress,
 } from "../../components/layout";
 
-// const content =
-//   '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>';
-
 const pelatihan = () => {
   const [data, setData] = useState([]);
   const [selectedData, setSelectedData] = useState(null);
@@ -177,9 +174,10 @@ const pelatihan = () => {
   //search lihat peserta end
 
   //modal start
-  const [opened, { open, close }] = useDisclosure(false);
-  const [openedEditModal, { open: openEditModal, close: closeEditModal }] =
+  const [opened, { open: openAddModal, close }] = useDisclosure(false);
+  const [openedEditModal, { close: closeEditModal, open: openEditModal }] =
     useDisclosure(false);
+
   // const [openedlihatpesertaModal, { open: openlihatpesertaModal, close: closelihatpesertaModal }] = useDisclosure(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -199,7 +197,7 @@ const pelatihan = () => {
       username_penyelenggara: "",
       nama_narasumber: "",
       tanggal_pelatihan_start: new Date(),
-      tanggal_pelatihan_end: "",
+      tanggal_pelatihan_end: new Date(),
       waktu_pelatihan: "",
       link_pelatihan: "",
       max_pesertabatch: "",
@@ -234,11 +232,22 @@ const pelatihan = () => {
 
   const [dataNarasumber, setDataNarasumber] = useState([]);
   const [searchValueNarasumber, onSearchChangeNarasumber] = useState("");
+  const [htmlNya, setHtmlNya] = useState("");
 
   const [content, setContent] = useState(
-    "<h1><mark>-- -- -- -- Jadwal 1 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p><p></p><h1><mark>-- -- -- -- Jadwal 2 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p>"
+    `<h1><mark>-- -- -- -- Jadwal 1 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p><p></p><h1><mark>-- -- -- -- Jadwal 2 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p>`
   );
-  const [htmlNya, setHtmlNya] = useState("");
+
+  const handleOpenEditModal = (e) => {
+    openEditModal();
+    setSelectedData(e);
+
+    console.log(e?.deskripsi_pelatihan_khusus, "pel khusus");
+    editor?.commands.setContent(e?.deskripsi_pelatihan_khusus);
+
+    // Open the modal
+    // ...
+  };
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -250,12 +259,6 @@ const pelatihan = () => {
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
     content,
-    // ...(content && { content }),
-    // ...(setContent && { setContent }),
-    onUpdate(props) {
-      const val = props.editor.getHTML();
-      setContent(val);
-    },
   });
 
   //Insert
@@ -452,6 +455,7 @@ const pelatihan = () => {
     const { link_pelatihan } = selectedData;
     const { max_pesertabatch } = selectedData;
     const { deskripsi_pelatihan_khusus } = selectedData;
+    const { id_narasumber } = selectedData;
 
     const formatwaktupelatihan = formattimepelatihan(waktu_pelatihan);
 
@@ -466,11 +470,9 @@ const pelatihan = () => {
     bodyFormData.append("waktu_pelatihan", formatwaktupelatihan);
     bodyFormData.append("link_pelatihan", link_pelatihan);
     bodyFormData.append("max_pesertabatch", max_pesertabatch);
-    bodyFormData.append(
-      "deskripsi_pelatihan_khusus",
-      deskripsi_pelatihan_khusus
-    );
+    bodyFormData.append("deskripsi_pelatihan_khusus", editor?.getHTML());
     bodyFormData.append("username_penyelenggara", username_penyelenggara);
+    bodyFormData.append("id_narasumber", id_narasumber);
 
     try {
       const response = await axios.post(
@@ -491,6 +493,12 @@ const pelatihan = () => {
   };
   // Edit Pelatihan End
 
+  const handleOpenAddModal = (e) => {
+    openAddModal();
+    console.log("ketrigger");
+    editor?.commands.setContent(content);
+  };
+
   return (
     <Layout>
       {/* modal edit start */}
@@ -499,23 +507,10 @@ const pelatihan = () => {
         opened={openedEditModal}
         onClose={closeEditModal}
         title="Edit Pelatihan"
-        centered
-      >
+        centered>
         {selectedData && (
           <Box my="lg" mx="auto" mah="70%" maw="70%">
             <form onSubmit={form.onSubmit((values) => console.log(values))}>
-              <TextInput
-                withAsterisk
-                label="Id Jenis Acara"
-                placeholder="Id Jenis Acara"
-                value={selectedData.id_jenis_acara}
-                onChange={(e) =>
-                  setSelectedData({
-                    ...selectedData,
-                    id_jenis_acara: e.target.value,
-                  })
-                }
-              />
               <TextInput
                 withAsterisk
                 label="Judul Pelatihan"
@@ -530,7 +525,7 @@ const pelatihan = () => {
               />
               <TextInput
                 withAsterisk
-                label="Deskripsi Pelaihan"
+                label="Deskripsi Pelatihan"
                 placeholder="Deskripsi Pelatihan"
                 value={selectedData.deskripsi_pelatihan}
                 onChange={(e) =>
@@ -552,13 +547,73 @@ const pelatihan = () => {
                   })
                 }
               />
+
+              <Select
+                label="Narasumber"
+                placeholder="Pilih Narasumber"
+                searchable
+                defaultValue={selectedData.id_narasumber}
+                onSearchChange={onSearchChangeNarasumber}
+                searchValue={searchValueNarasumber}
+                nothingFound="No options"
+                data={dataNarasumber}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    id_narasumber: e,
+                  })
+                }
+              />
+              <Text fw={500}>Konten Pelatihan</Text>
+              <RichTextEditor labels="Content" editor={editor}>
+                <RichTextEditor.Toolbar sticky stickyOffset={60}>
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Bold />
+                    <RichTextEditor.Italic />
+                    <RichTextEditor.Underline />
+                    <RichTextEditor.Strikethrough />
+                    <RichTextEditor.ClearFormatting />
+                    <RichTextEditor.Highlight />
+                    <RichTextEditor.Code />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.H1 />
+                    <RichTextEditor.H2 />
+                    <RichTextEditor.H3 />
+                    <RichTextEditor.H4 />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Blockquote />
+                    <RichTextEditor.Hr />
+                    <RichTextEditor.BulletList />
+                    <RichTextEditor.OrderedList />
+                    <RichTextEditor.Subscript />
+                    <RichTextEditor.Superscript />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Link />
+                    <RichTextEditor.Unlink />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.AlignLeft />
+                    <RichTextEditor.AlignCenter />
+                    <RichTextEditor.AlignJustify />
+                    <RichTextEditor.AlignRight />
+                  </RichTextEditor.ControlsGroup>
+                </RichTextEditor.Toolbar>
+
+                <RichTextEditor.Content></RichTextEditor.Content>
+              </RichTextEditor>
               <Group position="right" mt="md">
                 <Button
                   type="submit"
                   variant="outline"
                   color="yellow"
-                  onClick={handleUpdate}
-                >
+                  onClick={handleUpdate}>
                   Edit
                 </Button>
               </Group>
@@ -574,8 +629,7 @@ const pelatihan = () => {
         opened={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Lihat Peserta Pelatihan"
-        centered
-      >
+        centered>
         {selectedData && (
           <Box my="lg" mx="auto" mah="70%" maw="70%">
             <TextInput
@@ -623,8 +677,7 @@ const pelatihan = () => {
         opened={opened}
         onClose={close}
         title="Add pelatihan"
-        centered
-      >
+        centered>
         <Box my="lg" mx="auto" maw="70%">
           <form onSubmit={form.onSubmit((values) => console.log(values))}>
             <Grid>
@@ -680,8 +733,7 @@ const pelatihan = () => {
               </Grid.Col>
               <Grid.Col span={5} mx="lg">
                 <DatesProvider
-                  settings={{ firstDayOfWeek: 1, weekendDays: [0] }}
-                >
+                  settings={{ firstDayOfWeek: 1, weekendDays: [0] }}>
                   <DatePickerInput
                     icon={<IconCalendar size="1.1rem" stroke={1.5} />}
                     label="Pilih Tanggal Mulai pelatihan"
@@ -695,8 +747,7 @@ const pelatihan = () => {
                 <Space h="md" />
 
                 <DatesProvider
-                  settings={{ firstDayOfWeek: 1, weekendDays: [0] }}
-                >
+                  settings={{ firstDayOfWeek: 1, weekendDays: [0] }}>
                   <DatePickerInput
                     icon={<IconCalendar size="1.1rem" stroke={1.5} />}
                     label="Pilih Tanggal Akhir Pelatihan"
@@ -740,6 +791,7 @@ const pelatihan = () => {
                 />
               </Grid.Col>
 
+              <Text fw={500}>Konten Pelatihan</Text>
               <RichTextEditor editor={editor}>
                 <RichTextEditor.Toolbar sticky stickyOffset={60}>
                   <RichTextEditor.ControlsGroup>
@@ -803,7 +855,10 @@ const pelatihan = () => {
 
       <Space h="md" />
       <Group position="center">
-        <Button variant="outline" color="indigo" onClick={open}>
+        <Button
+          variant="outline"
+          color="indigo"
+          onClick={(e) => handleOpenAddModal(e)}>
           Add Pelatihan
         </Button>
       </Group>
@@ -860,23 +915,19 @@ const pelatihan = () => {
                   justify="flex-start"
                   align="flex-start"
                   direction="row"
-                  wrap="wrap"
-                >
+                  wrap="wrap">
                   <Button
                     onClick={() => openDeleteModal(e)}
                     variant="outline"
-                    color="red"
-                  >
+                    color="red">
                     Delete
                   </Button>
                   <Button
                     variant="outline"
                     color="yellow"
                     onClick={() => {
-                      setSelectedData(e);
-                      openEditModal();
-                    }}
-                  >
+                      handleOpenEditModal(e);
+                    }}>
                     Edit
                   </Button>
                   <Button
@@ -884,8 +935,7 @@ const pelatihan = () => {
                     color="blue"
                     onClick={() => {
                       openlihatpesertaModal(e);
-                    }}
-                  >
+                    }}>
                     Lihat Peserta
                   </Button>
                   <Button
@@ -893,8 +943,7 @@ const pelatihan = () => {
                     color="red"
                     onClick={() => {
                       openSelesaiModal(e);
-                    }}
-                  >
+                    }}>
                     Pelatihan Selesai
                   </Button>
                 </Flex>

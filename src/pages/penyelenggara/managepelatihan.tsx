@@ -316,7 +316,9 @@ const managepelatihan = () => {
         notifyerror(response.data.pesan);
       } else {
         close(false);
-        notifysuccess(response.data.pesan);
+        notifysuccess(
+          response.data.pesan + " Tunggu pelatihan untuk dikonfirmasi"
+        );
         getData();
       }
     } catch (ex: any) {
@@ -449,8 +451,7 @@ const managepelatihan = () => {
         opened={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Lihat Peserta Pelatihan"
-        centered
-      >
+        centered>
         {selectedData && (
           <Box my="lg" mx="auto" mah="70%" maw="70%">
             <TextInput
@@ -497,8 +498,7 @@ const managepelatihan = () => {
         opened={opened}
         onClose={close}
         title="Add pelatihan"
-        centered
-      >
+        centered>
         <Box my="lg" mx="auto" maw="70%">
           <form onSubmit={form.onSubmit((values) => console.log(values))}>
             <Grid>
@@ -546,8 +546,7 @@ const managepelatihan = () => {
               </Grid.Col>
               <Grid.Col span={5} mx="lg">
                 <DatesProvider
-                  settings={{ firstDayOfWeek: 1, weekendDays: [0] }}
-                >
+                  settings={{ firstDayOfWeek: 1, weekendDays: [0] }}>
                   <DatePickerInput
                     icon={<IconCalendar size="1.1rem" stroke={1.5} />}
                     label="Pilih Tanggal Mulai pelatihan"
@@ -561,8 +560,7 @@ const managepelatihan = () => {
                 <Space h="md" />
 
                 <DatesProvider
-                  settings={{ firstDayOfWeek: 1, weekendDays: [0] }}
-                >
+                  settings={{ firstDayOfWeek: 1, weekendDays: [0] }}>
                   <DatePickerInput
                     icon={<IconCalendar size="1.1rem" stroke={1.5} />}
                     label="Pilih Tanggal Akhir Pelatihan"
@@ -733,13 +731,11 @@ const managepelatihan = () => {
                   justify="flex-start"
                   align="flex-start"
                   direction="row"
-                  wrap="wrap"
-                >
+                  wrap="wrap">
                   <Button
                     variant="outline"
                     color="red"
-                    onClick={() => openDeleteModal(e)}
-                  >
+                    onClick={() => openDeleteModal(e)}>
                     Delete
                   </Button>
                   <Button
@@ -748,8 +744,7 @@ const managepelatihan = () => {
                     onClick={() => {
                       setSelectedData(e);
                       openEditModal();
-                    }}
-                  >
+                    }}>
                     Edit
                   </Button>
                   <Button
@@ -757,8 +752,7 @@ const managepelatihan = () => {
                     color="blue"
                     onClick={() => {
                       openlihatpesertaModal(e);
-                    }}
-                  >
+                    }}>
                     Lihat Peserta
                   </Button>
                   <Button
@@ -766,8 +760,7 @@ const managepelatihan = () => {
                     color="pink"
                     onClick={() => {
                       openSelesaiModal(e);
-                    }}
-                  >
+                    }}>
                     Pelatihan Selesai
                   </Button>
                 </Flex>

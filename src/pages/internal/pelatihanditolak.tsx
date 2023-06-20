@@ -166,6 +166,7 @@ const pelatihanditolak = () => {
           <tr>
             <th>No</th>
             <th>Judul Pelatihan</th>
+            <th>Pesan</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -176,6 +177,7 @@ const pelatihanditolak = () => {
                 <td>{i + 1}</td>
               </td>
               <td>{e.judul_pelatihan}</td>
+              <td>{e.pesan_tolak}</td>
               <td>
                 <Flex
                   mih={50}
@@ -183,30 +185,27 @@ const pelatihanditolak = () => {
                   justify="flex-start"
                   align="flex-start"
                   direction="row"
-                  wrap="wrap"
-                >
+                  wrap="wrap">
                   <Button
                     variant="outline"
                     color="teal"
                     radius="md"
-                    onClick={() => openACCModal(e)}
-                  >
+                    onClick={() => openACCModal(e)}>
                     Accept
                   </Button>
                   <Button
                     onClick={() => openDeleteModal(e)}
                     variant="outline"
-                    color="red"
-                  >
+                    color="red">
                     Delete
                   </Button>
                   <Button
-                  // variant= "outline"
-                  // color="yellow"
-                  // onClick={() => {
-                  //   setSelectedData(e);
-                  //   openEditModal();
-                  // }}
+                    variant="outline"
+                    color="yellow"
+                    // onClick={() => {
+                    //   setSelectedData(e);
+                    //   openEditModal();
+                    // }}
                   >
                     Edit
                   </Button>

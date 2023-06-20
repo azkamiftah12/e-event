@@ -252,7 +252,7 @@ const User = () => {
         // For example, you can show an error message to the user or perform any necessary actions
         notifyerror(response.data.pesan);
       } else {
-        close(false);
+        closeAddModal();
         notifysuccess("Insert Successfully");
         getData();
       }
@@ -385,8 +385,7 @@ const User = () => {
         opened={openedAddModal}
         onClose={closeAddModal}
         title="Add User"
-        centered
-      >
+        centered>
         <Box my="lg" mx="auto" mah="70%" maw="70%">
           <form onSubmit={form.onSubmit((values) => console.log(values))}>
             <Grid>
@@ -481,8 +480,7 @@ const User = () => {
         opened={openedEditModal}
         onClose={closeEditModal}
         title="Edit User"
-        centered
-      >
+        centered>
         {selectedData && (
           <Box my="lg" mx="auto" mah="70%" maw="70%">
             <form onSubmit={form.onSubmit((values) => console.log(values))}>
@@ -502,19 +500,6 @@ const User = () => {
                   setSelectedData({
                     ...selectedData,
                     nama_user: e.target.value,
-                  })
-                }
-              />
-
-              <TextInput
-                withAsterisk
-                label="Password"
-                placeholder="Password"
-                value={selectedData.password}
-                onChange={(e) =>
-                  setSelectedData({
-                    ...selectedData,
-                    password: e.target.value,
                   })
                 }
               />
@@ -562,8 +547,7 @@ const User = () => {
                   type="submit"
                   variant="outline"
                   color="yellow"
-                  onClick={handleUpdate}
-                >
+                  onClick={handleUpdate}>
                   Edit
                 </Button>
               </Group>
@@ -623,16 +607,14 @@ const User = () => {
                   onClick={() => {
                     setSelectedData(e);
                     openEditModal();
-                  }}
-                >
+                  }}>
                   Edit
                 </Button>
                 <Space h="sm" />
                 <Button
                   onClick={() => openDeleteModal(e)}
                   variant="outline"
-                  color="red"
-                >
+                  color="red">
                   Delete
                 </Button>
               </td>

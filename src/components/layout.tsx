@@ -35,7 +35,7 @@ import Cookies from "js-cookie";
 import { LinksGroup } from "./NavbarLinksGroup";
 import { handleLogout } from "../pages/logout";
 
-export const ipaddress = "http://192.168.1.5:8081/";
+export const ipaddress = "http://8.222.186.80:8081/";
 // export const headerauthorization = 'Authorization: localStorage.getItem('token'),';
 export const headerauthorization = {
   headers: {
@@ -80,13 +80,7 @@ export default function Layout({ children }) {
       links: [
         { label: "Pelatihan", link: "/internal/pelatihan" },
         {
-          label: `Validasi Pelatihan${(
-            <>
-              <Badge color="pink" variant="light">
-                Jumlah: {totalvalidasiPelatihan.toString()}
-              </Badge>
-            </>
-          )}`,
+          label: `Validasi Pelatihan ${datavalidasipelatihan?.length ?? 0}`,
           link: "/internal/validasipelatihan",
         },
         { label: "Batch", link: "/internal/batch" },
@@ -163,8 +157,7 @@ export default function Layout({ children }) {
           <Header
             height={75}
             px="md"
-            style={{ backgroundColor: "#3F2661", margin: 0, border: "none" }}
-          >
+            style={{ backgroundColor: "#3F2661", margin: 0, border: "none" }}>
             <Group position="apart" sx={{ height: "100%" }}>
               {/* <MediaQuery largerThan="sm" styles={{ display: 'none', justifyContent: 'flex-end' }}>
                  <Burger
@@ -189,8 +182,7 @@ export default function Layout({ children }) {
                   tt="uppercase"
                   size="xl"
                   fw={750}
-                  style={{ color: "#e7b622" }}
-                >
+                  style={{ color: "#e7b622" }}>
                   E-Event
                 </Text>
               </Group>
@@ -210,8 +202,7 @@ export default function Layout({ children }) {
                         color: theme.fn.darken("#3F2661", 0.15),
                       }),
                     },
-                  })}
-                >
+                  })}>
                   Log Out
                 </Button>
               </Group>
@@ -226,8 +217,7 @@ export default function Layout({ children }) {
               p="xs"
               hiddenBreakpoint="sm"
               hidden={!opened}
-              width={{ sm: 200, lg: 250 }}
-            >
+              width={{ sm: 200, lg: 250 }}>
               <Grid>
                 <Grid.Col span={12}>
                   <Button
@@ -236,8 +226,7 @@ export default function Layout({ children }) {
                     color="pink.9"
                     radius="md"
                     size="md"
-                    fullWidth
-                  >
+                    fullWidth>
                     <Text size="lg" color="gray.0">
                       Home
                     </Text>
@@ -251,8 +240,7 @@ export default function Layout({ children }) {
                 <Text<"a">
                   component="a"
                   className={classes.control}
-                  href="/admin"
-                >
+                  href="/admin">
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <ThemeIcon variant="light" size={30}>
                       <IconGauge size={18} />

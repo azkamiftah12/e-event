@@ -140,25 +140,23 @@ const pelatihankuditolak = () => {
                   justify="flex-start"
                   align="flex-start"
                   direction="row"
-                  wrap="wrap"
-                >
+                  wrap="wrap">
                   <Button
                     onClick={() => openDeleteModal(e)}
                     variant="outline"
-                    color="red"
-                  >
+                    color="red">
                     Delete
                   </Button>
-                  <Button
-                  // variant= "outline"
-                  // color="yellow"
-                  // onClick={() => {
-                  //   setSelectedData(e);
-                  //   openEditModal();
-                  // }}
+                  {/* <Button
+                    variant="outline"
+                    color="teal"
+                    // onClick={() => {
+                    //   setSelectedData(e);
+                    //   openEditModal();
+                    // }}
                   >
-                    Edit
-                  </Button>
+                    Ajukan Kembali
+                  </Button> */}
                 </Flex>
               </td>
             </tr>
