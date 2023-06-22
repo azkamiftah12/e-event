@@ -1,18 +1,19 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef } from "react";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "@/components/layout";
 import axios from "axios";
 import { Space, TextInput, Table, Button, Flex, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { Zoom, toast } from "react-toastify";
+import { ToastContentProps, Zoom, toast } from "react-toastify";
 import Cookies from "js-cookie";
 
 const pelatihanditolak = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
 
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | React.PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -25,7 +26,7 @@ const pelatihanditolak = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | React.PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -49,7 +50,7 @@ const pelatihanditolak = () => {
   };
 
   //get token from cookies start
-  const username = Cookies.get("username");
+  const username = Cookies.get("username") ?? '';
   //get token from cookies end
 
   useEffect(() => {
@@ -58,7 +59,7 @@ const pelatihanditolak = () => {
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
@@ -74,7 +75,7 @@ const pelatihanditolak = () => {
   //search end
 
   //delete
-  const handleDelete = async (id_pelatihan) => {
+  const handleDelete = async (id_pelatihan: string | Blob) => {
     const bodyFormData = new FormData();
     console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
@@ -89,7 +90,7 @@ const pelatihanditolak = () => {
   //delete end
 
   //open model delete start
-  const openDeleteModal = (e) => {
+  const openDeleteModal = (e: any) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,
@@ -107,7 +108,7 @@ const pelatihanditolak = () => {
   //open model delete end
 
   //ACC Pelatihan start
-  const handleACC = async (id_pelatihan) => {
+  const handleACC = async (id_pelatihan: any) => {
     const bodyFormData = new FormData();
     bodyFormData.append("idpelatihan", id_pelatihan);
     bodyFormData.append("username_acc", username);
@@ -134,7 +135,7 @@ const pelatihanditolak = () => {
   //ACC Pelatihan end
 
   //open modal ACC Pelatihan start
-  const openACCModal = (e) => {
+  const openACCModal = (e: any) => {
     modals.openConfirmModal({
       title: "Terima Event",
       centered: true,

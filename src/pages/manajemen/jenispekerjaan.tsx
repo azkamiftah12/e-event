@@ -16,18 +16,18 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "@mantine/form";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { modals } from "@mantine/modals";
-import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import { Flip, Slide, ToastContainer, ToastContentProps, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "@/components/layout";
 
 const JenisPekerjaan = () => {
-  const [data, setData] = useState([]);
-  const [selectedData, setSelectedData] = useState(null);
+  const [data, setData] = useState<any[]>([]);
+  const [selectedData, setSelectedData] = useState<any>(null);
 
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -40,7 +40,7 @@ const JenisPekerjaan = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -53,7 +53,7 @@ const JenisPekerjaan = () => {
       theme: "dark",
     });
   };
-  const notifywarning = (msg) => {
+  const notifywarning = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.warn(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -92,7 +92,7 @@ const JenisPekerjaan = () => {
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
@@ -144,7 +144,8 @@ const JenisPekerjaan = () => {
         // For example, you can show an error message to the user or perform any necessary actions
         notifyerror(response.data.pesan);
       } else {
-        close(false);
+        closeAddModal();
+        // close();
         notifysuccess("Insert Successfully");
         getData();
       }
@@ -192,7 +193,7 @@ const JenisPekerjaan = () => {
   // update end
 
   //delete
-  const handleDelete = async (id_pekerjaan) => {
+  const handleDelete = async (id_pekerjaan: string | Blob) => {
     const bodyFormData = new FormData();
     bodyFormData.append("idhapus", id_pekerjaan);
     await axios.post(
@@ -206,7 +207,7 @@ const JenisPekerjaan = () => {
   //delete end
 
   //open model delete end
-  const openDeleteModal = (e) => {
+  const openDeleteModal = (e: { id_pekerjaan: string | Blob; }) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,

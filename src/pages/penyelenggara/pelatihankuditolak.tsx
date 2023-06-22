@@ -1,19 +1,20 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "@/components/layout";
 import LayoutPenyelenggara from "@/components/layoutpenyelenggara";
 import { TextInput, Space, Table, Flex, Button, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
-import { toast, Zoom } from "react-toastify";
+import { JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactFragment, ReactNode, ReactPortal, SetStateAction, useEffect, useState } from "react";
+import { toast, ToastContentProps, Zoom } from "react-toastify";
 
 const pelatihankuditolak = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
 
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) => ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -26,7 +27,7 @@ const pelatihankuditolak = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | ReactFragment | ReactPortal | PromiseLikeOfReactNode | ReactElement<any, string | JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -59,7 +60,7 @@ const pelatihankuditolak = () => {
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
@@ -75,7 +76,7 @@ const pelatihankuditolak = () => {
   //search end
 
   //delete
-  const handleDelete = async (id_pelatihan) => {
+  const handleDelete = async (id_pelatihan: string | Blob) => {
     const bodyFormData = new FormData();
     console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
@@ -90,7 +91,7 @@ const pelatihankuditolak = () => {
   //delete end
 
   //open model delete start
-  const openDeleteModal = (e) => {
+  const openDeleteModal = (e: { judul_pelatihan: string | number | boolean | ReactFragment | ReactPortal | PromiseLikeOfReactNode | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; id_pelatihan: string | Blob; }) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,

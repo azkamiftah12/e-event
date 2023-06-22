@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import FooterMenu from "@/components/FooterMenu/FooterMenu";
 import HeaderMenu from "@/components/HeaderMenu/HeaderMenu";
 import { ipaddress, headerauthorization } from "@/components/layout";
@@ -19,11 +20,11 @@ import {
 import { modals, openModal } from "@mantine/modals";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { toast, Zoom } from "react-toastify";
+import { useState, useEffect, JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactFragment, ReactNode, ReactPortal, SetStateAction } from "react";
+import { toast, ToastContentProps, Zoom } from "react-toastify";
 
 const pelatihanku = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
   const pageStyle = {
     backgroundColor: "#E0DAD1",
   };
@@ -42,7 +43,7 @@ const pelatihanku = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | ReactFragment | ReactPortal | PromiseLikeOfReactNode | ReactElement<any, string | JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -58,7 +59,7 @@ const pelatihanku = () => {
   //notifikasi toast end
 
   //get token from cookies start
-  const username = Cookies.get("username");
+  const username = Cookies.get("username") ?? '';
   const getusername = username;
   //get token from cookies end
 
@@ -91,7 +92,7 @@ const pelatihanku = () => {
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
@@ -112,9 +113,9 @@ const pelatihanku = () => {
   };
 
   //menampilkan modal info pelatihan start
-  const [selectedPelatihan, setSelectedPelatihan] = useState(null);
+  const [selectedPelatihan, setSelectedPelatihan] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = (id) => {
+  const openModal = (id: any) => {
     const pelatihan = data.find((item) => item.id_pelatihan === id);
     setSelectedPelatihan(pelatihan);
     setIsModalOpen(true);
@@ -122,7 +123,7 @@ const pelatihanku = () => {
   //menampilkan modal info pelatihan end
 
   //delete
-  const handleDelete = async (id_batch) => {
+  const handleDelete = async (id_batch: string | Blob) => {
     const bodyFormData = new FormData();
     bodyFormData.append("idbatch", id_batch);
     const response = await axios.post(
@@ -137,7 +138,7 @@ const pelatihanku = () => {
   //delete end
 
   //open model delete start
-  const openDeleteModal = (e) => {
+  const openDeleteModal = (e: { judul_pelatihan: string | number | boolean | ReactFragment | ReactPortal | PromiseLikeOfReactNode | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined; id_batch: string | Blob; }) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,
@@ -284,12 +285,12 @@ const pelatihanku = () => {
         onClose={() => setIsModalOpen(false)}
         title={selectedPelatihan?.judul_pelatihan}
         styles={{
-          modal: {
-            borderRadius: 12,
-            boxShadow: "0px 8px 32px rgba(17, 17, 17, 0.16)",
-            width: "100%", // Custom width for the modal
-            maxWidth: "2000px", // Optionally, set a maximum width
-          },
+          // modal: {
+          //   borderRadius: 12,
+          //   boxShadow: "0px 8px 32px rgba(17, 17, 17, 0.16)",
+          //   width: "100%", // Custom width for the modal
+          //   maxWidth: "2000px", // Optionally, set a maximum width
+          // },
           body: {
             padding: 24,
           },

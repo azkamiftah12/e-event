@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import LayoutPenyelenggara from "@/components/layoutpenyelenggara";
 import {
   Badge,
@@ -15,7 +16,7 @@ import {
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { headerauthorization, ipaddress } from "../../components/layout";
+import { headerauthorization, ipaddress } from "@/components/layout";
 import Cookies from "js-cookie";
 
 const index = () => {

@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, useRef } from "react";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "@/components/layout";
 import axios from "axios";
 import {
   Space,
@@ -16,14 +17,14 @@ import {
   Box,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Zoom, toast } from "react-toastify";
+import { ToastContentProps, Zoom, toast } from "react-toastify";
 import { modals } from "@mantine/modals";
 
 const pelatihanend = () => {
-  const [data, setData] = useState([]);
-  const [selectedData, setSelectedData] = useState(null);
+  const [data, setData] = useState<any[]>([]);
+  const [selectedData, setSelectedData] = useState<any>(null);
 
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | React.ReactFragment | React.ReactPortal | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -36,7 +37,7 @@ const pelatihanend = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | React.ReactFragment | React.ReactPortal | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -63,7 +64,7 @@ const pelatihanend = () => {
     getData();
   }, []);
 
-  const getDatalihatpeserta = async (id_pelatihan) => {
+  const getDatalihatpeserta = async (id_pelatihan: any) => {
     const response = await axios.get(
       `${ipaddress}get-datalihatpeserta?id_pelatihan=${id_pelatihan}`,
       headerauthorization
@@ -74,7 +75,7 @@ const pelatihanend = () => {
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
@@ -88,7 +89,7 @@ const pelatihanend = () => {
   //search end
 
   //delete
-  const handleDelete = async (id_pelatihan) => {
+  const handleDelete = async (id_pelatihan: string | Blob) => {
     const bodyFormData = new FormData();
     console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
@@ -103,7 +104,7 @@ const pelatihanend = () => {
   //delete end
 
   //open model delete start
-  const openDeleteModal = (e) => {
+  const openDeleteModal = (e: { judul_pelatihan: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; id_pelatihan: string | Blob; }) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,
@@ -120,11 +121,11 @@ const pelatihanend = () => {
   };
   //open model delete end
 
-  const [datalihatpeserta, setDataLihatPeserta] = useState([]);
+  const [datalihatpeserta, setDataLihatPeserta] = useState<any[]>([]);
 
   //search lihat peserta start
   const [searchTermlihatpeserta, setSearchTermlihatpeserta] = useState("");
-  const handleSearchlihatpeserta = (event) => {
+  const handleSearchlihatpeserta = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTermlihatpeserta(event.target.value);
   };
 
@@ -146,7 +147,7 @@ const pelatihanend = () => {
   // const [openedlihatpesertaModal, { open: openlihatpesertaModal, close: closelihatpesertaModal }] = useDisclosure(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openlihatpesertaModal = async (e) => {
+  const openlihatpesertaModal = async (e: { id_pelatihan: any; }) => {
     await getDatalihatpeserta(e.id_pelatihan);
     setSelectedData(datalihatpeserta);
     setIsModalOpen(true);

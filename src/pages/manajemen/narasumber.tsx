@@ -19,17 +19,17 @@ import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { modals } from "@mantine/modals";
-import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import { Flip, Slide, ToastContainer, ToastContentProps, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "@/components/layout";
 
 const Narasumber = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
 
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -42,7 +42,7 @@ const Narasumber = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -55,7 +55,7 @@ const Narasumber = () => {
       theme: "dark",
     });
   };
-  const notifywarning = (msg) => {
+  const notifywarning = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.warn(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -84,7 +84,7 @@ const Narasumber = () => {
       headerauthorization
     );
     console.log(response.data.data);
-    const temporaryData = response.data.data.map((v) => ({
+    const temporaryData = response.data.data.map((v: { nama_provinsi: any; id_provinsi: any; }) => ({
       label: v.nama_provinsi,
       value: v.id_provinsi,
     }));
@@ -107,7 +107,7 @@ const Narasumber = () => {
       headerauthorization
     );
     console.log(response.data.data);
-    const temporaryData = response.data.data.map((v) => ({
+    const temporaryData = response.data.data.map((v: { nama_job: any; id_pekerjaan: any; }) => ({
       label: v.nama_job,
       value: v.id_pekerjaan,
     }));
@@ -136,14 +136,14 @@ const Narasumber = () => {
   const [searchValueProvinsi, onSearchChangeProvinsi] = useState("");
   const [searchValueKabupaten, onSearchChangeKabupaten] = useState("");
   const [dataPekerjaan, setDataPekerjaan] = useState([]);
-  const [dataProvinsi, setDataProvinsi] = useState([]);
-  const [dataKabupaten, setDataKabupaten] = useState([]);
-  const [listKabupaten, setListKabupaten] = useState([]);
-  const [selectedData, setSelectedData] = useState(null);
+  const [dataProvinsi, setDataProvinsi] = useState<any[]>([]);
+  const [dataKabupaten, setDataKabupaten] = useState<any[]>([]);
+  const [listKabupaten, setListKabupaten] = useState<any[]>([]);
+  const [selectedData, setSelectedData] = useState<any>(null);
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
   // eslint-disable-next-line arrow-body-style
@@ -213,7 +213,7 @@ const Narasumber = () => {
         // For example, you can show an error message to the user or perform any necessary actions
         notifyerror(response.data.pesan);
       } else {
-        close(false);
+        closeAddModal();
         notifysuccess("Insert Successfully");
         getData();
       }
@@ -265,7 +265,7 @@ const Narasumber = () => {
   // update end
 
   //open model delete start
-  const openDeleteModal = (e) => {
+  const openDeleteModal = (e: { id_narasumber: any; }) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,
@@ -281,7 +281,7 @@ const Narasumber = () => {
   //open model delete end
 
   //delete
-  const handleDelete = async (id_narasumber) => {
+  const handleDelete = async (id_narasumber: string | Blob) => {
     const bodyFormData = new FormData();
     bodyFormData.append("id_narasumber", id_narasumber);
     await axios.post(
@@ -294,7 +294,7 @@ const Narasumber = () => {
   };
   //delete end
 
-  const handleProvinsiChange = (event) => {
+  const handleProvinsiChange = (event: React.SetStateAction<string>) => {
     const selectedOption = dataProvinsi.find(
       (option) => option.label === event
     );
@@ -313,7 +313,7 @@ const Narasumber = () => {
 
   const [selectedRole, setSelectedRole] = useState("");
 
-  const handleRoleChange = (value) => {
+  const handleRoleChange = (value: React.SetStateAction<string>) => {
     setSelectedRole(value);
   };
 
@@ -323,36 +323,39 @@ const Narasumber = () => {
     <Layout>
       {/* modal add start */}
       <Modal
+
         size="70%"
         opened={openedAddModal}
         onClose={closeAddModal}
-        title="Add User"
+        title="Add Narasumber"
         centered
       >
-        <Box my="lg" mx="auto" mah="70%" maw="70%">
+        <Box my="lg" mx="auto" mah="90%" maw="50%">
           <form onSubmit={form.onSubmit((values) => console.log(values))}>
             <Grid>
               <Grid.Col span={5} mx="lg">
+                <Text fz="lg" fw={700}>Add Narasumber Detail</Text>
                 <TextInput
+                  my="lg"
                   withAsterisk
                   label="Nama Narasumber"
                   placeholder="Nama Narasumber"
                   {...form.getInputProps("nama_narasumber")}
                 />
-              </Grid.Col>
-              <Grid.Col span={5} mx="lg">
                 <Select
+                my="lg"
                   label="Provinsi"
                   placeholder="Pick one"
                   searchable
                   onSearchChange={handleProvinsiChange}
-                  onChange={handleProvinsiChange}
+                  // onChange={handleProvinsiChange}
                   searchValue={searchValueProvinsi}
                   nothingFound="No options"
                   data={dataProvinsi}
                   {...form.getInputProps("id_provinsi")}
                 />
                 <Select
+                my="lg"
                   label="Kabupaten"
                   placeholder="Pick one"
                   searchable

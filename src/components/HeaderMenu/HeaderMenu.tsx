@@ -1,4 +1,4 @@
-import { handleLogout } from "@/pages/logout";
+import { handleLogout } from "@/pages/Login";
 import {
   createStyles,
   Header,
@@ -31,7 +31,7 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
 // Utility function to check if a cookie exists
-function checkCookieExists(cookieName) {
+function checkCookieExists(cookieName: string) {
   const cookies = document.cookie.split(";");
   for (let i = 0; i < cookies.length; i++) {
     const cookie = cookies[i].trim();

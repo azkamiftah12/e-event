@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Notification,
   ActionIcon,
@@ -29,7 +30,7 @@ import {
   TimeInput,
 } from "@mantine/dates";
 import { modals } from "@mantine/modals";
-import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import { Flip, Slide, ToastContainer, ToastContentProps, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
@@ -42,14 +43,14 @@ import SubScript from "@tiptap/extension-subscript";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "@/components/layout";
 
 const pelatihan = () => {
-  const [data, setData] = useState([]);
-  const [selectedData, setSelectedData] = useState(null);
-  const ref = useRef<HTMLInputElement>();
+  const [data, setData] = useState<any[]>([]);
+  const [selectedData, setSelectedData] = useState<any>(null);
+  const ref: any = useRef<any>();
 
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | React.PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -62,7 +63,7 @@ const pelatihan = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -75,7 +76,7 @@ const pelatihan = () => {
       theme: "dark",
     });
   };
-  const notifywarning = (msg) => {
+  const notifywarning = (msg: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | React.PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.warn(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -104,7 +105,7 @@ const pelatihan = () => {
       headerauthorization
     );
     console.log(response.data.data);
-    const temporaryData = response.data.data.map((v) => ({
+    const temporaryData = response.data.data.map((v: { nama_jenis_acara: any; id_jenis_acara: any; }) => ({
       label: v.nama_jenis_acara,
       value: v.id_jenis_acara,
     }));
@@ -117,14 +118,14 @@ const pelatihan = () => {
       headerauthorization
     );
     console.log(response.data.data);
-    const temporaryData = response.data.data.map((v) => ({
+    const temporaryData = response.data.data.map((v: { nama_narasumber: any; id_narasumber: any; }) => ({
       label: v.nama_narasumber,
       value: v.id_narasumber,
     }));
     setDataNarasumber(temporaryData);
   };
 
-  const getDatalihatpeserta = async (id_pelatihan) => {
+  const getDatalihatpeserta = async (id_pelatihan: any) => {
     const response = await axios.get(
       `${ipaddress}get-datalihatpeserta?id_pelatihan=${id_pelatihan}`,
       headerauthorization
@@ -141,7 +142,7 @@ const pelatihan = () => {
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
@@ -154,11 +155,11 @@ const pelatihan = () => {
   });
   //search end
 
-  const [datalihatpeserta, setDataLihatPeserta] = useState([]);
+  const [datalihatpeserta, setDataLihatPeserta] = useState<any[]>([]);
 
   //search lihat peserta start
   const [searchTermlihatpeserta, setSearchTermlihatpeserta] = useState("");
-  const handleSearchlihatpeserta = (event) => {
+  const handleSearchlihatpeserta = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTermlihatpeserta(event.target.value);
   };
 
@@ -181,7 +182,7 @@ const pelatihan = () => {
   // const [openedlihatpesertaModal, { open: openlihatpesertaModal, close: closelihatpesertaModal }] = useDisclosure(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openlihatpesertaModal = async (e) => {
+  const openlihatpesertaModal = async (e: { id_pelatihan: any; }) => {
     await getDatalihatpeserta(e.id_pelatihan);
     setSelectedData(datalihatpeserta);
     setIsModalOpen(true);
@@ -189,6 +190,10 @@ const pelatihan = () => {
   // modal end
 
   //form start
+  const currentDate: Date = new Date();
+  const nextDay: Date = new Date(currentDate);
+  nextDay.setDate(currentDate.getDate() + 2);
+  // const currentTime: any = currentDate.getHours();
   const form = useForm({
     initialValues: {
       id_jenis_acara: "",
@@ -196,8 +201,8 @@ const pelatihan = () => {
       deskripsi_pelatihan: "",
       username_penyelenggara: "",
       nama_narasumber: "",
-      tanggal_pelatihan_start: new Date(),
-      tanggal_pelatihan_end: new Date(),
+      tanggal_pelatihan_start: currentDate,
+      tanggal_pelatihan_end: nextDay,
       waktu_pelatihan: "",
       link_pelatihan: "",
       max_pesertabatch: "",
@@ -228,9 +233,9 @@ const pelatihan = () => {
 
   const [searchValue, onSearchChange] = useState("");
 
-  const [dataJenisacara, setDataJenisacara] = useState([]);
+  const [dataJenisacara, setDataJenisacara] = useState<any[]>([]);
 
-  const [dataNarasumber, setDataNarasumber] = useState([]);
+  const [dataNarasumber, setDataNarasumber] = useState<any[]>([]);
   const [searchValueNarasumber, onSearchChangeNarasumber] = useState("");
   const [htmlNya, setHtmlNya] = useState("");
 
@@ -238,7 +243,7 @@ const pelatihan = () => {
     `<h1><mark>-- -- -- -- Jadwal 1 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p><p></p><h1><mark>-- -- -- -- Jadwal 2 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p>`
   );
 
-  const handleOpenEditModal = (e) => {
+  const handleOpenEditModal = (e:any) => {
     openEditModal();
     setSelectedData(e);
 
@@ -314,8 +319,8 @@ const pelatihan = () => {
         // For example, you can show an error message to the user or perform any necessary actions
         notifyerror(response.data.pesan);
       } else {
-        close(false);
-        notifysuccess(response.d);
+        close();
+        notifysuccess(response.data.pesan);
         getData();
       }
     } catch (ex: any) {
@@ -333,7 +338,7 @@ const pelatihan = () => {
   //insert end
 
   //delete
-  const handleDelete = async (id_pelatihan) => {
+  const handleDelete = async (id_pelatihan: string | Blob) => {
     const bodyFormData = new FormData();
     console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
@@ -348,7 +353,7 @@ const pelatihan = () => {
   //delete end
 
   //open model delete start
-  const openDeleteModal = (e) => {
+  const openDeleteModal = (e: { judul_pelatihan: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; id_pelatihan: any; }) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,
@@ -366,7 +371,7 @@ const pelatihan = () => {
   //open model delete end
 
   //selesai start
-  const handleSelesai = async (id_pelatihan) => {
+  const handleSelesai = async (id_pelatihan: string | Blob) => {
     const bodyFormData = new FormData();
     console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
@@ -381,7 +386,7 @@ const pelatihan = () => {
   //selesai end
 
   //open modal selesai start
-  const openSelesaiModal = (e) => {
+  const openSelesaiModal = (e: { judul_pelatihan: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; id_pelatihan: any; }) => {
     modals.openConfirmModal({
       title: "Akhiri Pelatihan",
       centered: true,
@@ -399,7 +404,7 @@ const pelatihan = () => {
   //open modal selesai end
 
   // datetable parse start
-  const formatdatepelatihan = (sampletanggal) => {
+  const formatdatepelatihan = (sampletanggal: string | number | Date | null | undefined) => {
     // const sampletanggal = '2023-05-21T00:00:00Z';
     if (
       sampletanggal === "" ||
@@ -414,7 +419,7 @@ const pelatihan = () => {
   // datetable parse end
 
   // timetable parse start
-  const formattimepelatihan = (sampletime) => {
+  const formattimepelatihan = (sampletime: string | null | undefined) => {
     // const sampletanggal = '2023-05-21T00:00:00Z';
     if (sampletime === "" || sampletime == null || sampletime === undefined) {
       return "";
@@ -439,24 +444,25 @@ const pelatihan = () => {
     console.log("hai", "editorxx222");
     setHtmlNya(editor?.getHTML() ?? "");
   };
-
+  
   // Edit Pelatihan start
   const handleUpdate = async () => {
     if (!selectedData) return;
-
-    const { id_pelatihan } = selectedData;
-    const { id_jenis_acara } = selectedData;
-    const { judul_pelatihan } = selectedData;
-    const { deskripsi_pelatihan } = selectedData;
-    const { username_penyelenggara } = selectedData;
-    const { tanggal_pelatihan_start } = selectedData;
-    const { tanggal_pelatihan_end } = selectedData;
-    const { waktu_pelatihan } = selectedData;
-    const { link_pelatihan } = selectedData;
-    const { max_pesertabatch } = selectedData;
-    const { deskripsi_pelatihan_khusus } = selectedData;
-    const { id_narasumber } = selectedData;
-
+    
+    const { id_pelatihan } = selectedData[0];
+    const { id_jenis_acara } = selectedData[0];
+    const { judul_pelatihan } = selectedData[0];
+    const { deskripsi_pelatihan } = selectedData[0];
+    const { username_penyelenggara } = selectedData[0];
+    const { tanggal_pelatihan_start } = selectedData[0];
+    const { tanggal_pelatihan_end } = selectedData[0];
+    const { waktu_pelatihan } = selectedData[0];
+    const { link_pelatihan } = selectedData[0];
+    const { max_pesertabatch } = selectedData[0];
+    const { deskripsi_pelatihan_khusus } = selectedData[0];
+    const { id_narasumber } = selectedData[0];
+    const html = htmlNya;
+    
     const formatwaktupelatihan = formattimepelatihan(waktu_pelatihan);
 
     const bodyFormData = new FormData();
@@ -470,7 +476,7 @@ const pelatihan = () => {
     bodyFormData.append("waktu_pelatihan", formatwaktupelatihan);
     bodyFormData.append("link_pelatihan", link_pelatihan);
     bodyFormData.append("max_pesertabatch", max_pesertabatch);
-    bodyFormData.append("deskripsi_pelatihan_khusus", editor?.getHTML());
+    bodyFormData.append("deskripsi_pelatihan_khusus", html);
     bodyFormData.append("username_penyelenggara", username_penyelenggara);
     bodyFormData.append("id_narasumber", id_narasumber);
 
@@ -488,12 +494,12 @@ const pelatihan = () => {
     } catch (ex: any) {
       notifyerror(ex.response.data.pesan);
       // Handle the error
-      console.error(error);
+      console.error(ex);
     }
   };
   // Edit Pelatihan End
 
-  const handleOpenAddModal = (e) => {
+  const handleOpenAddModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     openAddModal();
     console.log("ketrigger");
     editor?.commands.setContent(content);
@@ -565,7 +571,7 @@ const pelatihan = () => {
                 }
               />
               <Text fw={500}>Konten Pelatihan</Text>
-              <RichTextEditor labels="Content" editor={editor}>
+              <RichTextEditor editor={editor}>
                 <RichTextEditor.Toolbar sticky stickyOffset={60}>
                   <RichTextEditor.ControlsGroup>
                     <RichTextEditor.Bold />

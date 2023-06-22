@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Box,
   Button,
@@ -17,13 +17,13 @@ import { useDisclosure } from "@mantine/hooks";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
-import { toast, Zoom } from "react-toastify";
+} from "@/components/layout";
+import { toast, ToastContentProps, Zoom } from "react-toastify";
 
 const kabupaten = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
 
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -36,7 +36,7 @@ const kabupaten = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -66,7 +66,7 @@ const kabupaten = () => {
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
@@ -84,7 +84,7 @@ const kabupaten = () => {
   // modal end
 
   const [searchValue, onSearchChange] = useState("");
-  const [dataProvinsi, setDataProvinsi] = useState([]);
+  const [dataProvinsi, setDataProvinsi] = useState<any[]>([]);
 
   //form start
   const form = useForm({
@@ -133,7 +133,7 @@ const kabupaten = () => {
         // For example, you can show an error message to the user or perform any necessary actions
         notifyerror(response.data.pesan);
       } else {
-        close(false);
+        close();
         notifysuccess("Insert Successfully");
         getData();
       }
@@ -152,7 +152,7 @@ const kabupaten = () => {
   //insert end
 
   //delete
-  const handleDelete = async (id_kabkot) => {
+  const handleDelete = async (id_kabkot: string | Blob) => {
     const bodyFormData = new FormData();
     bodyFormData.append("idhapus", id_kabkot);
     await axios.post(
@@ -171,7 +171,7 @@ const kabupaten = () => {
       headerauthorization
     );
     console.log(response.data.data);
-    const temporaryData = response.data.data.map((v) => ({
+    const temporaryData = response.data.data.map((v: { nama_provinsi: any; id_provinsi: any; }) => ({
       label: v.nama_provinsi,
       value: v.id_provinsi,
     }));

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Notification,
   ActionIcon,
@@ -29,10 +30,10 @@ import {
   TimeInput,
 } from "@mantine/dates";
 import { modals } from "@mantine/modals";
-import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import { Flip, Slide, ToastContainer, ToastContentProps, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RichTextEditor, Link } from "@mantine/tiptap";
-import { useEditor } from "@tiptap/react";
+import { Content, useEditor } from "@tiptap/react";
 import Highlight from "@tiptap/extension-highlight";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -42,7 +43,7 @@ import SubScript from "@tiptap/extension-subscript";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "@/components/layout";
 import LayoutPenyelenggara from "@/components/layoutpenyelenggara";
 import Cookies from "js-cookie";
 
@@ -50,11 +51,11 @@ import Cookies from "js-cookie";
 //   '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>';
 
 const managepelatihan = () => {
-  const [data, setData] = useState([]);
-  const [selectedData, setSelectedData] = useState(null);
-  const ref = useRef<HTMLInputElement>();
+  const [data, setData] = useState<any[]>([]);
+  const [selectedData, setSelectedData] = useState<any>(null);
+  const ref = useRef<any>();
 
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -67,7 +68,7 @@ const managepelatihan = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -80,8 +81,8 @@ const managepelatihan = () => {
       theme: "dark",
     });
   };
-  const notifywarning = () => {
-    toast.warn("warning", {
+  const notifywarning = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactPortal | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
+    toast.warn(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -95,7 +96,7 @@ const managepelatihan = () => {
   };
 
   //get token from cookies start
-  const username = Cookies.get("username");
+  const username = Cookies.get("username") ?? '';
   //get token from cookies end
 
   const getData = async () => {
@@ -113,7 +114,7 @@ const managepelatihan = () => {
       headerauthorization
     );
     console.log(response.data.data);
-    const temporaryData = response.data.data.map((v) => ({
+    const temporaryData = response.data.data.map((v: { nama_jenis_acara: any; id_jenis_acara: any; }) => ({
       label: v.nama_jenis_acara,
       value: v.id_jenis_acara,
     }));
@@ -126,14 +127,14 @@ const managepelatihan = () => {
       headerauthorization
     );
     console.log(response.data.data);
-    const temporaryData = response.data.data.map((v) => ({
+    const temporaryData = response.data.data.map((v: { nama_narasumber: any; id_narasumber: any; }) => ({
       label: v.nama_narasumber,
       value: v.id_narasumber,
     }));
     setDataNarasumber(temporaryData);
   };
 
-  const getDatalihatpeserta = async (id_pelatihan) => {
+  const getDatalihatpeserta = async (id_pelatihan: any) => {
     const response = await axios.get(
       `${ipaddress}get-datalihatpeserta?id_pelatihan=${id_pelatihan}`,
       headerauthorization
@@ -150,7 +151,7 @@ const managepelatihan = () => {
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
@@ -165,11 +166,11 @@ const managepelatihan = () => {
     : [];
   //search end
 
-  const [datalihatpeserta, setDataLihatPeserta] = useState([]);
+  const [datalihatpeserta, setDataLihatPeserta] = useState<any[]>([]);
 
   //search lihat peserta start
   const [searchTermlihatpeserta, setSearchTermlihatpeserta] = useState("");
-  const handleSearchlihatpeserta = (event) => {
+  const handleSearchlihatpeserta = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTermlihatpeserta(event.target.value);
   };
 
@@ -185,13 +186,17 @@ const managepelatihan = () => {
   //search lihat peserta end
 
   //modal start
-  const [opened, { open, close }] = useDisclosure(false);
-  const [openedEditModal, { open: openEditModal, close: closeEditModal }] =
-    useDisclosure(false);
+  const [opened, { open: openAddModal, close: closeAddModal }] = useDisclosure(false);
+  const handleOpenAddModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    openAddModal();
+    console.log("ketrigger");
+    editor?.commands.setContent(content);
+  };
+
   // const [openedlihatpesertaModal, { open: openlihatpesertaModal, close: closelihatpesertaModal }] = useDisclosure(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openlihatpesertaModal = async (e) => {
+  const openlihatpesertaModal = async (e: { id_pelatihan: any; }) => {
     await getDatalihatpeserta(e.id_pelatihan);
     setSelectedData(datalihatpeserta);
     setIsModalOpen(true);
@@ -199,14 +204,19 @@ const managepelatihan = () => {
   // modal end
 
   //form start
+  const currentDate: Date = new Date();
+  const nextDay: Date = new Date(currentDate);
+  nextDay.setDate(currentDate.getDate() + 2);
+  // const currentTime: any = currentDate.getHours();
+
   const form = useForm({
     initialValues: {
       id_jenis_acara: "",
       judul_pelatihan: "",
       deskripsi_pelatihan: "",
       nama_narasumber: "",
-      tanggal_pelatihan_start: new Date(),
-      tanggal_pelatihan_end: "",
+      tanggal_pelatihan_start: currentDate,
+      tanggal_pelatihan_end: nextDay,
       waktu_pelatihan: "",
       link_pelatihan: "",
       max_pesertabatch: "",
@@ -235,9 +245,9 @@ const managepelatihan = () => {
 
   const [searchValue, onSearchChange] = useState("");
 
-  const [dataJenisacara, setDataJenisacara] = useState([]);
+  const [dataJenisacara, setDataJenisacara] = useState<any[]>([]);
 
-  const [dataNarasumber, setDataNarasumber] = useState([]);
+  const [dataNarasumber, setDataNarasumber] = useState<any[]>([]);
   const [searchValueNarasumber, onSearchChangeNarasumber] = useState("");
 
   const [content, setContent] = useState(
@@ -315,7 +325,7 @@ const managepelatihan = () => {
         // For example, you can show an error message to the user or perform any necessary actions
         notifyerror(response.data.pesan);
       } else {
-        close(false);
+        closeAddModal();
         notifysuccess(
           response.data.pesan + " Tunggu pelatihan untuk dikonfirmasi"
         );
@@ -336,7 +346,7 @@ const managepelatihan = () => {
   //insert end
 
   //delete
-  const handleDelete = async (id_pelatihan) => {
+  const handleDelete = async (id_pelatihan: string | Blob) => {
     const bodyFormData = new FormData();
     console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
@@ -351,7 +361,7 @@ const managepelatihan = () => {
   //delete end
 
   //open model delete start
-  const openDeleteModal = (e) => {
+  const openDeleteModal = (e: { judul_pelatihan: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactPortal | null | undefined; id_pelatihan: string | Blob; }) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,
@@ -369,7 +379,7 @@ const managepelatihan = () => {
   //open model delete end
 
   //selesai start
-  const handleSelesai = async (id_pelatihan) => {
+  const handleSelesai = async (id_pelatihan: string | Blob) => {
     const bodyFormData = new FormData();
     console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
@@ -384,7 +394,7 @@ const managepelatihan = () => {
   //selesai end
 
   //open modal selesai start
-  const openSelesaiModal = (e) => {
+  const openSelesaiModal = (e: { judul_pelatihan: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactPortal | null | undefined; id_pelatihan: any; }) => {
     modals.openConfirmModal({
       title: "Akhiri Pelatihan",
       centered: true,
@@ -402,7 +412,7 @@ const managepelatihan = () => {
   //open modal selesai end
 
   // datetable parse start
-  const formatdatepelatihan = (sampletanggal) => {
+  const formatdatepelatihan = (sampletanggal: string | number | Date | null | undefined) => {
     // const sampletanggal = '2023-05-21T00:00:00Z';
     if (
       sampletanggal === "" ||
@@ -417,7 +427,7 @@ const managepelatihan = () => {
   // datetable parse end
 
   // timetable parse start
-  const formattimepelatihan = (sampletime) => {
+  const formattimepelatihan = (sampletime: string | null | undefined) => {
     // const sampletanggal = '2023-05-21T00:00:00Z';
     if (sampletime === "" || sampletime == null || sampletime === undefined) {
       return "";
@@ -442,9 +452,197 @@ const managepelatihan = () => {
     console.log("hai", "editorxx222");
     setHtmlNya(editor?.getHTML() ?? "");
   };
+  const [openedEditModal, { close: closeEditModal, open: openEditModal }] =
+    useDisclosure(false);
+
+  const handleOpenEditModal = (e: { deskripsi_pelatihan_khusus: Content; }) => {
+    openEditModal();
+    setSelectedData(e);
+
+    console.log(e?.deskripsi_pelatihan_khusus, "pel khusus");
+    editor?.commands.setContent(e?.deskripsi_pelatihan_khusus);
+
+    // Open the modal
+    // ...
+  };
+
+  // Edit Pelatihan start
+  const handleUpdate = async () => {
+    if (!selectedData) return;
+
+    const { id_pelatihan } = selectedData;
+    const { id_jenis_acara } = selectedData;
+    const { judul_pelatihan } = selectedData;
+    const { deskripsi_pelatihan } = selectedData;
+    const { username_penyelenggara } = selectedData;
+    const { tanggal_pelatihan_start } = selectedData;
+    const { tanggal_pelatihan_end } = selectedData;
+    const { waktu_pelatihan } = selectedData;
+    const { link_pelatihan } = selectedData;
+    const { max_pesertabatch } = selectedData;
+    const { deskripsi_pelatihan_khusus } = selectedData;
+    const { id_narasumber } = selectedData;
+
+    const formatwaktupelatihan = formattimepelatihan(waktu_pelatihan);
+
+    const bodyFormData = new FormData();
+
+    bodyFormData.append("oldid", id_pelatihan);
+    bodyFormData.append("id_jenis_acara", id_jenis_acara);
+    bodyFormData.append("judul_pelatihan", judul_pelatihan);
+    bodyFormData.append("deskripsi_pelatihan", deskripsi_pelatihan);
+    bodyFormData.append("tanggal_pelatihan_start", tanggal_pelatihan_start);
+    bodyFormData.append("tanggal_pelatihan_end", tanggal_pelatihan_end);
+    bodyFormData.append("waktu_pelatihan", formatwaktupelatihan);
+    bodyFormData.append("link_pelatihan", link_pelatihan);
+    bodyFormData.append("max_pesertabatch", max_pesertabatch);
+    bodyFormData.append("deskripsi_pelatihan_khusus", editor?.getHTML() ?? "");
+    bodyFormData.append("username_penyelenggara", username_penyelenggara);
+    bodyFormData.append("id_narasumber", id_narasumber);
+
+    try {
+      const response = await axios.post(
+        `${ipaddress}update-datapelatihan`,
+        bodyFormData,
+        headerauthorization
+      );
+
+      // Success, do something after the update is complete
+      closeEditModal();
+      notifywarning(response.data.pesan);
+      getData();
+    } catch (ex: any) {
+      notifyerror(ex.response.data.pesan);
+      // Handle the error
+      console.error(ex);
+    }
+  };
+  // Edit Pelatihan End
 
   return (
     <LayoutPenyelenggara>
+      {/* modal edit start */}
+      <Modal
+        size="70%"
+        opened={openedEditModal}
+        onClose={closeEditModal}
+        title="Edit Pelatihan"
+        centered>
+        {selectedData && (
+          <Box my="lg" mx="auto" mah="70%" maw="70%">
+            <form onSubmit={form.onSubmit((values) => console.log(values))}>
+              <TextInput
+                withAsterisk
+                label="Judul Pelatihan"
+                placeholder="Judul Pelatihan"
+                value={selectedData.judul_pelatihan}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    judul_pelatihan: e.target.value,
+                  })
+                }
+              />
+              <TextInput
+                withAsterisk
+                label="Deskripsi Pelatihan"
+                placeholder="Deskripsi Pelatihan"
+                value={selectedData.deskripsi_pelatihan}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    deskripsi_pelatihan: e.target.value,
+                  })
+                }
+              />
+              <TextInput
+                withAsterisk
+                label="Max Peserta"
+                placeholder="Max Peserta"
+                value={selectedData.max_pesertabatch}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    max_pesertabatch: e.target.value,
+                  })
+                }
+              />
+
+              <Select
+                label="Narasumber"
+                placeholder="Pilih Narasumber"
+                searchable
+                defaultValue={selectedData.id_narasumber}
+                onSearchChange={onSearchChangeNarasumber}
+                searchValue={searchValueNarasumber}
+                nothingFound="No options"
+                data={dataNarasumber}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    id_narasumber: e,
+                  })
+                }
+              />
+              <Text fw={500}>Konten Pelatihan</Text>
+              <RichTextEditor editor={editor}>
+                <RichTextEditor.Toolbar sticky stickyOffset={60}>
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Bold />
+                    <RichTextEditor.Italic />
+                    <RichTextEditor.Underline />
+                    <RichTextEditor.Strikethrough />
+                    <RichTextEditor.ClearFormatting />
+                    <RichTextEditor.Highlight />
+                    <RichTextEditor.Code />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.H1 />
+                    <RichTextEditor.H2 />
+                    <RichTextEditor.H3 />
+                    <RichTextEditor.H4 />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Blockquote />
+                    <RichTextEditor.Hr />
+                    <RichTextEditor.BulletList />
+                    <RichTextEditor.OrderedList />
+                    <RichTextEditor.Subscript />
+                    <RichTextEditor.Superscript />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Link />
+                    <RichTextEditor.Unlink />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.AlignLeft />
+                    <RichTextEditor.AlignCenter />
+                    <RichTextEditor.AlignJustify />
+                    <RichTextEditor.AlignRight />
+                  </RichTextEditor.ControlsGroup>
+                </RichTextEditor.Toolbar>
+
+                <RichTextEditor.Content></RichTextEditor.Content>
+              </RichTextEditor>
+              <Group position="right" mt="md">
+                <Button
+                  type="submit"
+                  variant="outline"
+                  color="yellow"
+                  onClick={handleUpdate}>
+                  Edit
+                </Button>
+              </Group>
+            </form>
+          </Box>
+        )}
+      </Modal>
+      {/* modal edit end */}
+
       {/* modal Modal lihat peserta start */}
       <Modal
         size="70%"
@@ -496,8 +694,8 @@ const managepelatihan = () => {
       <Modal
         size="70%"
         opened={opened}
-        onClose={close}
-        title="Add pelatihan"
+        onClose={closeAddModal}
+        title="Apply Pelatihan"
         centered>
         <Box my="lg" mx="auto" maw="70%">
           <form onSubmit={form.onSubmit((values) => console.log(values))}>
@@ -653,10 +851,10 @@ const managepelatihan = () => {
             </Grid>
 
             <Group position="right" mt="md">
-              <Button type="submit" onClick={handleInsert}>
-                Submit
+              <Button variant="outline" type="submit" onClick={handleInsert}>
+                Apply Pelatihan
               </Button>
-              <Button variant="outline" color="indigo" onClick={setRichText}>
+              <Button variant="outline" color="teal" onClick={setRichText}>
                 Coba Set
               </Button>
             </Group>
@@ -667,8 +865,11 @@ const managepelatihan = () => {
       </Modal>
       <Space h="md" />
       <Group position="center">
-        <Button variant="outline" color="indigo" onClick={open}>
-          Add Pelatihan
+        <Button
+          variant="outline"
+          color="indigo"
+          onClick={(e) => handleOpenAddModal(e)}>
+          Apply Pelatihan
         </Button>
       </Group>
 
@@ -742,8 +943,7 @@ const managepelatihan = () => {
                     variant="outline"
                     color="yellow"
                     onClick={() => {
-                      setSelectedData(e);
-                      openEditModal();
+                      handleOpenEditModal(e);
                     }}>
                     Edit
                   </Button>
