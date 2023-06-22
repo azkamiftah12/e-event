@@ -84,7 +84,8 @@ export default function HeroContent() {
       <Container className={classes.container}>
         <Title className={classes.title}>E-Event Nusa Tekno Global</Title>
         <Text className={classes.description} size="xl" mt="xl">
-          HAHAHAHAHAHA
+          E-Event adalah platform pelatihan untuk mempermudah pelatihan peserta
+          secara offline maupun online
         </Text>
         <Button
           component="a"
