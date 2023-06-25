@@ -155,7 +155,7 @@ const latihan = () => {
   //open modal Claim Pelatihan start
   const openClaimModal = (e: { judul_pelatihan: string | number | boolean | ReactFragment | PromiseLikeOfReactNode | ReactElement<any, string | JSXElementConstructor<any>> | ReactPortal | null | undefined; id_pelatihan: string | Blob; }) => {
     modals.openConfirmModal({
-      title: "Terima Event",
+      title: "Claim Event",
       centered: true,
       children: (
         <Text size="sm">
@@ -164,7 +164,7 @@ const latihan = () => {
         </Text>
       ),
       labels: { confirm: "ACC Pelatihan", cancel: "Cancel" },
-      confirmProps: { color: "teal" },
+      confirmProps: { color: "pink.9" },
       onCancel: () => console.log("Cancel"),
       onConfirm: () => handleclaim(e.id_pelatihan),
     });
@@ -280,8 +280,9 @@ const latihan = () => {
                     wrap="wrap"
                   >
                     <Button
-                      variant="light"
-                      color="blue"
+                      style={{
+                        backgroundColor: "#3F2661",
+                      }}
                       mt="md"
                       radius="md"
                       onClick={() => openModal(e.id_pelatihan)}
@@ -290,8 +291,7 @@ const latihan = () => {
                     </Button>
 
                     <Button
-                      variant="light"
-                      color="teal"
+                      color="pink.9"
                       mt="md"
                       radius="md"
                       onClick={() => openClaimModal(e)}
@@ -324,12 +324,17 @@ const latihan = () => {
       <Modal
         opened={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={selectedPelatihan?.judul_pelatihan}
+        title="Detail Pelatihan"
         styles={{
           // Modal: {
           //   borderRadius: 12,
           //   boxShadow: "0px 8px 32px rgba(17, 17, 17, 0.16)",
           // },
+          title: {
+            fontSize: "18px",
+            fontWeight: "bold",
+            marginLeft: "8px",
+          },
           body: {
             padding: 24,
           },

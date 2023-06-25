@@ -6,17 +6,17 @@ import HeroContent2 from '@/components/HeroContent/HeroContent2';
 
 export default function HomePage() {
   const pageStyle = {
-    backgroundColor: '#E0DAD1',
+    backgroundColor: "#E0DAD1",
   };
 
   return (
     <>
-    <div style={pageStyle}>
-    <HeaderMenu />
-    <HeroContent />
-    <HeroContent2 />
-    <FooterMenu />
-    </div>
+      <div style={pageStyle}>
+        <HeaderMenu />
+        <HeroContent />
+        <HeroContent2 />
+        <FooterMenu />
+      </div>
     </>
   );
 }
