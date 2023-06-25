@@ -122,6 +122,7 @@ const pelatihanpending = () => {
           <tr>
             <th>No</th>
             <th>Judul Pelatihan</th>
+            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -132,6 +133,7 @@ const pelatihanpending = () => {
                 <td>{i + 1}</td>
               </td>
               <td>{e.judul_pelatihan}</td>
+              <td>Menunggu Divalidasi</td>
               <td>
                 <Flex
                   mih={50}
@@ -139,16 +141,14 @@ const pelatihanpending = () => {
                   justify="flex-start"
                   align="flex-start"
                   direction="row"
-                  wrap="wrap"
-                >
+                  wrap="wrap">
                   <Button
                     onClick={() => openDeleteModal(e)}
                     variant="outline"
-                    color="red"
-                  >
+                    color="red">
                     Delete
                   </Button>
-                  <Button
+                  {/* <Button
                   // variant= "outline"
                   // color="yellow"
                   // onClick={() => {
@@ -157,7 +157,7 @@ const pelatihanpending = () => {
                   // }}
                   >
                     Edit
-                  </Button>
+                  </Button> */}
                 </Flex>
               </td>
             </tr>

@@ -232,6 +232,7 @@ const pelatihan = () => {
 
   const [dataNarasumber, setDataNarasumber] = useState([]);
   const [searchValueNarasumber, onSearchChangeNarasumber] = useState("");
+  const [searchValueJenisAcara, onSearchChangeJenisAcara] = useState("");
   const [htmlNya, setHtmlNya] = useState("");
 
   const [content, setContent] = useState(
@@ -523,18 +524,7 @@ const pelatihan = () => {
                   })
                 }
               />
-              <TextInput
-                withAsterisk
-                label="Deskripsi Pelatihan"
-                placeholder="Deskripsi Pelatihan"
-                value={selectedData.deskripsi_pelatihan}
-                onChange={(e) =>
-                  setSelectedData({
-                    ...selectedData,
-                    deskripsi_pelatihan: e.target.value,
-                  })
-                }
-              />
+
               <TextInput
                 withAsterisk
                 label="Max Peserta"
@@ -544,6 +534,23 @@ const pelatihan = () => {
                   setSelectedData({
                     ...selectedData,
                     max_pesertabatch: e.target.value,
+                  })
+                }
+              />
+
+              <Select
+                label="Jenis Acara"
+                placeholder="Pilih Jenis Acara"
+                searchable
+                defaultValue={selectedData.id_jenis_acara}
+                onSearchChange={onSearchChangeJenisAcara}
+                searchValue={searchValueJenisAcara}
+                nothingFound="No options"
+                data={dataJenisacara}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    id_jenis_acara: e,
                   })
                 }
               />
@@ -564,6 +571,56 @@ const pelatihan = () => {
                   })
                 }
               />
+
+              <DatesProvider settings={{ firstDayOfWeek: 1, weekendDays: [0] }}>
+                <DatePickerInput
+                  // value={new Date(selectedData.tanggal_pelatihan_start).toISOString().slice(0, 10)}
+                  value={new Date(selectedData.tanggal_pelatihan_start)}
+                  icon={<IconCalendar size="1.1rem" stroke={1.5} />}
+                  label="Pilih Tanggal Mulai pelatihan"
+                  placeholder="Pilih Tanggal Mulai pelatihan"
+                  mx="auto"
+                  maw={400}
+                  onChange={(e) =>
+                    setSelectedData({
+                      ...selectedData,
+                      tanggal_pelatihan_start: e.toISOString(),
+                    })
+                  }
+                />
+              </DatesProvider>
+
+              <DatesProvider settings={{ firstDayOfWeek: 1, weekendDays: [0] }}>
+                <DatePickerInput
+                  // value={new Date(selectedData.tanggal_pelatihan_start).toISOString().slice(0, 10)}
+                  value={new Date(selectedData.tanggal_pelatihan_end)}
+                  icon={<IconCalendar size="1.1rem" stroke={1.5} />}
+                  label="Pilih Tanggal Akhir pelatihan"
+                  placeholder="Pilih Tanggal Akhir pelatihan"
+                  mx="auto"
+                  maw={400}
+                  onChange={(e) =>
+                    setSelectedData({
+                      ...selectedData,
+                      tanggal_pelatihan_end: e.toISOString(),
+                    })
+                  }
+                />
+              </DatesProvider>
+
+              <Textarea
+                withAsterisk
+                label="Deskripsi Pelatihan"
+                placeholder="Deskripsi Pelatihan"
+                value={selectedData.deskripsi_pelatihan}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    deskripsi_pelatihan: e.target.value,
+                  })
+                }
+              />
+
               <Text fw={500}>Konten Pelatihan</Text>
               <RichTextEditor labels="Content" editor={editor}>
                 <RichTextEditor.Toolbar sticky stickyOffset={60}>
