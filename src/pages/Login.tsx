@@ -25,6 +25,7 @@ import Cookies from "js-cookie";
 import { ipaddress } from "@/components/layout";
 import HeaderMenu from "@/components/HeaderMenu/HeaderMenu";
 import FooterMenu from "@/components/FooterMenu/FooterMenu";
+import Link from "next/link";
 // import { handleLogout } from "./logout";
 
 //Global Logout start
@@ -191,7 +192,7 @@ const Login = () => {
             <Anchor
               size="sm"
               style={{ color: "#e14658" }}
-              component="a"
+              component={Link}
               href="/SignUp"
             >
               Sign Up

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Box, Button, Checkbox, Grid, Group, Modal, Select, Space, Table, TextInput } from '@mantine/core';
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import Layout, { headerauthorization, ipaddress } from '@/components/layout';
@@ -67,6 +67,7 @@ return formattedTime;
         style={{ marginTop: '16px' }}
       />
       <Space h="md" />
+      <Suspense fallback={<div><h1>Loading..</h1></div>}>
         <Table striped highlightOnHover withBorder withColumnBorders>
       <thead>
         <tr>
@@ -103,6 +104,7 @@ return formattedTime;
           ))}
       </tbody>
         </Table>
+        </Suspense>
   </Layout>
       );
 };

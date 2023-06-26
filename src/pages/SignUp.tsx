@@ -7,6 +7,7 @@ import HeaderMenu from '@/components/HeaderMenu/HeaderMenu';
 import FooterMenu from '@/components/FooterMenu/FooterMenu';
 import { headerauthorization, ipaddress } from '@/components/layout';
 import { ToastContentProps, Zoom, toast } from 'react-toastify';
+import Link from 'next/link';
   
   const SignUp = () => {
     const [data, setData] = useState<any[]>([]);
@@ -267,9 +268,9 @@ import { ToastContentProps, Zoom, toast } from 'react-toastify';
           </form>
           <Text color="dimmed" size="sm" align="center" mt={5}>
           Already have an account ?{' '}
-          <Anchor component="a" href="/Login" size="sm">
+          <Link style={{ textDecoration: 'none' }} href="/Login">
             Log In
-          </Anchor>
+          </Link>
           </Text>
         </Paper>
       </Container>

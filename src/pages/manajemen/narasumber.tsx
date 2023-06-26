@@ -383,7 +383,7 @@ const Narasumber = () => {
         size="70%"
         opened={openedEditModal}
         onClose={closeEditModal}
-        title="Edit User"
+        title="Edit Narasumber"
         centered
       >
         {selectedData && (
@@ -421,7 +421,7 @@ const Narasumber = () => {
         <Grid.Col span={3}>
           <Group position="center">
             <Button onClick={openAddModal} variant="outline" color="indigo">
-              Add User
+              Add Narasumber
             </Button>
           </Group>
         </Grid.Col>

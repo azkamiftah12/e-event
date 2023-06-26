@@ -7,6 +7,7 @@ import {
   Text,
   rem,
 } from "@mantine/core";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   hero: {
@@ -88,7 +89,7 @@ export default function HeroContent() {
           secara offline maupun online
         </Text>
         <Button
-          component="a"
+          component={Link}
           href="/latihan"
           size="xl"
           radius="xl"

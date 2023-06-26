@@ -541,6 +541,8 @@ const managepelatihan = () => {
     // ...
   };
 
+  const [searchValueJenisAcara, onSearchChangeJenisAcara] = useState("");
+
   // Edit Pelatihan start
   const handleUpdate = async () => {
     if (!selectedData) return;
@@ -596,6 +598,186 @@ const managepelatihan = () => {
 
   return (
     <LayoutPenyelenggara>
+
+      {/* modal edit start */}
+      <Modal
+        size="70%"
+        opened={openedEditModal}
+        onClose={closeEditModal}
+        title="Edit Pelatihan"
+        centered>
+        {selectedData && (
+          <Box my="lg" mx="auto" mah="70%" maw="70%">
+            <form onSubmit={form.onSubmit((values) => console.log(values))}>
+              <TextInput
+                withAsterisk
+                label="Judul Pelatihan"
+                placeholder="Judul Pelatihan"
+                value={selectedData.judul_pelatihan}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    judul_pelatihan: e.target.value,
+                  })
+                }
+              />
+
+              <TextInput
+                withAsterisk
+                label="Max Peserta"
+                placeholder="Max Peserta"
+                value={selectedData.max_pesertabatch}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    max_pesertabatch: e.target.value,
+                  })
+                }
+              />
+
+              <Select
+                label="Jenis Acara"
+                placeholder="Pilih Jenis Acara"
+                searchable
+                defaultValue={selectedData.id_jenis_acara}
+                onSearchChange={onSearchChangeJenisAcara}
+                searchValue={searchValueJenisAcara}
+                nothingFound="No options"
+                data={dataJenisacara}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    id_jenis_acara: e,
+                  })
+                }
+              />
+
+              <Select
+                label="Narasumber"
+                placeholder="Pilih Narasumber"
+                searchable
+                defaultValue={selectedData.id_narasumber}
+                onSearchChange={onSearchChangeNarasumber}
+                searchValue={searchValueNarasumber}
+                nothingFound="No options"
+                data={dataNarasumber}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    id_narasumber: e,
+                  })
+                }
+              />
+
+              <DatesProvider settings={{ firstDayOfWeek: 1, weekendDays: [0] }}>
+                <DatePickerInput
+                  // value={new Date(selectedData.tanggal_pelatihan_start).toISOString().slice(0, 10)}
+                  value={new Date(selectedData.tanggal_pelatihan_start)}
+                  icon={<IconCalendar size="1.1rem" stroke={1.5} />}
+                  label="Pilih Tanggal Mulai pelatihan"
+                  placeholder="Pilih Tanggal Mulai pelatihan"
+                  mx="auto"
+                  maw={400}
+                  onChange={(e) =>
+                    setSelectedData({
+                      ...selectedData,
+                      tanggal_pelatihan_start: e!.toISOString(),
+                    })
+                  }
+                />
+              </DatesProvider>
+
+              <DatesProvider settings={{ firstDayOfWeek: 1, weekendDays: [0] }}>
+                <DatePickerInput
+                  // value={new Date(selectedData.tanggal_pelatihan_start).toISOString().slice(0, 10)}
+                  value={new Date(selectedData.tanggal_pelatihan_end)}
+                  icon={<IconCalendar size="1.1rem" stroke={1.5} />}
+                  label="Pilih Tanggal Akhir pelatihan"
+                  placeholder="Pilih Tanggal Akhir pelatihan"
+                  mx="auto"
+                  maw={400}
+                  onChange={(e) =>
+                    setSelectedData({
+                      ...selectedData,
+                      tanggal_pelatihan_end: e!.toISOString(),
+                    })
+                  }
+                />
+              </DatesProvider>
+
+              <Textarea
+                withAsterisk
+                label="Deskripsi Pelatihan"
+                placeholder="Deskripsi Pelatihan"
+                value={selectedData.deskripsi_pelatihan}
+                onChange={(e) =>
+                  setSelectedData({
+                    ...selectedData,
+                    deskripsi_pelatihan: e.target.value,
+                  })
+                }
+              />
+
+              <Text fw={500}>Konten Pelatihan</Text>
+              <RichTextEditor editor={editor}>
+                <RichTextEditor.Toolbar sticky stickyOffset={60}>
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Bold />
+                    <RichTextEditor.Italic />
+                    <RichTextEditor.Underline />
+                    <RichTextEditor.Strikethrough />
+                    <RichTextEditor.ClearFormatting />
+                    <RichTextEditor.Highlight />
+                    <RichTextEditor.Code />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.H1 />
+                    <RichTextEditor.H2 />
+                    <RichTextEditor.H3 />
+                    <RichTextEditor.H4 />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Blockquote />
+                    <RichTextEditor.Hr />
+                    <RichTextEditor.BulletList />
+                    <RichTextEditor.OrderedList />
+                    <RichTextEditor.Subscript />
+                    <RichTextEditor.Superscript />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Link />
+                    <RichTextEditor.Unlink />
+                  </RichTextEditor.ControlsGroup>
+
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.AlignLeft />
+                    <RichTextEditor.AlignCenter />
+                    <RichTextEditor.AlignJustify />
+                    <RichTextEditor.AlignRight />
+                  </RichTextEditor.ControlsGroup>
+                </RichTextEditor.Toolbar>
+
+                <RichTextEditor.Content></RichTextEditor.Content>
+              </RichTextEditor>
+              <Group position="right" mt="md">
+                <Button
+                  type="submit"
+                  variant="outline"
+                  color="yellow"
+                  onClick={handleUpdate}>
+                  Edit
+                </Button>
+              </Group>
+            </form>
+          </Box>
+        )}
+      </Modal>
+      {/* modal edit end */}
+
+
       {/* modal Modal lihat peserta start */}
       <Modal
         size="70%"

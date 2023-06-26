@@ -20,6 +20,7 @@ import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 // Utility function to check if a cookie exists
 function checkCookieExists(cookieName: string) {
@@ -51,10 +52,11 @@ const useStyles = createStyles((theme) => ({
     fontSize: theme.fontSizes.sm,
 
     [theme.fn.smallerThan("sm")]: {
-      height: rem(40),
-      display: "flex",
-      alignItems: "center",
-      width: "100%",
+      // height: rem(40),
+      // display: "flex",
+      // flexDirection: "row",
+      // alignItems: "center",
+      // width: "100%",
     },
 
     //HOVER NAVBAR//
@@ -99,7 +101,8 @@ const useStyles = createStyles((theme) => ({
 
   hiddenMobile: {
     [theme.fn.smallerThan("sm")]: {
-      display: "none",
+      display: "flex",
+      flexDirection: "row",
     },
   },
 
@@ -138,22 +141,22 @@ export default function HeaderMenu() {
           E-Event Certificate
           </Text> */}
           <Group sx={{ height: "100%" }} className={classes.hiddenMobile}>
-            <a href="/" className={classes.link}>
+            <Link href="/" className={classes.link}>
               Home
-            </a>
-            <a href="/latihan" className={classes.link}>
+            </Link>
+            <Link href="/latihan" className={classes.link}>
               Pelatihan
-            </a>
-            <a href="/pelatihanku" className={classes.link}>
+            </Link>
+            <Link href="/pelatihanku" className={classes.link}>
               Pelatihan Saya
-            </a>
+            </Link>
           </Group>
-          <Group className={classes.hiddenMobile}>
+          <Group sx={{ height: "100%" }} className={classes.hiddenMobile}>
             {/* Conditional rendering based on token existence */}
             {!tokenExists && (
               <Group className={classes.hiddenMobile}>
                 <Button
-                  component="a"
+                  component={Link}
                   href="/Login"
                   styles={(theme) => ({
                     root: {
@@ -180,10 +183,10 @@ export default function HeaderMenu() {
               <Group className={classes.hiddenMobile}>
                 <Button
                   onClick={handleLogout}
+                    color="pink.9"
                   styles={(theme) => ({
                     root: {
-                      backgroundColor: "#E0DAD1",
-                      color: "#3F2661",
+                      color: "white",
                       height: rem(32),
                       fontWeight: "bold",
                       paddingLeft: rem(20),

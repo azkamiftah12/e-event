@@ -18,6 +18,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { headerauthorization, ipaddress } from "@/components/layout";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 const index = () => {
   const [datapelatihan, setDatapelatihan] = useState([]);
@@ -95,7 +96,7 @@ const index = () => {
             </Badge>
 
             <Button
-              component="a"
+              component={Link}
               href="/penyelenggara/managepelatihan"
               variant="light"
               color="blue"
@@ -118,7 +119,7 @@ const index = () => {
             </Badge>
 
             <Button
-              component="a"
+              component={Link}
               href="/penyelenggara/pelatihanpending"
               variant="light"
               color="blue"
@@ -141,7 +142,7 @@ const index = () => {
             </Badge>
 
             <Button
-              component="a"
+              component={Link}
               href="/penyelenggara/pelatihankuditolak"
               variant="light"
               color="blue"
@@ -164,7 +165,7 @@ const index = () => {
             </Badge>
 
             <Button
-              component="a"
+              component={Link}
               href="/penyelenggara/pelatihankuend"
               variant="light"
               color="blue"

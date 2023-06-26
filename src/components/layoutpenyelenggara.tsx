@@ -35,6 +35,7 @@ import Cookies from "js-cookie";
 import LinksGroup from "@/components/NavbarLinksGroup";
 import { handleLogout } from "@/pages/Login";
 import { headerauthorization, ipaddress } from "./layout";
+import Link from "next/link";
 
 // export const ipaddress = "http://192.168.43.38:8081/";
 // // export const headerauthorization = 'Authorization: localStorage.getItem('token'),';
@@ -90,6 +91,7 @@ export default function LayoutPenyelenggara({ children }: { children: ReactNode 
       fontWeight: 800,
       display: "block",
       width: "100%",
+      textDecoration: 'none',
       padding: `${theme.spacing.xs} ${theme.spacing.md}`,
       color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
       fontSize: theme.fontSizes.md,
@@ -138,7 +140,7 @@ export default function LayoutPenyelenggara({ children }: { children: ReactNode 
             style={{ backgroundColor: "#3F2661", margin: 0, border: "none" }}
           >
             <Group position="apart" sx={{ height: "100%" }}>
-              {/* <MediaQuery largerThan="sm" styles={{ display: 'none', justifyContent: 'flex-end' }}>
+              <MediaQuery largerThan="sm" styles={{ display: 'none', justifyContent: 'flex-end' }}>
                    <Burger
                      opened={opened}
                      onClick={() => setOpened((o) => !o)}
@@ -147,17 +149,8 @@ export default function LayoutPenyelenggara({ children }: { children: ReactNode 
                      mr="xl"
                    />
               </MediaQuery>
-                   <MediaQuery largerThan="sm" styles={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Burger
-                      opened={opened}
-                      onClick={() => setOpened((o) => !o)}
-                      size="sm"
-                      color={theme.colors.gray[6]}
-                      mr="xl"
-                    />
-                   </MediaQuery> */}
               <Group sx={{ height: "100%",[theme.fn.smallerThan("sm")]: {
-          display: "none",
+          // display: "none",
         }, }}>
                 <Text
                   tt="uppercase"
@@ -169,7 +162,7 @@ export default function LayoutPenyelenggara({ children }: { children: ReactNode 
                 </Text>
               </Group>
               <Group sx={{[theme.fn.smallerThan("sm")]: {
-          display: "none",
+          // display: "none",
         },}}>
                 <Button
                   onClick={handleLogout}
@@ -207,7 +200,7 @@ export default function LayoutPenyelenggara({ children }: { children: ReactNode 
               <Grid>
                 <Grid.Col span={12}>
                   <Button
-                    component="a"
+                    component={Link}
                     href="/"
                     color="pink.9"
                     radius="md"
@@ -224,18 +217,14 @@ export default function LayoutPenyelenggara({ children }: { children: ReactNode 
 
               <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
                 {/* dashboard button clickable start  */}
-                <Text<"a">
-                  component="a"
-                  className={classes.control}
-                  href="/penyelenggara"
-                >
+                <Link href="/penyelenggara" className={classes.control}>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <ThemeIcon variant="light" size={30}>
                       <IconGauge size={18} />
                     </ThemeIcon>
                     <Box ml="md">Dashboard</Box>
                   </Box>
-                </Text>
+                </Link>
 
                 <div>{links}</div>
               </Navbar.Section>

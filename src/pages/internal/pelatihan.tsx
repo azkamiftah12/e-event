@@ -590,7 +590,7 @@ const pelatihan = () => {
                   onChange={(e) =>
                     setSelectedData({
                       ...selectedData,
-                      tanggal_pelatihan_start: e.toISOString(),
+                      tanggal_pelatihan_start: e!.toISOString(),
                     })
                   }
                 />
@@ -608,7 +608,7 @@ const pelatihan = () => {
                   onChange={(e) =>
                     setSelectedData({
                       ...selectedData,
-                      tanggal_pelatihan_end: e.toISOString(),
+                      tanggal_pelatihan_end: e!.toISOString(),
                     })
                   }
                 />

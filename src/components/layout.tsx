@@ -34,6 +34,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import LinksGroup from "@/components/NavbarLinksGroup";
 import { handleLogout } from "@/pages/Login";
+import Link from 'next/link';
 
 export const ipaddress = "http://8.222.186.80:8081/";
 // export const headerauthorization = 'Authorization: localStorage.getItem('token'),';
@@ -112,6 +113,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       fontWeight: 800,
       display: "block",
       width: "100%",
+      textDecoration: 'none',
       padding: `${theme.spacing.xs} ${theme.spacing.md}`,
       color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
       fontSize: theme.fontSizes.md,
@@ -160,26 +162,19 @@ export default function Layout({ children }: { children: ReactNode }) {
             style={{ backgroundColor: "#3F2661", border: "none" }}
           >
             <Group position="apart" sx={{ height: "100%" }}>
-              {/* <MediaQuery largerThan="sm" styles={{ display: 'none', justifyContent: 'flex-end' }}>
+              {/* ini responsive sidebar start */}
+              <MediaQuery largerThan="sm" styles={{ display: 'none', justifyContent: 'flex-end' }}>
                  <Burger
                    opened={opened}
                    onClick={() => setOpened((o) => !o)}
                    size="sm"
                    color={theme.colors.gray[6]}
                    mr="xl"
-                 />
-            </MediaQuery>
-                 <MediaQuery largerThan="sm" styles={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Burger
-                    opened={opened}
-                    onClick={() => setOpened((o) => !o)}
-                    size="sm"
-                    color={theme.colors.gray[6]}
-                    mr="xl"
-                  />
-                 </MediaQuery> */}
+                   />
+              </MediaQuery>
+              {/* ini responsive sidebar end */}
               <Group sx={{ height: "100%", [theme.fn.smallerThan("sm")]: {
-          display: "none",
+          // display: "none",
         }, }}>
                 <Text
                   tt="uppercase"
@@ -190,7 +185,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 </Text>
               </Group>
               <Group sx={{ height: "100%", [theme.fn.smallerThan("sm")]: {
-          display: "none",
+          // display: "none",
         }, }}>
                 <Button
                   onClick={handleLogout}
@@ -226,7 +221,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Grid>
                 <Grid.Col span={12}>
                   <Button
-                    component="a"
+                    component={Link}
                     href="/"
                     color="pink.9"
                     radius="md"
@@ -239,19 +234,18 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Space h="xl" />
 
               <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
+                
                 {/* dashboard button clickable start  */}
-                <Text<"a">
-                  component="a"
-                  className={classes.control}
-                  href="/admin">
+                <Link href="/admin" className={classes.control}>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <ThemeIcon variant="light" size={30}>
                       <IconGauge size={18} />
                     </ThemeIcon>
                     <Box ml="md">Dashboard</Box>
                   </Box>
-                </Text>
+                </Link>
                 {/* dashboard button clickable End  */}
+
                 {/* new button start  */}
                 <div>{links}</div>
                 {/* new button end  */}
@@ -267,7 +261,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         // navbar footer start
         footer={
           <Footer
-            height={60}
+            height={50}
             p="md"
             style={{ backgroundColor: "#3F2661", margin: 0, border: "none" }}
           >
