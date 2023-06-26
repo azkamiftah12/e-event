@@ -2,10 +2,13 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import jwt_decode from "jwt-decode";
-import { toast, Zoom } from "react-toastify";
+import { toast, ToastContentProps, Zoom } from "react-toastify";
+import { ReactElement, JSXElementConstructor, ReactFragment, ReactPortal, PromiseLikeOfReactNode, ReactNode } from "react";
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) =>
+      // This function can be marked `async` if using `await` inside
+      ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -18,7 +21,7 @@ export function middleware(request: NextRequest) {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | ReactFragment | ReactPortal | PromiseLikeOfReactNode | ReactElement<any, string | JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -58,7 +61,7 @@ export function middleware(request: NextRequest) {
   try {
     const token = request.cookies.get("token");
     // console.log(token., 'tokennya')
-    const decodeToken = jwt_decode(token?.value);
+    const decodeToken: any = token?.value ? jwt_decode(token.value) : null;
     const { username, role_user, nama_user } = decodeToken;
     console.log(username, role_user, nama_user);
     console.log(request.nextUrl.host);

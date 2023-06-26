@@ -19,17 +19,17 @@ import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { modals } from "@mantine/modals";
-import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import { Flip, Slide, ToastContainer, ToastContentProps, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "@/components/layout";
 
 const User = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
 
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -42,7 +42,7 @@ const User = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -55,7 +55,7 @@ const User = () => {
       theme: "dark",
     });
   };
-  const notifywarning = (msg) => {
+  const notifywarning = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.warn(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -84,7 +84,7 @@ const User = () => {
       headerauthorization
     );
     console.log(response.data.data);
-    const temporaryData = response.data.data.map((v) => ({
+    const temporaryData = response.data.data.map((v: { nama_provinsi: any; id_provinsi: any; }) => ({
       label: v.nama_provinsi,
       value: v.id_provinsi,
     }));
@@ -107,7 +107,7 @@ const User = () => {
       headerauthorization
     );
     console.log(response.data.data);
-    const temporaryData = response.data.data.map((v) => ({
+    const temporaryData = response.data.data.map((v: { nama_job: any; id_pekerjaan: any; }) => ({
       label: v.nama_job,
       value: v.id_pekerjaan,
     }));
@@ -135,16 +135,16 @@ const User = () => {
 
   const [searchValueProvinsi, onSearchChangeProvinsi] = useState("");
   const [searchValueKabupaten, onSearchChangeKabupaten] = useState("");
-  const [dataPekerjaan, setDataPekerjaan] = useState([]);
-  const [dataProvinsi, setDataProvinsi] = useState([]);
-  const [dataKabupaten, setDataKabupaten] = useState([]);
-  const [listKabupaten, setListKabupaten] = useState([]);
-  const [selectedData, setSelectedData] = useState(null);
+  const [dataPekerjaan, setDataPekerjaan] = useState<any[]>([]);
+  const [dataProvinsi, setDataProvinsi] = useState<any[]>([]);
+  const [dataKabupaten, setDataKabupaten] = useState<any[]>([]);
+  const [listKabupaten, setListKabupaten] = useState<any[]>([]);
+  const [selectedData, setSelectedData] = useState<any>(null);
   const [dataRole, setRole] = useState(["Admin", "Penyelenggara", "Peserta"]);
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
   // eslint-disable-next-line arrow-body-style
@@ -217,9 +217,9 @@ const User = () => {
 
     const { notelp } = form.values;
 
-    const selectedOptionRole = dataRole.find(
-      (option) => option.label === selectedRole
-    );
+    // const selectedOptionRole = dataRole.find(
+    //   (option) => option.label === selectedRole
+    // );
     // const role_user = selectedOptionRole ? selectedOptionRole.value : '';
     const role_user = selectedRole;
 
@@ -308,14 +308,14 @@ const User = () => {
     } catch (ex: any) {
       notifyerror(ex.response.data.pesan);
       // Handle the error
-      console.error(error);
+      console.error(ex);
     }
   };
 
   // update end
 
   //open model delete start
-  const openDeleteModal = (e) => {
+  const openDeleteModal = (e: { username: any; }) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,
@@ -331,7 +331,7 @@ const User = () => {
   //open model delete end
 
   //delete
-  const handleDelete = async (username) => {
+  const handleDelete = async (username: string | Blob) => {
     const bodyFormData = new FormData();
     bodyFormData.append("usernamehapus", username);
     await axios.post(
@@ -344,7 +344,7 @@ const User = () => {
   };
   //delete end
 
-  const handleProvinsiChange = (event) => {
+  const handleProvinsiChange = (event: React.SetStateAction<string>) => {
     const selectedOption = dataProvinsi.find(
       (option) => option.label === event
     );
@@ -371,7 +371,7 @@ const User = () => {
 
   const [selectedRole, setSelectedRole] = useState("");
 
-  const handleRoleChange = (value) => {
+  const handleRoleChange = (value: React.SetStateAction<string>) => {
     setSelectedRole(value);
   };
 
@@ -421,7 +421,6 @@ const User = () => {
                   placeholder="Pick one"
                   searchable
                   onSearchChange={handleProvinsiChange}
-                  onChange={handleProvinsiChange}
                   searchValue={searchValueProvinsi}
                   nothingFound="No options"
                   data={dataProvinsi}

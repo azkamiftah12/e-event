@@ -20,7 +20,7 @@ import {
   rem,
 } from "@mantine/core";
 
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import {
   IconAdjustments,
   IconCalendarStats,
@@ -32,8 +32,8 @@ import {
 } from "@tabler/icons-react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { LinksGroup } from "./NavbarLinksGroup";
-import { handleLogout } from "../pages/logout";
+import LinksGroup from "@/components/NavbarLinksGroup";
+import { handleLogout } from "@/pages/Login";
 import { headerauthorization, ipaddress } from "./layout";
 
 // export const ipaddress = "http://192.168.43.38:8081/";
@@ -45,7 +45,7 @@ import { headerauthorization, ipaddress } from "./layout";
 //   },
 // };
 
-export default function LayoutPenyelenggara({ children }) {
+export default function LayoutPenyelenggara({ children }: { children: ReactNode }) {
   const theme = useMantineTheme();
 
   // badge function untuk hitung total data START
@@ -156,7 +156,9 @@ export default function LayoutPenyelenggara({ children }) {
                       mr="xl"
                     />
                    </MediaQuery> */}
-              <Group sx={{ height: "100%" }} className={classes.hiddenMobile}>
+              <Group sx={{ height: "100%",[theme.fn.smallerThan("sm")]: {
+          display: "none",
+        }, }}>
                 <Text
                   tt="uppercase"
                   size="xl"
@@ -166,7 +168,9 @@ export default function LayoutPenyelenggara({ children }) {
                   E-Event
                 </Text>
               </Group>
-              <Group className={classes.hiddenMobile}>
+              <Group sx={{[theme.fn.smallerThan("sm")]: {
+          display: "none",
+        },}}>
                 <Button
                   onClick={handleLogout}
                   styles={(theme) => ({

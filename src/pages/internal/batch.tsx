@@ -1,16 +1,17 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Box, Button, Checkbox, Grid, Group, Modal, Select, Space, Table, TextInput } from '@mantine/core';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
-import Layout, { headerauthorization, ipaddress } from '../../components/layout';
+import Layout, { headerauthorization, ipaddress } from '@/components/layout';
 
 const batch = () => {
   //!!!!!!!!
   //BATCH HANYA UNTUK LIHAT DATA SAJA
   //!!!!!!!!
   
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<any[]>([]);
     
     const getData = async () => {
     const response = await axios.get(`${ipaddress}get-databatch`, headerauthorization);
@@ -24,7 +25,7 @@ const batch = () => {
   
   //search
   const [searchTerm, setSearchTerm] = useState('');
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
   
@@ -35,7 +36,7 @@ const batch = () => {
   //search end
 
   // datetable parse start
-  const formatdatebatch = (sampletanggal) => {
+  const formatdatebatch = (sampletanggal: string | number | Date | null | undefined) => {
     // const sampletanggal = '2023-05-21T00:00:00Z';
     if (sampletanggal === '' || sampletanggal == null || sampletanggal === undefined) {
       return '';
@@ -46,7 +47,7 @@ const batch = () => {
   // datetable parse end
 
   // timetable parse start
-  const formattimebatch = (sampletime) => {
+  const formattimebatch = (sampletime: string | number | Date | null | undefined) => {
     // const sampletanggal = '2023-05-21T00:00:00Z';
     if (sampletime === '' || sampletime == null || sampletime === undefined) {
       return '';

@@ -20,7 +20,7 @@ import {
   rem,
 } from "@mantine/core";
 
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import {
   IconAdjustments,
   IconCalendarStats,
@@ -32,8 +32,8 @@ import {
 } from "@tabler/icons-react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { LinksGroup } from "./NavbarLinksGroup";
-import { handleLogout } from "../pages/logout";
+import LinksGroup from "@/components/NavbarLinksGroup";
+import { handleLogout } from "@/pages/Login";
 
 export const ipaddress = "http://8.222.186.80:8081/";
 // export const headerauthorization = 'Authorization: localStorage.getItem('token'),';
@@ -44,7 +44,7 @@ export const headerauthorization = {
   },
 };
 
-export default function Layout({ children }) {
+export default function Layout({ children }: { children: ReactNode }) {
   const theme = useMantineTheme();
 
   // badge function untuk hitung total data START
@@ -157,7 +157,8 @@ export default function Layout({ children }) {
           <Header
             height={75}
             px="md"
-            style={{ backgroundColor: "#3F2661", margin: 0, border: "none" }}>
+            style={{ backgroundColor: "#3F2661", border: "none" }}
+          >
             <Group position="apart" sx={{ height: "100%" }}>
               {/* <MediaQuery largerThan="sm" styles={{ display: 'none', justifyContent: 'flex-end' }}>
                  <Burger
@@ -177,7 +178,9 @@ export default function Layout({ children }) {
                     mr="xl"
                   />
                  </MediaQuery> */}
-              <Group sx={{ height: "100%" }} className={classes.hiddenMobile}>
+              <Group sx={{ height: "100%", [theme.fn.smallerThan("sm")]: {
+          display: "none",
+        }, }}>
                 <Text
                   tt="uppercase"
                   size="xl"
@@ -186,7 +189,9 @@ export default function Layout({ children }) {
                   E-Event
                 </Text>
               </Group>
-              <Group className={classes.hiddenMobile}>
+              <Group sx={{ height: "100%", [theme.fn.smallerThan("sm")]: {
+          display: "none",
+        }, }}>
                 <Button
                   onClick={handleLogout}
                   styles={(theme) => ({
@@ -227,9 +232,7 @@ export default function Layout({ children }) {
                     radius="md"
                     size="md"
                     fullWidth>
-                    <Text size="lg" color="gray.0">
-                      Home
-                    </Text>
+                    <Text size="lg">Home</Text>
                   </Button>
                 </Grid.Col>
               </Grid>
@@ -263,8 +266,12 @@ export default function Layout({ children }) {
         //navbar side end
         // navbar footer start
         footer={
-          <Footer height={60} p="md">
-            <Text ta="center" size="xs" fw={100}>
+          <Footer
+            height={60}
+            p="md"
+            style={{ backgroundColor: "#3F2661", margin: 0, border: "none" }}
+          >
+            <Text ta="center" size="xs" fw={100} color="white">
               E-Event @Copyright TI-CCIT 6
             </Text>
           </Footer>

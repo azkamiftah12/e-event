@@ -1,21 +1,21 @@
 import { TextInput, PasswordInput, Anchor, Paper, Title, Text, Container, Group, Button, Stack, Select } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactFragment, ReactNode, SetStateAction, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import HeaderMenu from '../components/HeaderMenu/HeaderMenu';
-import FooterMenu from '../components/FooterMenu/FooterMenu';
-import { headerauthorization, ipaddress } from '../components/layout';
-import { Zoom, toast } from 'react-toastify';
+import HeaderMenu from '@/components/HeaderMenu/HeaderMenu';
+import FooterMenu from '@/components/FooterMenu/FooterMenu';
+import { headerauthorization, ipaddress } from '@/components/layout';
+import { ToastContentProps, Zoom, toast } from 'react-toastify';
   
   const SignUp = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<any[]>([]);
     const router = useRouter();
     const pageStyle = {
         backgroundColor: '#E0DAD1',
       };
     
-      const notifyerror = (msg) => {
+      const notifyerror = (msg: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) => ReactNode) | null | undefined) => {
         toast.error(msg, {
           position: "top-center",
           autoClose: 10000,
@@ -32,7 +32,7 @@ import { Zoom, toast } from 'react-toastify';
       const getDataProvinsi = async () => {
         const response = await axios.get(`${ipaddress}get-dataprovinsi`, headerauthorization);
         console.log(response.data.data);
-        const temporaryData = response.data.data.map(v => ({ label: v.nama_provinsi, value: v.id_provinsi }));
+        const temporaryData = response.data.data.map((v: { nama_provinsi: any; id_provinsi: any; }) => ({ label: v.nama_provinsi, value: v.id_provinsi }));
         setDataProvinsi(temporaryData);
       };
     
@@ -46,7 +46,7 @@ import { Zoom, toast } from 'react-toastify';
       const getDataPekerjaan = async () => {
         const response = await axios.get(`${ipaddress}get-datapekerjaan`, headerauthorization);
         console.log(response.data.data);
-        const temporaryData = response.data.data.map(v => ({ label: v.nama_job, value: v.id_pekerjaan }));
+        const temporaryData = response.data.data.map((v: { nama_job: any; id_pekerjaan: any; }) => ({ label: v.nama_job, value: v.id_pekerjaan }));
         setDataPekerjaan(temporaryData);
       };
       
@@ -60,12 +60,12 @@ import { Zoom, toast } from 'react-toastify';
 
       const [searchValueProvinsi, onSearchChangeProvinsi] = useState('');
   const [searchValueKabupaten, onSearchChangeKabupaten] = useState('');
-  const [dataPekerjaan, setDataPekerjaan] = useState([]);
-  const [dataProvinsi, setDataProvinsi] = useState([]);
-  const [dataKabupaten, setDataKabupaten] = useState([]);
-  const [listKabupaten, setListKabupaten] = useState([]);
+  const [dataPekerjaan, setDataPekerjaan] = useState<any[]>([]);
+  const [dataProvinsi, setDataProvinsi] = useState<any[]>([]);
+  const [dataKabupaten, setDataKabupaten] = useState<any[]>([]);
+  const [listKabupaten, setListKabupaten] = useState<any[]>([]);
 
-  const handleProvinsiChange = (event) => {
+  const handleProvinsiChange = (event: SetStateAction<string>) => {
     const selectedOption = dataProvinsi.find((option) => option.label === event);
     const id_provinsi = selectedOption ? selectedOption.value : '';
     console.log(id_provinsi);
@@ -212,7 +212,7 @@ import { Zoom, toast } from 'react-toastify';
               placeholder="Pick one"
               searchable
               onSearchChange={handleProvinsiChange} 
-              onChange={handleProvinsiChange}
+              // onChange={handleProvinsiChange}
               searchValue={searchValueProvinsi}
               nothingFound="No options"
               data={dataProvinsi}

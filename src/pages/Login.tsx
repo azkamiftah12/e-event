@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { SyntheticEvent, useState } from "react";
+import { JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactFragment, ReactNode, SyntheticEvent, useState } from "react";
 import {
   Notification,
   TextInput,
@@ -16,18 +16,32 @@ import {
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
 import { IconX } from "@tabler/icons";
-import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import { Flip, Slide, ToastContainer, ToastContentProps, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SHA256 } from "crypto-js";
 // import { cookies } from 'next/headers';
 import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
-import { ipaddress } from "../components/layout";
-import HeaderMenu from "../components/HeaderMenu/HeaderMenu";
-import FooterMenu from "../components/FooterMenu/FooterMenu";
-import { handleLogout } from "./logout";
+import { ipaddress } from "@/components/layout";
+import HeaderMenu from "@/components/HeaderMenu/HeaderMenu";
+import FooterMenu from "@/components/FooterMenu/FooterMenu";
+// import { handleLogout } from "./logout";
 
+//Global Logout start
+export const handleLogout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('nama_user');
+  localStorage.removeItem('role_user');
+  localStorage.removeItem('username');
+  Cookies.remove('token')
+  Cookies.remove('nama_user')
+  Cookies.remove('role_user')
+  Cookies.remove('username')
+  window.location.href = '/';
+};
+//Global Logout end
 const Login = () => {
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -54,7 +68,7 @@ const Login = () => {
     });
   };
 
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | PromiseLikeOfReactNode | ((props: ToastContentProps<unknown>) => ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -87,7 +101,7 @@ const Login = () => {
   };
 
   //login start
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
       // Send login request to your backend API
@@ -109,7 +123,7 @@ const Login = () => {
 
         const token2 = response.data.data;
 
-        const decodedToken = jwt_decode(token2);
+        const decodedToken: any = jwt_decode(token2);
         const { username, role_user, nama_user } = decodedToken;
         Cookies.set("username", username, { expires: 1 });
         Cookies.set("nama_user", nama_user, { expires: 1 });

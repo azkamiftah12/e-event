@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Box, Button, Checkbox, Group, Modal, Space, Table, TextInput } from '@mantine/core';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
-import Layout, { ipaddress, headerauthorization } from '../../components/layout';
+import Layout, { ipaddress, headerauthorization } from '@/components/layout';
 
 const provinsi = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
   
   const getData = async () => {
     const response = await axios.get(`${ipaddress}get-dataprovinsi`, headerauthorization);
@@ -20,7 +21,7 @@ const provinsi = () => {
   
   //search
   const [searchTerm, setSearchTerm] = useState('');
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
   

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Badge,
   Button,
@@ -17,7 +18,7 @@ import { useEffect, useState } from "react";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "@/components/layout";
 // import authMiddleware from '../../middleware/authMiddleware';
 
 // console.log(authMiddleware);

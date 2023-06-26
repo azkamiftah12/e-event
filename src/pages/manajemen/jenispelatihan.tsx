@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Notification,
   Box,
@@ -18,17 +19,17 @@ import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { modals } from "@mantine/modals";
-import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import { Flip, Slide, ToastContainer, ToastContentProps, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "@/components/layout";
 
 const jenispelatihan = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedData, setSelectedData] = useState(null);
+  const [selectedData, setSelectedData] = useState<any>(null);
 
   //   //notification delete start
   //   const [showNotificationdelete, setShowNotificationdelete] = useState(false);
@@ -51,7 +52,7 @@ const jenispelatihan = () => {
   // };
   // //notification update end
 
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -64,7 +65,7 @@ const jenispelatihan = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -77,7 +78,7 @@ const jenispelatihan = () => {
       theme: "dark",
     });
   };
-  const notifywarning = (msg) => {
+  const notifywarning = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.warn(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -115,7 +116,7 @@ const jenispelatihan = () => {
   // modal edit end
 
   //search
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
@@ -167,7 +168,7 @@ const jenispelatihan = () => {
         // For example, you can show an error message to the user or perform any necessary actions
         notifyerror(response.data.pesan);
       } else {
-        close(false);
+        closeAddModal();
         notifysuccess("Insert Successfully");
         getData();
       }
@@ -218,7 +219,7 @@ const jenispelatihan = () => {
   // update end
 
   //open model delete start
-  const openDeleteModal = (e) => {
+  const openDeleteModal = (e: { id_jenis_acara: any; }) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,
@@ -237,7 +238,7 @@ const jenispelatihan = () => {
   //open model delete end
 
   //delete
-  const handleDelete = async (id_jenis_acara) => {
+  const handleDelete = async (id_jenis_acara: string | Blob) => {
     const bodyFormData = new FormData();
     bodyFormData.append("idhapus", id_jenis_acara);
     await axios.post(

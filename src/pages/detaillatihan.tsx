@@ -1,6 +1,6 @@
 import { Container, createStyles, Card, Image, Text, Group, Badge, Button, ActionIcon, rem, Space } from '@mantine/core';
-import FooterMenu from '../components/FooterMenu/FooterMenu';
-import HeaderMenu from '../components/HeaderMenu/HeaderMenu';
+import FooterMenu from '@/components/FooterMenu/FooterMenu';
+import HeaderMenu from '@/components/HeaderMenu/HeaderMenu';
 
 const useStyles = createStyles((theme) => ({
     card: {

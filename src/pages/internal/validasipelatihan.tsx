@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Notification,
   Anchor,
@@ -13,7 +14,7 @@ import {
   Table,
   TextInput,
 } from "@mantine/core";
-import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
+import { Flip, Slide, ToastContainer, ToastContentProps, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
@@ -23,14 +24,14 @@ import { modals } from "@mantine/modals";
 import Layout, {
   headerauthorization,
   ipaddress,
-} from "../../components/layout";
+} from "@/components/layout";
 import Cookies from "js-cookie";
 import { useDisclosure } from "@mantine/hooks";
 
 const validasipelatihan = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
 
-  const notifysuccess = (msg) => {
+  const notifysuccess = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.success(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -43,7 +44,7 @@ const validasipelatihan = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactPortal | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -56,8 +57,8 @@ const validasipelatihan = () => {
       theme: "dark",
     });
   };
-  const notifywarning = () => {
-    toast.warn("warning", {
+  const notifywarning = (msg: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactPortal | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
+    toast.warn(msg, {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: false,
@@ -80,7 +81,7 @@ const validasipelatihan = () => {
   };
 
   //get token from cookies start
-  const username = Cookies.get("username");
+  const username = Cookies.get("username") ?? '';
   //get token from cookies end
 
   useEffect(() => {
@@ -89,7 +90,7 @@ const validasipelatihan = () => {
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
@@ -105,7 +106,7 @@ const validasipelatihan = () => {
   //search end
 
   //delete
-  const handleDelete = async (id_pelatihan) => {
+  const handleDelete = async (id_pelatihan: string | Blob) => {
     const bodyFormData = new FormData();
     console.log(id_pelatihan);
     bodyFormData.append("idpelatihan", id_pelatihan);
@@ -120,7 +121,7 @@ const validasipelatihan = () => {
   //delete end
 
   //open modal delete start
-  const openDeleteModal = (e) => {
+  const openDeleteModal = (e: { judul_pelatihan: string | number | boolean | React.ReactFragment | React.ReactPortal | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | null | undefined; id_pelatihan: string | Blob; }) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,
@@ -142,7 +143,7 @@ const validasipelatihan = () => {
   const [pesanTolak, setPesanTolak] = useState("");
 
   //open modal decline start
-  const openDeclineModal = (e) => {
+  const openDeclineModal = (e: { judul_pelatihan: any; id_pelatihan: any; }) => {
     let tmpVal = "";
     modals.openConfirmModal({
       title: `Decline Pelatihan ${e.judul_pelatihan}`,
@@ -176,7 +177,7 @@ const validasipelatihan = () => {
   //open model decline end
 
   //Decline start
-  const handleDecline = async (id_pelatihan, tmppesantolak) => {
+  const handleDecline = async (id_pelatihan: string | Blob, tmppesantolak: string | Blob) => {
     const bodyFormData = new FormData();
     bodyFormData.append("idpelatihan", id_pelatihan);
     bodyFormData.append("pesan_tolak", tmppesantolak);
@@ -192,7 +193,7 @@ const validasipelatihan = () => {
   //Decline end
 
   //ACC Pelatihan start
-  const handleACC = async (id_pelatihan) => {
+  const handleACC = async (id_pelatihan: string | Blob) => {
     const bodyFormData = new FormData();
     bodyFormData.append("idpelatihan", id_pelatihan);
     bodyFormData.append("username_acc", username);
@@ -219,7 +220,7 @@ const validasipelatihan = () => {
   //ACC Pelatihan end
 
   //open modal ACC Pelatihan start
-  const openACCModal = (e) => {
+  const openACCModal = (e: { judul_pelatihan: string | number | boolean | React.ReactFragment | React.PromiseLikeOfReactNode | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactPortal | null | undefined; id_pelatihan: string | Blob; }) => {
     modals.openConfirmModal({
       title: "Terima Event",
       centered: true,
@@ -238,7 +239,7 @@ const validasipelatihan = () => {
   //open model ACC Pelatihan end
 
   // datetable parse start
-  const formatdate = (sampletanggal) => {
+  const formatdate = (sampletanggal: any) => {
     // const sampletanggal = '2023-05-21T00:00:00Z';
     if (
       sampletanggal === "" ||
@@ -253,7 +254,7 @@ const validasipelatihan = () => {
   // datetable parse end
 
   // timetable parse start
-  const formattime = (sampletime) => {
+  const formattime = (sampletime: any) => {
     if (sampletime === "" || sampletime == null || sampletime === undefined) {
       return "";
     }

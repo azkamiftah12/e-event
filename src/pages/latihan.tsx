@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactFragment, ReactNode, SetStateAction, ReactPortal } from "react";
 
 import {
   Badge,
@@ -12,28 +13,24 @@ import {
   Modal,
   Space,
   Text,
-  Icon,
   TextInput,
   Title,
-  modal,
   Notification,
-  RichTextEditor,
-  RichTextEditorValue,
   Flex,
 } from "@mantine/core";
 import Cookies from "js-cookie";
-import HeaderMenu from "../components/HeaderMenu/HeaderMenu";
-import { headerauthorization, ipaddress } from "../components/layout";
-import FooterMenu from "../components/FooterMenu/FooterMenu";
+import HeaderMenu from "@/components/HeaderMenu/HeaderMenu";
+import { headerauthorization, ipaddress } from "@/components/layout";
+import FooterMenu from "@/components/FooterMenu/FooterMenu";
 import { modals } from "@mantine/modals";
 import { IconX } from "@tabler/icons-react";
 import router from "next/router";
-import { Zoom, toast } from "react-toastify";
+import { ToastContentProps, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const latihan = () => {
-  const [data, setData] = useState([]);
-  const [databatch, setDatabatch] = useState([]);
+  const [data, setData] = useState<any[]>([]);
+  const [databatch, setDatabatch] = useState<any[]>([]);
 
   const pageStyle = {
     backgroundColor: "#E0DAD1",
@@ -67,7 +64,7 @@ const latihan = () => {
       theme: "dark",
     });
   };
-  const notifyerror = (msg) => {
+  const notifyerror = (msg: string | number | boolean | ReactFragment | PromiseLikeOfReactNode | ReactElement<any, string | JSXElementConstructor<any>> | ((props: ToastContentProps<unknown>) => ReactNode) | null | undefined) => {
     toast.error(msg, {
       position: "top-center",
       autoClose: 10000,
@@ -98,7 +95,7 @@ const latihan = () => {
 
   //search
   const [searchTerm, setSearchTerm] = useState("");
-  const handleSearch = (event) => {
+  const handleSearch = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
@@ -119,18 +116,18 @@ const latihan = () => {
   };
 
   // New state variables for modal
-  const [selectedPelatihan, setSelectedPelatihan] = useState(null);
+  const [selectedPelatihan, setSelectedPelatihan] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Function to open modal and select pelatihan
-  const openModal = (id) => {
+  const openModal = (id: any) => {
     const pelatihan = data.find((item) => item.id_pelatihan === id);
     setSelectedPelatihan(pelatihan);
     setIsModalOpen(true);
   };
 
   //claim start
-  const handleclaim = async (id_pelatihan) => {
+  const handleclaim = async (id_pelatihan: string | Blob) => {
     if (!username) {
       notifyerror("LOGIN TO CLAIM BATCH");
       router.push("/Login"); // Redirect to the login page
@@ -156,9 +153,9 @@ const latihan = () => {
   //claim end
 
   //open modal Claim Pelatihan start
-  const openClaimModal = (e) => {
+  const openClaimModal = (e: { judul_pelatihan: string | number | boolean | ReactFragment | PromiseLikeOfReactNode | ReactElement<any, string | JSXElementConstructor<any>> | ReactPortal | null | undefined; id_pelatihan: string | Blob; }) => {
     modals.openConfirmModal({
-      title: "Terima Event",
+      title: "Claim Event",
       centered: true,
       children: (
         <Text size="sm">
@@ -167,7 +164,7 @@ const latihan = () => {
         </Text>
       ),
       labels: { confirm: "ACC Pelatihan", cancel: "Cancel" },
-      confirmProps: { color: "teal" },
+      confirmProps: { color: "pink.9" },
       onCancel: () => console.log("Cancel"),
       onConfirm: () => handleclaim(e.id_pelatihan),
     });
@@ -175,7 +172,7 @@ const latihan = () => {
   //open model Claim Pelatihan end
 
   // datetable parse start
-  const formatdatepelatihan = (sampletanggal) => {
+  const formatdatepelatihan = (sampletanggal: any) => {
     // const sampletanggal = '2023-05-21T00:00:00Z';
     if (
       sampletanggal === "" ||
@@ -283,8 +280,9 @@ const latihan = () => {
                     wrap="wrap"
                   >
                     <Button
-                      variant="light"
-                      color="blue"
+                      style={{
+                        backgroundColor: "#3F2661",
+                      }}
                       mt="md"
                       radius="md"
                       onClick={() => openModal(e.id_pelatihan)}
@@ -293,8 +291,7 @@ const latihan = () => {
                     </Button>
 
                     <Button
-                      variant="light"
-                      color="teal"
+                      color="pink.9"
                       mt="md"
                       radius="md"
                       onClick={() => openClaimModal(e)}
@@ -327,11 +324,16 @@ const latihan = () => {
       <Modal
         opened={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={selectedPelatihan?.judul_pelatihan}
+        title="Detail Pelatihan"
         styles={{
-          modal: {
-            borderRadius: 12,
-            boxShadow: "0px 8px 32px rgba(17, 17, 17, 0.16)",
+          // Modal: {
+          //   borderRadius: 12,
+          //   boxShadow: "0px 8px 32px rgba(17, 17, 17, 0.16)",
+          // },
+          title: {
+            fontSize: "18px",
+            fontWeight: "bold",
+            marginLeft: "8px",
           },
           body: {
             padding: 24,
