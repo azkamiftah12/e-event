@@ -189,10 +189,10 @@ export default function Layout({ children }: { children: ReactNode }) {
         }, }}>
                 <Button
                   onClick={handleLogout}
+                  color="pink.9"
                   styles={(theme) => ({
                     root: {
-                      backgroundColor: "#E0DAD1",
-                      color: "#3F2661",
+                      color: "#E0DAD1",
                       height: rem(32),
                       fontWeight: "bold",
                       paddingLeft: rem(20),

@@ -132,7 +132,7 @@ export default function HeaderMenu() {
   return (
     <Box>
       <Header
-        height={75}
+        height={65}
         px="md"
         style={{ backgroundColor: "#3F2661", border: "none" }}
       >
@@ -186,7 +186,7 @@ export default function HeaderMenu() {
                     color="pink.9"
                   styles={(theme) => ({
                     root: {
-                      color: "white",
+                      color: "#E0DAD1",
                       height: rem(32),
                       fontWeight: "bold",
                       paddingLeft: rem(20),
