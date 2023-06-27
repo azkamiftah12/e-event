@@ -57,6 +57,9 @@ export function middleware(request: NextRequest) {
     "/penyelenggara/pelatihankuend",
     "/penyelenggara/pelatihanpending",
   ];
+  const urlpeserta = [
+    "/pelatihanku"
+  ];
 
   try {
     const token = request.cookies.get("token");
@@ -95,6 +98,10 @@ export function middleware(request: NextRequest) {
     }
 
     if (urlPenyelenggara.includes(request.nextUrl.pathname)) {
+      return NextResponse.redirect(request.nextUrl.origin + "/Login");
+    }
+
+    if (urlpeserta.includes(request.nextUrl.pathname)) {
       return NextResponse.redirect(request.nextUrl.origin + "/Login");
     }
     //kalo role kosong end

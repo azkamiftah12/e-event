@@ -47,7 +47,6 @@ const latihan = () => {
 
   //get username from cookies start
   const username = Cookies.get("username");
-  const getusername = username;
   //get username from cookies end
 
   //notifikasi toast start
@@ -212,10 +211,11 @@ const latihan = () => {
         <Space h="xl" />
 
         {/* Card Start */}
+        {filteredData && filteredData.length > 0 ? (
         <Grid>
           {filteredData.map((e) => (
             // eslint-disable-next-line react/jsx-key
-            <Grid.Col span={3}>
+            <Grid.Col xs={12} sm={6} lg={3}>
               <Card
                 key={e.id_pelatihan}
                 shadow="sm"
@@ -315,6 +315,9 @@ const latihan = () => {
             </Grid.Col>
           ))}
         </Grid>
+        ) : (
+          <h1>No Data</h1>
+        )}
         {/* Card End */}
 
         <Space h="xl" />

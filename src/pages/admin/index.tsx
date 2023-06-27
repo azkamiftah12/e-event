@@ -80,7 +80,7 @@ const index = () => {
 
         {/* Card Start */}
         <Grid>
-          <Grid.Col span={4}>
+          <Grid.Col xs={12} sm={6} lg={4}>
             <Card shadow="sm" padding="lg" radius="md" withBorder>
               <Group position="apart" mt="md" mb="xs">
                 <Text weight={500}>Pelatihan</Text>
@@ -103,7 +103,7 @@ const index = () => {
             </Card>
           </Grid.Col>
 
-          <Grid.Col span={4}>
+          <Grid.Col xs={12} sm={6} lg={4}>
             <Card shadow="sm" padding="lg" radius="md" withBorder>
               <Group position="apart" mt="md" mb="xs">
                 <Text weight={500}>Pelatihan perlu validasi</Text>
@@ -126,7 +126,7 @@ const index = () => {
             </Card>
           </Grid.Col>
 
-          <Grid.Col span={4}>
+          <Grid.Col xs={12} sm={6} lg={4}>
             <Card shadow="sm" padding="lg" radius="md" withBorder>
               <Group position="apart" mt="md" mb="xs">
                 <Text weight={500}>Peserta</Text>

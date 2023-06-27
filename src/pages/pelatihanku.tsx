@@ -182,10 +182,11 @@ const pelatihanku = () => {
           <Space h="xl" />
 
           {/* Card Start */}
+          {filteredData && filteredData.length > 0 ? (
           <Grid>
             {filteredData.map((e) => (
               // eslint-disable-next-line react/jsx-key
-              <Grid.Col span={3}>
+              <Grid.Col xs={12} sm={6} lg={3}>
                 <Card
                   key={e.id_batch}
                   shadow="sm"
@@ -273,6 +274,21 @@ const pelatihanku = () => {
               </Grid.Col>
             ))}
           </Grid>
+          ) : (
+            <Card
+      shadow="sm"
+      padding="xl"
+    >
+
+      <Text align="center" color="pink.9" weight={500} size="lg" mt="md">
+        No Data Found!
+      </Text>
+
+      <Text align="center" mt="xs" color="dimmed" size="sm">
+        Try Claim Pelatihan!
+      </Text>
+    </Card>
+          )}
           {/* Card End */}
 
           <Space h="xl" />

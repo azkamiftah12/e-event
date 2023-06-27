@@ -14,6 +14,7 @@ import {
   Center,
   Box,
   rem,
+  Menu,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
@@ -21,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { IconSettings, IconMessageCircle, IconPhoto, IconSearch, IconArrowsLeftRight, IconTrash, IconNotebook, IconAddressBook } from "@tabler/icons-react";
 
 // Utility function to check if a cookie exists
 function checkCookieExists(cookieName: string) {
@@ -101,8 +103,17 @@ const useStyles = createStyles((theme) => ({
 
   hiddenMobile: {
     [theme.fn.smallerThan("sm")]: {
+      display: "none",
+    },
+  },
+  showMobile: {
+    [theme.fn.smallerThan("sm")]: {
       display: "flex",
       flexDirection: "row",
+      fontSize: "14px", // Set the desired font size
+      margin: 0, // Remove margin
+      padding: 0, // Remove padding
+      
     },
   },
 
@@ -140,21 +151,35 @@ export default function HeaderMenu() {
           {/* <Text component="a" href="/" className={classes.title}>
           E-Event Certificate
           </Text> */}
-          <Group sx={{ height: "100%" }} className={classes.hiddenMobile}>
+          <Group sx={{ height: "100%" }} className={classes.showMobile}>
             <Link href="/" className={classes.link}>
               Home
             </Link>
-            <Link href="/latihan" className={classes.link}>
+            <Menu shadow="md" width={200}>
+      <Menu.Target>
+        <Button sx={{backgroundColor: "#3F2661"}} radius="xs" className={classes.link}>Pelatihan</Button>
+      </Menu.Target>
+
+      <Menu.Dropdown>
+        <Menu.Label>Application</Menu.Label>
+        <Menu.Item component={Link} href="/latihan" icon={<IconNotebook size={14} />}>
               Pelatihan
-            </Link>
-            <Link href="/pelatihanku" className={classes.link}>
-              Pelatihan Saya
-            </Link>
+            </Menu.Item>
+            {tokenExists && (
+              
+      <Menu.Item component={Link} href="/pelatihanku" icon={<IconAddressBook size={14} />}>
+        Pelatihan Saya
+      </Menu.Item>
+            )}
+      </Menu.Dropdown>
+    </Menu>
+            
+            
           </Group>
-          <Group sx={{ height: "100%" }} className={classes.hiddenMobile}>
+          <Group sx={{ height: "100%" }} className={classes.showMobile}>
             {/* Conditional rendering based on token existence */}
             {!tokenExists && (
-              <Group className={classes.hiddenMobile}>
+              <Group className={classes.showMobile}>
                 <Button
                   component={Link}
                   href="/Login"
@@ -180,7 +205,7 @@ export default function HeaderMenu() {
 
             {/* Logout button */}
             {tokenExists && (
-              <Group className={classes.hiddenMobile}>
+              <Group className={classes.showMobile}>
                 <Button
                   onClick={handleLogout}
                     color="pink.9"
