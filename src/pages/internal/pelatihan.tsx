@@ -125,6 +125,19 @@ const pelatihan = () => {
     setDataNarasumber(temporaryData);
   };
 
+  const getDataPenyelenggara = async () => {
+    const response = await axios.get(
+      `${ipaddress}get-datauser-penyelenggara`,
+      headerauthorization
+    );
+    console.log(response.data.data);
+    const temporaryData = response.data.data.map((v: { username: any; }) => ({
+      label: v.username,
+      value: v.username,
+    }));
+    setDataPenyelenggara(temporaryData);
+  };
+
   const getDatalihatpeserta = async (id_pelatihan: any) => {
     const response = await axios.get(
       `${ipaddress}get-datalihatpeserta?id_pelatihan=${id_pelatihan}`,
@@ -138,6 +151,8 @@ const pelatihan = () => {
     getData();
     getDataJenisacara();
     getDataNarasumber();
+    getDataPenyelenggara();
+    console.log(getDataPenyelenggara)
   }, []);
 
   //search
@@ -236,7 +251,9 @@ const pelatihan = () => {
   const [dataJenisacara, setDataJenisacara] = useState<any[]>([]);
 
   const [dataNarasumber, setDataNarasumber] = useState<any[]>([]);
+  const [dataPenyelenggara, setDataPenyelenggara] = useState<any[]>([]);
   const [searchValueNarasumber, onSearchChangeNarasumber] = useState("");
+  const [searchValuePenyelenggara, onSearchChangePenyelenggara] = useState("");
   const [searchValueJenisAcara, onSearchChangeJenisAcara] = useState("");
   const [htmlNya, setHtmlNya] = useState("");
 
@@ -272,7 +289,12 @@ const pelatihan = () => {
     const { id_jenis_acara } = form.values;
     const { judul_pelatihan } = form.values;
     const { deskripsi_pelatihan } = form.values;
-    const { username_penyelenggara } = form.values;
+    const selectedOptionPenyelenggara = dataPenyelenggara.find(
+      (option) => option.label === searchValuePenyelenggara
+    );
+    const { username_penyelenggara } = selectedOptionPenyelenggara
+    ? selectedOptionPenyelenggara.value
+    : "";
     const selectedOptionNarasumber = dataNarasumber.find(
       (option) => option.label === searchValueNarasumber
     );
@@ -450,18 +472,18 @@ const pelatihan = () => {
   const handleUpdate = async () => {
     if (!selectedData) return;
     
-    const { id_pelatihan } = selectedData[0];
-    const { id_jenis_acara } = selectedData[0];
-    const { judul_pelatihan } = selectedData[0];
-    const { deskripsi_pelatihan } = selectedData[0];
-    const { username_penyelenggara } = selectedData[0];
-    const { tanggal_pelatihan_start } = selectedData[0];
-    const { tanggal_pelatihan_end } = selectedData[0];
-    const { waktu_pelatihan } = selectedData[0];
-    const { link_pelatihan } = selectedData[0];
-    const { max_pesertabatch } = selectedData[0];
-    const { deskripsi_pelatihan_khusus } = selectedData[0];
-    const { id_narasumber } = selectedData[0];
+    const { id_pelatihan } = selectedData;
+    const { id_jenis_acara } = selectedData;
+    const { judul_pelatihan } = selectedData;
+    const { deskripsi_pelatihan } = selectedData;
+    const { username_penyelenggara } = selectedData;
+    const { tanggal_pelatihan_start } = selectedData;
+    const { tanggal_pelatihan_end } = selectedData;
+    const { waktu_pelatihan } = selectedData;
+    const { link_pelatihan } = selectedData;
+    const { max_pesertabatch } = selectedData;
+    const { deskripsi_pelatihan_khusus } = selectedData;
+    const { id_narasumber } = selectedData;
     const html = htmlNya;
     
     const formatwaktupelatihan = formattimepelatihan(waktu_pelatihan);
@@ -477,7 +499,7 @@ const pelatihan = () => {
     bodyFormData.append("waktu_pelatihan", formatwaktupelatihan);
     bodyFormData.append("link_pelatihan", link_pelatihan);
     bodyFormData.append("max_pesertabatch", max_pesertabatch);
-    bodyFormData.append("deskripsi_pelatihan_khusus", html);
+    bodyFormData.append("deskripsi_pelatihan_khusus", editor?.getHTML() ?? "");
     bodyFormData.append("username_penyelenggara", username_penyelenggara);
     bodyFormData.append("id_narasumber", id_narasumber);
 
@@ -772,10 +794,20 @@ const pelatihan = () => {
                 />
 
                 <Space h="md" />
-                <TextInput
+                {/* <TextInput
                   withAsterisk
                   label="Username Penyelenggara"
                   placeholder="Username Penyelenggara"
+                  {...form.getInputProps("username_penyelenggara")}
+                /> */}
+                <Select
+                  label="Username Penyelenggara"
+                  placeholder="Pilih Penyelenggara"
+                  searchable
+                  onSearchChange={onSearchChangePenyelenggara}
+                  searchValue={searchValuePenyelenggara}
+                  nothingFound="No options"
+                  data={dataPenyelenggara}
                   {...form.getInputProps("username_penyelenggara")}
                 />
 
