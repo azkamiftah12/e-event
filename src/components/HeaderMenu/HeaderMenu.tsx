@@ -15,6 +15,7 @@ import {
   Box,
   rem,
   Menu,
+  Avatar,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
@@ -22,7 +23,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { IconSettings, IconMessageCircle, IconPhoto, IconSearch, IconArrowsLeftRight, IconTrash, IconNotebook, IconAddressBook } from "@tabler/icons-react";
+import { IconSettings, IconMessageCircle, IconPhoto, IconSearch, IconArrowsLeftRight, IconTrash, IconNotebook, IconAddressBook, IconLogout, IconUser, IconServerCog, IconPencil } from "@tabler/icons-react";
 
 // Utility function to check if a cookie exists
 function checkCookieExists(cookieName: string) {
@@ -38,6 +39,7 @@ function checkCookieExists(cookieName: string) {
 
 //get token from cookies start
 const token = Cookies.get("token");
+const nama_user = Cookies.get("nama_user");
 //get token from cookies end
 
 // EDIT WARNA TEXT
@@ -133,6 +135,7 @@ export default function HeaderMenu() {
   useEffect(() => {
     const exists = checkCookieExists("token");
     setTokenExists(exists);
+    nama_user;
   }, []);
 
   {
@@ -176,7 +179,7 @@ export default function HeaderMenu() {
             
             
           </Group>
-          <Group sx={{ height: "100%" }} className={classes.showMobile}>
+          <Group sx={{ height: "100%",  marginRight: rem (30) }} className={classes.showMobile}>
             {/* Conditional rendering based on token existence */}
             {!tokenExists && (
               <Group className={classes.showMobile}>
@@ -203,30 +206,50 @@ export default function HeaderMenu() {
               </Group>
             )}
 
-            {/* Logout button */}
+            {/* Profile button */}
             {tokenExists && (
-              <Group className={classes.showMobile}>
-                <Button
-                  onClick={handleLogout}
-                    color="pink.9"
-                  styles={(theme) => ({
-                    root: {
-                      color: "#E0DAD1",
-                      height: rem(32),
-                      fontWeight: "bold",
-                      paddingLeft: rem(20),
-                      paddingRight: rem(20),
-                      "&:not([data-disabled])": theme.fn.hover({
-                        backgroundColor: "#e7b622",
-                        color: theme.fn.darken("#3F2661", 0.15),
-                      }),
-                    },
-                  })}
-                >
-                  Log Out
-                </Button>
+              <Group sx={{ marginRight: rem (45), [theme.fn.smallerThan("sm")]: {
+                // display: "none",
+                marginRight: rem (20)
+              },}} className={classes.showMobile}>
+                <Menu shadow="md" width={200}>
+                    <Menu.Target>
+                    <Avatar radius="xl" />
+                    </Menu.Target>
+
+                    <Menu.Dropdown>
+                      <Menu.Label>Profile</Menu.Label>
+                      <Menu.Item icon={<IconUser size={14} />}><Text>hi, {nama_user}</Text></Menu.Item>
+                      <Menu.Item component={Link} href="/admin" icon={<IconServerCog size={14} />}>Admin Dashboard</Menu.Item>
+                      <Menu.Item component={Link} href="/penyelenggara" icon={<IconPencil size={14} />}>Penyelenggara Dashboard</Menu.Item>
+                      <Menu.Item component={Link} href="/pelatihanku" icon={<IconAddressBook size={14} />}>Pelatihan Saya</Menu.Item>
+                      {/* <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item> */}
+
+                      <Menu.Divider />
+
+                      <Menu.Label>Account</Menu.Label>
+                      <Menu.Item 
+                        component="button"
+                      onClick={handleLogout}
+                                color="pink.9"
+                                styles={(theme) => ({
+                                  root: {
+                                    color: "#E0DAD1",
+                                    height: rem(32),
+                                    fontWeight: "bold",
+                                    paddingLeft: rem(20),
+                                    paddingRight: rem(20),
+                                    "&:not([data-disabled])": theme.fn.hover({
+                                      backgroundColor: "#e7b622",
+                                      color: theme.fn.darken("#3F2661", 0.15),
+                                    }),
+                                  },
+                                })}  icon={<IconLogout size={14} />}>Logout</Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
               </Group>
             )}
+            {/* Profile button end */}
           </Group>
         </Group>
       </Header>

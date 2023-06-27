@@ -18,6 +18,8 @@ import {
   Flex,
   Group,
   rem,
+  Avatar,
+  Menu,
 } from "@mantine/core";
 
 import { ReactNode, useEffect, useState } from "react";
@@ -27,8 +29,11 @@ import {
   IconFileAnalytics,
   IconGauge,
   IconLock,
+  IconLogout,
   IconNotes,
   IconPresentationAnalytics,
+  IconSettings,
+  IconUser,
 } from "@tabler/icons-react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -53,6 +58,7 @@ export default function LayoutPenyelenggara({ children }: { children: ReactNode 
   const [datavalidasipelatihan, setDatavalidasipelatihan] = useState([]);
   //get token from cookies start
   const token = Cookies.get("token");
+  const nama_user = Cookies.get("nama_user");
   //get token from cookies end
   const totalvalidasiPelatihan = datavalidasipelatihan?.length ?? 0;
   // badge function untuk hitung total data END
@@ -161,28 +167,42 @@ export default function LayoutPenyelenggara({ children }: { children: ReactNode 
                   E-Event
                 </Text>
               </Group>
-              <Group sx={{[theme.fn.smallerThan("sm")]: {
+              <Group sx={{ marginRight: rem (60), [theme.fn.smallerThan("sm")]: {
           // display: "none",
+          marginRight: rem (0)
         },}}>
-                <Button
-                  onClick={handleLogout}
-                  styles={(theme) => ({
-                    root: {
-                      backgroundColor: "#E0DAD1",
-                      color: "#3F2661",
-                      height: rem(32),
-                      fontWeight: "bold",
-                      paddingLeft: rem(20),
-                      paddingRight: rem(20),
-                      "&:not([data-disabled])": theme.fn.hover({
-                        backgroundColor: "#e7b622",
-                        color: theme.fn.darken("#3F2661", 0.15),
-                      }),
-                    },
-                  })}
-                >
-                  Log Out
-                </Button>
+          <Menu shadow="md" width={200}>
+                    <Menu.Target>
+                    <Avatar radius="xl" />
+                    </Menu.Target>
+
+                    <Menu.Dropdown>
+                      <Menu.Label>Profile</Menu.Label>
+                      <Menu.Item icon={<IconUser size={14} />}><Text>hi, {nama_user}</Text></Menu.Item>
+                      <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item>
+
+                      <Menu.Divider />
+
+                      <Menu.Label>Account</Menu.Label>
+                      <Menu.Item 
+                        component="button"
+                      onClick={handleLogout}
+                                color="pink.9"
+                                styles={(theme) => ({
+                                  root: {
+                                    color: "#E0DAD1",
+                                    height: rem(32),
+                                    fontWeight: "bold",
+                                    paddingLeft: rem(20),
+                                    paddingRight: rem(20),
+                                    "&:not([data-disabled])": theme.fn.hover({
+                                      backgroundColor: "#e7b622",
+                                      color: theme.fn.darken("#3F2661", 0.15),
+                                    }),
+                                  },
+                                })}  icon={<IconLogout size={14} />}>Logout</Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
               </Group>
             </Group>
           </Header>
