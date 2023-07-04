@@ -351,9 +351,109 @@ const validasipelatihan = () => {
     });
     console.log(currentTime1);
   };
+  //menampilkan modal info pelatihan start
+  const [selectedPelatihan, setSelectedPelatihan] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = (id: any) => {
+    const pelatihan = data.find((item) => item.id_pelatihan === id);
+    setSelectedPelatihan(pelatihan);
+    setIsModalOpen(true);
+  };
+  //menampilkan modal info pelatihan end
 
   return (
     <Layout>
+      <Modal
+        size={520}
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={selectedPelatihan?.judul_pelatihan}
+        styles={{
+          // modal: {
+          //   borderRadius: 12,
+          //   boxShadow: "0px 8px 32px rgba(17, 17, 17, 0.16)",
+          //   width: "100%", // Custom width for the modal
+          //   maxWidth: "2000px", // Optionally, set a maximum width
+          // },
+          body: {
+            padding: 24,
+          },
+        }}
+      >
+        <Card
+          key={selectedPelatihan?.id_pelatihan}
+          shadow="sm"
+          padding="lg"
+          radius="md"
+          withBorder
+          style={{
+            width: "100%", // Custom width for the card
+            maxWidth: "100%", // Optionally, set a maximum width
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          {/* Card content */}
+          <Card.Section>
+            <Image
+              src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+              height={160}
+              alt="Norway"
+            />
+          </Card.Section>
+          <Group position="right" mt="md" mb="xs">
+            <Badge color="pink" variant="light">
+              <Text weight={500}>{selectedPelatihan?.nama_jenis_acara}</Text>
+            </Badge>
+          </Group>
+          <Group position="left" mt="md" mb="xs">
+            {/* <Text weight={500}>
+              {selectedPelatihan?.id_pelatihan}
+            </Text> */}
+            <Text tt="uppercase" weight={500}>
+              {selectedPelatihan?.judul_pelatihan}
+            </Text>
+          </Group>
+          <Group position="left" mt="md" mb="xs" align="center">
+            <Flex gap="xs">
+              <Image
+                src="/img/schedule.png"
+                alt="Icon"
+                width={30}
+                height={30}
+              />
+              <Text weight={400}>
+                {selectedPelatihan?.tanggal_pelatihan_start
+                  ? selectedPelatihan?.tanggal_pelatihan_start.substring(0, 10)
+                  : "Coming Soon"}
+              </Text>
+            </Flex>
+          </Group>
+          <Text className="bold" size="md" color="dimmed">
+            Narasumber:{" "}
+            {selectedPelatihan?.nama_narasumber
+              ? selectedPelatihan?.nama_narasumber
+              : "Coming Soon"}
+          </Text>
+
+          <Text className="bold" size="md" color="dimmed">
+            <b>Deskripsi:</b>
+            <br />{" "}
+            {selectedPelatihan?.deskripsi_pelatihan
+              ? selectedPelatihan?.deskripsi_pelatihan
+              : "Coming Soon"}
+          </Text>
+          <Text
+            dangerouslySetInnerHTML={{
+              __html: selectedPelatihan?.deskripsi_pelatihan_khusus
+                ? selectedPelatihan?.deskripsi_pelatihan_khusus
+                : "<b>Jadwal Coming Soon !</b>",
+            }}
+          />
+        </Card>
+      </Modal>
       <Space h="md" />
       <TextInput
         placeholder="search pelatihan"
@@ -427,6 +527,16 @@ const validasipelatihan = () => {
                       onClick={() => openDeleteModal(e)}>
                       Delete
                     </Button>
+                  </Grid.Col>
+                  <Grid.Col span={6}>
+                    <Button
+                        variant="outline"
+                        color="blue"
+                        radius="md"
+                        onClick={() => openModal(e.id_pelatihan)}
+                      >
+                        Detail
+                      </Button>
                   </Grid.Col>
                 </Grid>
               </td>
