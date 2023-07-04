@@ -231,78 +231,7 @@ const validasipelatihan = () => {
       display: "flex",
       children: (
         <>
-
-<Card
-          key={e.id_pelatihan}
-          shadow="sm"
-          padding="lg"
-          radius="md"
-          withBorder
-          style={{
-            width: "100%", // Custom width for the card
-            maxWidth: "100%", // Optionally, set a maximum width
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          {/* Card content */}
-          <Card.Section>
-            {/* <Image
-              src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-              height={160}
-              alt="Norway"
-            /> */}
-          </Card.Section>
-          <Group position="right" mt="md" mb="xs">
-            <Badge color="pink" variant="light">
-              <Text weight={500}>{e.nama_jenis_acara}</Text>
-            </Badge>
-          </Group>
-          <Group position="left" mt="md" mb="xs">
-            <Text tt="uppercase" weight={500}>
-              {e.judul_pelatihan}
-            </Text>
-          </Group>
-          <Group position="left" mt="md" mb="xs" align="center">
-            <Flex gap="xs">
-              <Image
-                src="/img/schedule.png"
-                alt="Icon"
-                width={30}
-                height={30}
-              />
-              <Text weight={400}>
-                {e.tanggal_pelatihan_start
-                  ? e.tanggal_pelatihan_start.substring(0, 10)
-                  : "Coming Soon"}
-              </Text>
-            </Flex>
-          </Group>
-          <Text className="bold" size="md" color="dimmed">
-            Narasumber:{" "}
-            {e.nama_narasumber
-              ? e.nama_narasumber
-              : "Coming Soon"}
-          </Text>
-
-          <Text className="bold" size="md" color="dimmed">
-            <b>Deskripsi:</b>
-            <br />{" "}
-            {e.deskripsi_pelatihan
-              ? e.deskripsi_pelatihan
-              : "Coming Soon"}
-          </Text>
-          <Text
-            dangerouslySetInnerHTML={{
-              __html: e.deskripsi_pelatihan_khusus
-                ? e.deskripsi_pelatihan_khusus
-                : "<b>Jadwal Coming Soon !</b>",
-            }}
-          />
-        </Card>
-        <Text size="lg">
+        <Text size="md">
           <Space h="md" />
             Are you sure you want to accept{" "}
             <strong>Pelatihan {e.judul_pelatihan}</strong>
