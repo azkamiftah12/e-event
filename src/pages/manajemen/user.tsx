@@ -182,7 +182,7 @@ const User = () => {
       id_kabkot: (value) => (value.length < 2 ? "Masukkan ID Kabupaten" : null),
       id_pekerjaan: (value) =>
         value.length < 2 ? "Masukkan ID Pekerjaan" : null,
-      notelp: (value) => (value.length < 2 ? "Masukkan No Telp" : null),
+      notelp: (value) => (/^\d{10,12}$/.test(value) ? null : 'Invalid Phone Number'),
       role_user: (value) => (value.length < 2 ? "Masukkan Role" : null),
     },
   });
