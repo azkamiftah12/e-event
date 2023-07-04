@@ -337,7 +337,8 @@ const jenispelatihan = () => {
               />
 
               <Group position="right" mt="md">
-                <Button type="submit" onClick={handleUpdate}>
+                <Button variant="outline"
+                      color="yellow" type="submit" onClick={handleUpdate}>
                   Edit
                 </Button>
               </Group>
@@ -391,7 +392,7 @@ const jenispelatihan = () => {
                       variant="outline"
                       color="yellow"
                     >
-                      Update
+                      Edit
                     </Button>
                   </Grid.Col>
                 </Grid>

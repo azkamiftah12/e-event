@@ -258,7 +258,7 @@ const pelatihan = () => {
   const [htmlNya, setHtmlNya] = useState("");
 
   const [content, setContent] = useState(
-    `<h1><mark>-- -- -- -- Jadwal 1 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p><p></p><h1><mark>-- -- -- -- Jadwal 2 -- -- -- --</mark></h1><p><strong>Jam :<br>Link Zoom :</strong></p>`
+    `<h1><mark>-- -- -- -- Jadwal 1 -- -- -- --</mark></h1><p><strong>Tanggal :<br>Jam :<br>Link Zoom :</strong></p><p></p><h1><mark>-- -- -- -- Jadwal 2 -- -- -- --</mark></h1><p><strong>Tanggal :<br>Jam :<br>Link Zoom :</strong></p>`
   );
 
   const handleOpenEditModal = (e:any) => {

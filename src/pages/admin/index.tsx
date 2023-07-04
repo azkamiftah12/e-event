@@ -19,6 +19,7 @@ import Layout, {
   headerauthorization,
   ipaddress,
 } from "@/components/layout";
+import Link from "next/link";
 // import authMiddleware from '../../middleware/authMiddleware';
 
 // console.log(authMiddleware);
@@ -28,6 +29,8 @@ const index = () => {
   const [datavalidasipelatihan, setDatavalidasipelatihan] = useState([]);
   const [databatch, setDatabatch] = useState([]);
   const [datauser, setDatauser] = useState([]);
+  const [datauserpeserta, setDatauserpeserta] = useState([]);
+  const [datauserpenyelenggara, setDatauserpenyelenggara] = useState([]);
   const router = useRouter();
 
   const getDatapelatihan = async () => {
@@ -58,18 +61,37 @@ const index = () => {
     );
     setDatauser(response.data.data);
   };
+  const getDatauserpeserta = async () => {
+    const response = await axios.get(
+      `${ipaddress}get-datauserpeserta`,
+      headerauthorization
+    );
+    setDatauserpeserta(response.data.data);
+  };
+
+  const getDatauserpenyelenggara = async () => {
+    const response = await axios.get(
+      `${ipaddress}get-datauser-penyelenggara`,
+      headerauthorization
+    );
+    setDatauserpenyelenggara(response.data.data);
+  };
 
   useEffect(() => {
     getDatapelatihan();
     getDatavalidasipelatihan();
     getDatabatch();
     getDatauser();
+    getDatauserpeserta();
+    getDatauserpenyelenggara();
   }, []);
 
   const totalPelatihan = datapelatihan?.length ?? 0;
   const totalvalidasiPelatihan = datavalidasipelatihan?.length ?? 0;
   const totalbatch = databatch?.length ?? 0;
   const totaluser = datauser?.length ?? 0;
+  const totaluserpeserta = datauserpeserta?.length ?? 0;
+  const totaluserpenyelenggara = datauserpenyelenggara?.length ?? 0;
 
   return (
     <Layout>
@@ -90,7 +112,7 @@ const index = () => {
               </Badge>
 
               <Button
-                component="a"
+                component={Link}
                 href="/internal/pelatihan"
                 variant="light"
                 color="blue"
@@ -113,7 +135,7 @@ const index = () => {
               </Badge>
 
               <Button
-                component="a"
+                component={Link}
                 href="/internal/validasipelatihan"
                 variant="light"
                 color="blue"
@@ -132,12 +154,35 @@ const index = () => {
                 <Text weight={500}>Peserta</Text>
               </Group>
               <Badge color="pink" variant="light">
-                Jumlah: {totalbatch}
+                Jumlah: {totaluserpeserta}
               </Badge>
 
               <Button
-                component="a"
-                href="/internal/batch"
+                component={Link}
+                href="/manajemen/user"
+                variant="light"
+                color="blue"
+                fullWidth
+                mt="md"
+                radius="md"
+              >
+                Detail
+              </Button>
+            </Card>
+          </Grid.Col>
+
+          <Grid.Col xs={12} sm={6} lg={4}>
+            <Card shadow="sm" padding="lg" radius="md" withBorder>
+              <Group position="apart" mt="md" mb="xs">
+                <Text weight={500}>Penyelenggara</Text>
+              </Group>
+              <Badge color="pink" variant="light">
+                Jumlah: {totaluserpenyelenggara}
+              </Badge>
+
+              <Button
+                component={Link}
+                href="/manajemen/user"
                 variant="light"
                 color="blue"
                 fullWidth

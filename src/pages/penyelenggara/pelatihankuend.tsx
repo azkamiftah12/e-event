@@ -260,7 +260,7 @@ const pelatihankuend = () => {
                   >
                     Delete
                   </Button>
-                  <Button
+                  {/* <Button
                   // variant= "outline"
                   // color="yellow"
                   // onClick={() => {
@@ -269,7 +269,7 @@ const pelatihankuend = () => {
                   // }}
                   >
                     Edit
-                  </Button>
+                  </Button> */}
                 </Flex>
               </td>
             </tr>

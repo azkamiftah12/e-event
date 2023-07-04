@@ -218,7 +218,8 @@ const kabupaten = () => {
       </Modal>
 
       <Group position="center">
-        <Button onClick={open}>Add Kabupaten/Kota</Button>
+        <Button variant="outline"
+                      color="blue" onClick={open}>Add Kabupaten/Kota</Button>
       </Group>
 
       <TextInput
