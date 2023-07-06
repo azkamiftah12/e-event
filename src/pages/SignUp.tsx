@@ -93,13 +93,13 @@ import Link from 'next/link';
     
     validate: {
       username: (value) => (value.length < 2 ? 'Masukkan Username' : null),
-      email: (value) => (value.length < 2 ? 'Masukkan Email' : null),
+      email: (value) => (/^\S+@\S+$/.test(value) ? 'Masukkan Email' : null),
       password: (value) => (value.length < 8 ? 'password minimal 8 karakter' : null),
       nama_user: (value) => (value.length < 2 ? 'Masukkan Nama' : null),
       id_provinsi: (value) => (value.length < 2 ? 'Masukkan ID Provinsi' : null),
       id_kabkot: (value) => (value.length < 2 ? 'Masukkan ID Kabupaten' : null),
       id_pekerjaan: (value) => (value.length < 2 ? 'Masukkan ID Pekerjaan' : null),
-      notelp: (value) => (value.length < 2 ? 'Masukkan No Telp' : null),
+      notelp: (value) => (/^\d{10,12}$/.test(value) ? 'Masukkan No Telp' : null),
     },
   });
   //Form End

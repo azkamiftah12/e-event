@@ -173,7 +173,7 @@ const User = () => {
 
     validate: {
       username: (value) => (value.length < 2 ? "Masukkan Username" : null),
-      email: (value) => (value.length < 2 ? "Masukkan Email" : null),
+      email: (value) =>  (/^\S+@\S+$/.test(value) ? "Masukkan Email" : null),
       password: (value) =>
         value.length < 8 ? "Password minimal 8 karakter" : null,
       nama_user: (value) => (value.length < 2 ? "Masukkan Nama" : null),

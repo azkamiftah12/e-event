@@ -158,11 +158,11 @@ const latihan = () => {
       centered: true,
       children: (
         <Text size="sm">
-          Are you sure you want to accept{" "}
+          Are you sure you want to claim{" "}
           <strong>Pelatihan {e.judul_pelatihan}</strong>
         </Text>
       ),
-      labels: { confirm: "ACC Pelatihan", cancel: "Cancel" },
+      labels: { confirm: "Claim Pelatihan", cancel: "Cancel" },
       confirmProps: { color: "pink.9" },
       onCancel: () => console.log("Cancel"),
       onConfirm: () => handleclaim(e.id_pelatihan),

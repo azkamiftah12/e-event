@@ -229,9 +229,10 @@ const Login = () => {
                 type="submit"
                 fullWidth
                 mt="xl"
+                color="pink.9"
                 styles={(theme) => ({
                   root: {
-                    backgroundColor: "#e14658",
+                    backgroundColor: "pink.9",
                     color: "#ffffff",
                     "&:not([data-disabled])": theme.fn.hover({
                       backgroundColor: "#e7b622",
