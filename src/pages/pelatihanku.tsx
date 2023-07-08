@@ -290,7 +290,7 @@ const pelatihanku = () => {
     >
 
       <Text align="center" color="pink.9" weight={500} size="lg" mt="md">
-        No Data Found!
+        No Pelatihan Found!
       </Text>
 
       <Text align="center" mt="xs" color="dimmed" size="sm">

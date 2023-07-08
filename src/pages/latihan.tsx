@@ -323,8 +323,15 @@ const latihan = () => {
           ))}
         </Grid>
         ) : (
-          <h1>No Data</h1>
-        )}
+            <Card
+      shadow="sm"
+      padding="xl"
+    >
+      <Text align="center" color="pink.9" weight={500} size="lg" mt="md">
+        No Pelatihan Found!
+      </Text>
+    </Card>
+          )}
         {/* Card End */}
 
         <Space h="xl" />
