@@ -16,7 +16,9 @@ import {
   Badge,
   Card,
   Flex,
-  Image
+  Image,
+  CloseButton,
+  Title
 } from "@mantine/core";
 import { Flip, Slide, ToastContainer, ToastContentProps, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -96,6 +98,9 @@ const validasipelatihan = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
+  };
+  const handleClear = () => {
+    setSearchTerm('');
   };
 
   // eslint-disable-next-line arrow-body-style
@@ -383,13 +388,21 @@ const validasipelatihan = () => {
           />
         </Card>
       </Modal>
+      
       <Space h="md" />
+      <Title tt="capitalize">Validasi Pelatihan</Title>
+      
+      {/* search bar start */}
       <TextInput
-        placeholder="search pelatihan"
+        placeholder="Search Pelatihan"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
 
       <Space h="md" />
       {/* <Button type="button" onClick={() => console.log(pesanTolak)}>

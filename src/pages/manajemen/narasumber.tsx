@@ -11,6 +11,9 @@ import {
   Table,
   TextInput,
   Text,
+  CloseButton,
+  Badge,
+  Title,
 } from "@mantine/core";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -145,6 +148,9 @@ const Narasumber = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
+  };
+  const handleClear = () => {
+    setSearchTerm('');
   };
   // eslint-disable-next-line arrow-body-style
   const filteredData = data.filter((item) => {
@@ -417,6 +423,9 @@ const Narasumber = () => {
       </Modal>
       {/* modal edit End */}
 
+      <Space h="md" />
+      <Title tt="capitalize">narasumber</Title>
+
       <Grid justify="flex-end">
         <Grid.Col span={3}>
           <Group position="center">
@@ -428,12 +437,19 @@ const Narasumber = () => {
       </Grid>
 
       <Space h="md" />
+
+      {/* search bar start */}
       <TextInput
-        placeholder="Search Username"
+        placeholder="Search Narasumber"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
+
       <Space h="md" />
       <Table striped highlightOnHover withBorder withColumnBorders>
         <thead>

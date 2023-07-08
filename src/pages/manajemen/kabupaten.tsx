@@ -1,14 +1,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
+  Badge,
   Box,
   Button,
   Checkbox,
+  CloseButton,
   Group,
   Modal,
   Select,
   Space,
   Table,
   TextInput,
+  Text,
+  Title
 } from "@mantine/core";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
@@ -68,6 +72,9 @@ const kabupaten = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
+  };
+  const handleClear = () => {
+    setSearchTerm('');
   };
 
   // eslint-disable-next-line arrow-body-style
@@ -216,18 +223,27 @@ const kabupaten = () => {
           </form>
         </Box>
       </Modal>
+      
+      <Space h="md" />
+      <Title tt="capitalize">Kabupaten</Title>
 
       <Group position="center">
         <Button variant="outline"
-                      color="blue" onClick={open}>Add Kabupaten/Kota</Button>
+                      color="Indigo" onClick={open}>Add Kabupaten/Kota</Button>
       </Group>
 
+      {/* search bar start */}
       <TextInput
-        placeholder="Search Kabupaten/Kota"
+        placeholder="Search Kabupaten"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
+
       <Space h="md" />
       <Table striped highlightOnHover withBorder withColumnBorders>
         <thead>

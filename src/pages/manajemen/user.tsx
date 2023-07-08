@@ -11,6 +11,9 @@ import {
   Table,
   TextInput,
   Text,
+  CloseButton,
+  Badge,
+  Title,
 } from "@mantine/core";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -147,6 +150,9 @@ const User = () => {
   const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
+  const handleClear = () => {
+    setSearchTerm('');
+  };
   // eslint-disable-next-line arrow-body-style
   const filteredData = data.filter((item) => {
     return item.username
@@ -173,7 +179,7 @@ const User = () => {
 
     validate: {
       username: (value) => (value.length < 2 ? "Masukkan Username" : null),
-      email: (value) =>  (/^\S+@\S+$/.test(value) ? "Masukkan Email" : null),
+      email: (value) =>  (/^\S+@\S+$/.test(value) ? null : 'Invalid Email'),
       password: (value) =>
         value.length < 8 ? "Password minimal 8 karakter" : null,
       nama_user: (value) => (value.length < 2 ? "Masukkan Nama" : null),
@@ -554,9 +560,14 @@ const User = () => {
           </Box>
         )}
       </Modal>
+
       {/* modal edit End */}
 
-      <Grid justify="flex-end">
+      
+      <Space h="md" />
+      <Title tt="capitalize">user</Title>
+
+      <Grid justify="center">
         <Grid.Col span={3}>
           <Group position="center">
             <Button onClick={openAddModal} variant="outline" color="indigo">
@@ -567,12 +578,19 @@ const User = () => {
       </Grid>
 
       <Space h="md" />
+
+      {/* search bar start */}
       <TextInput
         placeholder="Search Username"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
+
       <Space h="md" />
       <Table striped highlightOnHover withBorder withColumnBorders>
         <thead>

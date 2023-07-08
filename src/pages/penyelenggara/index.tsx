@@ -80,8 +80,8 @@ const index = () => {
 
   return (
     <LayoutPenyelenggara>
+      <Space h="md" />
       <Title>Dashboard</Title>
-      <Space h="xl" />
       <Space h="xl" />
 
       {/* Card Start */}

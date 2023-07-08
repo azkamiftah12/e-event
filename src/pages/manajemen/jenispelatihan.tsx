@@ -12,6 +12,9 @@ import {
   Table,
   TextInput,
   Grid,
+  CloseButton,
+  Badge,
+  Title,
 } from "@mantine/core";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
@@ -118,6 +121,9 @@ const jenispelatihan = () => {
   //search
   const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
+  };
+  const handleClear = () => {
+    setSearchTerm('');
   };
 
   // eslint-disable-next-line arrow-body-style
@@ -288,6 +294,7 @@ const jenispelatihan = () => {
         </Notification>
       )} */}
 
+
       <Modal
         opened={openedAddModal}
         onClose={closeAddModal}
@@ -348,18 +355,27 @@ const jenispelatihan = () => {
       </Modal>
       {/* modal edit End */}
 
+      <Space h="md" />
+      <Title tt="capitalize">Jenis Pelatihan</Title>
+
       <Group position="center">
         <Button variant="outline" color="indigo" onClick={openAddModal}>
           Add Pelatihan
         </Button>
       </Group>
 
+      {/* search bar start */}
       <TextInput
         placeholder="Search Jenis Pelatihan"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
+
       <Space h="md" />
       <Table striped highlightOnHover withBorder withColumnBorders>
         <thead>

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Box, Button, Checkbox, Group, Modal, Space, Table, TextInput } from '@mantine/core';
+import { Box, Button, Checkbox, CloseButton, Group, Modal, Space, Table, TextInput, Text, Badge, Title } from '@mantine/core';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useForm } from '@mantine/form';
@@ -24,6 +24,9 @@ const provinsi = () => {
   const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
+  const handleClear = () => {
+    setSearchTerm('');
+  };
   
   // eslint-disable-next-line arrow-body-style
   const filteredData = data.filter((item) => {
@@ -32,12 +35,29 @@ const provinsi = () => {
   //search end
   return (
     <Layout>
+
+    <Space h="md" />
+  
+      <Title
+      tt="uppercase"
+      fz="xl"
+      fw={700}
+    >
+      Provinsi
+    </Title>
+      
+
+      {/* search bar start */}
       <TextInput
         placeholder="Search Provinsi"
         value={searchTerm}
         onChange={handleSearch}
-        style={{ marginTop: '16px' }}
+        style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
       <Space h="md" />
         <Table striped highlightOnHover withBorder withColumnBorders>
       <thead>

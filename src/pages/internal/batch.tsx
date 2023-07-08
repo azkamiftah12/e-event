@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Box, Button, Checkbox, Grid, Group, Modal, Select, Space, Table, TextInput } from '@mantine/core';
+import { Badge, Box, Button, Checkbox, CloseButton, Grid, Group, Modal, Select, Space, Table, TextInput, Text, Title } from '@mantine/core';
 import axios from 'axios';
 import React, { useState, useEffect, Suspense } from 'react';
 import { useForm } from '@mantine/form';
@@ -27,6 +27,9 @@ const batch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
+  };
+  const handleClear = () => {
+    setSearchTerm('');
   };
   
   // eslint-disable-next-line arrow-body-style
@@ -60,12 +63,20 @@ return formattedTime;
 
       return (
   <Layout>
+    <Space h="md" />
+    <Title tt="capitalize">Batch</Title>
+    
+      {/* search bar start */}
       <TextInput
-        placeholder="search pelatihan"
+        placeholder="Search Peserta"
         value={searchTerm}
         onChange={handleSearch}
-        style={{ marginTop: '16px' }}
+        style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
       <Space h="md" />
       <Suspense fallback={<div><h1>Loading..</h1></div>}>
         <Table striped highlightOnHover withBorder withColumnBorders>

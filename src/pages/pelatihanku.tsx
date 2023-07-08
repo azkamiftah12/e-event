@@ -16,6 +16,7 @@ import {
   Badge,
   Flex,
   Modal,
+  CloseButton,
 } from "@mantine/core";
 import { modals, openModal } from "@mantine/modals";
 import Cookies from "js-cookie";
@@ -95,6 +96,9 @@ const pelatihanku = () => {
   const handleSearch = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
+  const handleClear = () => {
+    setSearchTerm('');
+  };
 
   // eslint-disable-next-line arrow-body-style
   const filteredData = data
@@ -168,17 +172,22 @@ const pelatihanku = () => {
             fontSize: "45px",
           })}
         >
-          List Pelatihanku
+          Pelatihanku
         </Title>
         <Container size="xl" px="xl">
           <Space h="xl" />
 
-          <TextInput
-            placeholder="search pelatihan"
-            value={searchTerm}
-            onChange={handleSearch}
-            style={{ marginTop: "16px" }}
-          />
+          {/* search bar start */}
+      <TextInput
+        placeholder="Search Pelatihan"
+        value={searchTerm}
+        onChange={handleSearch}
+        style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
+      />
+        {/* search bar end */}
           <Space h="xl" />
 
           {/* Card Start */}

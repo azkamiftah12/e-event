@@ -95,8 +95,8 @@ const index = () => {
 
   return (
     <Layout>
-      <Title>Dashboard</Title>
-      <Space h="xl" />
+      <Space h="md" />
+      <Title tt="capitalize">Dashboard</Title>
       <Container>
         <Space h="xl" />
 

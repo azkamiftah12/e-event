@@ -4,7 +4,7 @@ import Layout, {
   ipaddress,
 } from "@/components/layout";
 import LayoutPenyelenggara from "@/components/layoutpenyelenggara";
-import { TextInput, Space, Table, Flex, Button, Text } from "@mantine/core";
+import { TextInput, Space, Table, Flex, Button, Text, Title, CloseButton } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -63,6 +63,9 @@ const pelatihankuditolak = () => {
   const handleSearch = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
+  const handleClear = () => {
+    setSearchTerm('');
+  };
 
   // eslint-disable-next-line arrow-body-style
   const filteredData = data
@@ -110,13 +113,17 @@ const pelatihankuditolak = () => {
 
   return (
     <LayoutPenyelenggara>
+      <Space h="md" />
+      <Title tt="capitalize">Pelatihan ditolak</Title>
       <TextInput
         placeholder="search pelatihan"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
-      <Space h="md" />
       <Table striped highlightOnHover withBorder withColumnBorders>
         <thead>
           <tr>

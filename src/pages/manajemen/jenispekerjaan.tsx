@@ -9,6 +9,9 @@ import {
   TextInput,
   Text,
   Grid,
+  CloseButton,
+  Badge,
+  Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import axios from "axios";
@@ -94,6 +97,9 @@ const JenisPekerjaan = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
+  };
+  const handleClear = () => {
+    setSearchTerm('');
   };
 
   // eslint-disable-next-line arrow-body-style
@@ -309,6 +315,7 @@ const JenisPekerjaan = () => {
       </Modal>
 
       <Space h="md" />
+      <Title tt="capitalize">Jenis Pekerjaan</Title>
 
       <Group position="center">
         <Button variant="outline" color="indigo" onClick={openAddModal}>
@@ -316,12 +323,18 @@ const JenisPekerjaan = () => {
         </Button>
       </Group>
 
+      {/* search bar start */}
       <TextInput
-        placeholder="Search pekerjaan"
+        placeholder="Search Jenis Pekerjaan"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
+
       <Space h="md" />
 
       <Table striped highlightOnHover withBorder withColumnBorders>

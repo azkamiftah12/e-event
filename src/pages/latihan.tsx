@@ -17,6 +17,7 @@ import {
   Title,
   Notification,
   Flex,
+  CloseButton,
 } from "@mantine/core";
 import Cookies from "js-cookie";
 import HeaderMenu from "@/components/HeaderMenu/HeaderMenu";
@@ -96,6 +97,9 @@ const latihan = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
+  };
+  const handleClear = () => {
+    setSearchTerm('');
   };
 
   // eslint-disable-next-line arrow-body-style
@@ -197,7 +201,7 @@ const latihan = () => {
           fontSize: "45px",
         })}
       >
-        List Pelatihan
+        Pelatihan
       </Title>
       <Container size="xl" px="xl">
         <Space h="xl" />
@@ -207,6 +211,9 @@ const latihan = () => {
           value={searchTerm}
           onChange={handleSearch}
           style={{ marginTop: "16px" }}
+          rightSection={
+            <CloseButton onClick={handleClear} />
+          }
         />
         <Space h="xl" />
 

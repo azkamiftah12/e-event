@@ -5,7 +5,7 @@ import Layout, {
   ipaddress,
 } from "@/components/layout";
 import axios from "axios";
-import { Space, TextInput, Table, Button, Flex, Text } from "@mantine/core";
+import { Space, TextInput, Table, Button, Flex, Text, CloseButton, Badge, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { ToastContentProps, Zoom, toast } from "react-toastify";
 import Cookies from "js-cookie";
@@ -61,6 +61,9 @@ const pelatihanditolak = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
+  };
+  const handleClear = () => {
+    setSearchTerm('');
   };
 
   // eslint-disable-next-line arrow-body-style
@@ -155,12 +158,20 @@ const pelatihanditolak = () => {
 
   return (
     <Layout>
+      <Space h="md" />
+      <Title tt="capitalize">Pelatihan ditolak</Title>
+
+      {/* search bar start */}
       <TextInput
-        placeholder="search pelatihan"
+        placeholder="Search Pelatihan"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
       <Space h="md" />
       <Table striped highlightOnHover withBorder withColumnBorders>
         <thead>

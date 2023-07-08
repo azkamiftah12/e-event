@@ -17,6 +17,7 @@ import {
   Textarea,
   Flex,
   Badge,
+  Title,
 } from "@mantine/core";
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
@@ -160,6 +161,9 @@ const pelatihan = () => {
   const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
+  const handleClear = () => {
+    setSearchTerm('');
+  };
 
   // eslint-disable-next-line arrow-body-style
   const filteredData = data.filter((item) => {
@@ -176,6 +180,9 @@ const pelatihan = () => {
   const [searchTermlihatpeserta, setSearchTermlihatpeserta] = useState("");
   const handleSearchlihatpeserta = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTermlihatpeserta(event.target.value);
+  };
+  const handleClearlihatpeserta = () => {
+    setSearchTermlihatpeserta('');
   };
 
   // eslint-disable-next-line arrow-body-style
@@ -722,6 +729,9 @@ const pelatihan = () => {
               value={searchTermlihatpeserta}
               onChange={handleSearchlihatpeserta}
               style={{ marginTop: "16px" }}
+              rightSection={
+                <CloseButton onClick={handleClearlihatpeserta} />
+              }
             />
 
             <Space h="md" />
@@ -949,6 +959,10 @@ const pelatihan = () => {
       {/* end modal add pelatihan */}
 
       <Space h="md" />
+
+      <Title tt="capitalize">Pelatihan</Title>
+
+      <Space h="md" />
       <Group position="center">
         <Button
           variant="outline"
@@ -958,12 +972,17 @@ const pelatihan = () => {
         </Button>
       </Group>
 
+      {/* search bar start */}
       <TextInput
-        placeholder="Search pelatihan"
+        placeholder="Search Pelatihan"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
 
       <Space h="md" />
       <Table striped highlightOnHover withBorder withColumnBorders>

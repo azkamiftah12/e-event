@@ -14,6 +14,8 @@ import {
   Badge,
   Box,
   Modal,
+  CloseButton,
+  Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
@@ -84,6 +86,9 @@ const pelatihankuend = () => {
   const handleSearch = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
+  const handleClear = () => {
+    setSearchTerm('');
+  };
 
   // eslint-disable-next-line arrow-body-style
   const filteredData = data
@@ -136,6 +141,9 @@ const pelatihankuend = () => {
   const handleSearchlihatpeserta = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSearchTermlihatpeserta(event.target.value);
   };
+  const handleClearlihatpeserta = () => {
+    setSearchTermlihatpeserta('');
+  };
 
   // eslint-disable-next-line arrow-body-style
   const filteredDatalihatpeserta = datalihatpeserta
@@ -179,6 +187,9 @@ const pelatihankuend = () => {
               value={searchTermlihatpeserta}
               onChange={handleSearchlihatpeserta}
               style={{ marginTop: "16px" }}
+              rightSection={
+                <CloseButton onClick={handleClearlihatpeserta} />
+              }
             />
 
             <Space h="md" />
@@ -213,11 +224,17 @@ const pelatihankuend = () => {
       </Modal>
       {/* modal Lihat Peserta End */}
 
+      <Space h="md" />
+      <Title tt="capitalize">Pelatihan Selesai</Title>
+
       <TextInput
         placeholder="search pelatihan"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
       <Space h="md" />
       <Table striped highlightOnHover withBorder withColumnBorders>

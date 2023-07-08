@@ -17,6 +17,7 @@ import {
   Textarea,
   Flex,
   Badge,
+  Title,
 } from "@mantine/core";
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
@@ -198,6 +199,9 @@ const managepelatihan = () => {
   }) => {
     setSearchTerm(event.target.value);
   };
+  const handleClear = () => {
+    setSearchTerm('');
+  };
 
   // eslint-disable-next-line arrow-body-style
   const filteredData = data
@@ -218,6 +222,9 @@ const managepelatihan = () => {
     target: { value: React.SetStateAction<string> };
   }) => {
     setSearchTermlihatpeserta(event.target.value);
+  };
+  const handleClearlihatpeserta = () => {
+    setSearchTermlihatpeserta('');
   };
 
   // eslint-disable-next-line arrow-body-style
@@ -792,6 +799,9 @@ const managepelatihan = () => {
               value={searchTermlihatpeserta}
               onChange={handleSearchlihatpeserta}
               style={{ marginTop: "16px" }}
+              rightSection={
+                <CloseButton onClick={handleClearlihatpeserta} />
+              }
             />
 
             <Space h="md" />
@@ -999,6 +1009,8 @@ const managepelatihan = () => {
         </Box>
       </Modal>
       <Space h="md" />
+      <Title tt="capitalize">Pelatihan saya</Title>
+      
       <Group position="center">
         <Button
           variant="outline"
@@ -1008,12 +1020,17 @@ const managepelatihan = () => {
         </Button>
       </Group>
 
+      {/* search bar start */}
       <TextInput
-        placeholder="Search pelatihan"
+        placeholder="Search Pelatihan"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
 
       <Space h="md" />
 

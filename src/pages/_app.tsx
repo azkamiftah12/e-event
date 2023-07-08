@@ -17,7 +17,7 @@ export default function App(props: AppProps) {
         <meta name="description" content="" />
         <meta name="author" content="" />
         <link rel="icon" type="image/png" href="pages/img/eventicon.png" />
-        <title>Event Certificate</title>
+        <title>E-Event</title>
       </Head>
       
       <MantineProvider

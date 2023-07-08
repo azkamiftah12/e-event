@@ -15,6 +15,8 @@ import {
   Modal,
   Badge,
   Box,
+  CloseButton,
+  Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { ToastContentProps, Zoom, toast } from "react-toastify";
@@ -78,6 +80,9 @@ const pelatihanend = () => {
   const handleSearch = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
+  const handleClear = () => {
+    setSearchTerm('');
+  };
 
   // eslint-disable-next-line arrow-body-style
   const filteredData = data.filter((item) => {
@@ -128,6 +133,9 @@ const pelatihanend = () => {
   const handleSearchlihatpeserta = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTermlihatpeserta(event.target.value);
   };
+  const handleClearlihatpeserta = () => {
+    setSearchTermlihatpeserta('');
+  };
 
   // eslint-disable-next-line arrow-body-style
   const filteredDatalihatpeserta = datalihatpeserta
@@ -171,6 +179,9 @@ const pelatihanend = () => {
               value={searchTermlihatpeserta}
               onChange={handleSearchlihatpeserta}
               style={{ marginTop: "16px" }}
+              rightSection={
+                <CloseButton onClick={handleClearlihatpeserta} />
+              }
             />
 
             <Space h="md" />
@@ -204,12 +215,22 @@ const pelatihanend = () => {
         )}
       </Modal>
       {/* modal Lihat Peserta End */}
+
+      <Space h="md" />
+      <Title tt="capitalize">Pelatihan Selesai</Title>
+
+      {/* search bar start */}
       <TextInput
-        placeholder="search pelatihan"
+        placeholder="Search Pelatihan"
         value={searchTerm}
         onChange={handleSearch}
         style={{ marginTop: "16px" }}
+        rightSection={
+          <CloseButton onClick={handleClear} />
+        }
       />
+        {/* search bar end */}
+
       <Space h="md" />
       <Table striped highlightOnHover withBorder withColumnBorders>
         <thead>
