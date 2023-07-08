@@ -21,9 +21,11 @@ import { useDisclosure } from "@mantine/hooks";
 import { Flip, Slide, ToastContainer, Zoom, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { IconSettings, IconMessageCircle, IconPhoto, IconSearch, IconArrowsLeftRight, IconTrash, IconNotebook, IconAddressBook, IconLogout, IconUser, IconServerCog, IconPencil } from "@tabler/icons-react";
+import NoSsr from "../NoSsr";
 
 // Utility function to check if a cookie exists
 function checkCookieExists(cookieName: string) {
@@ -37,10 +39,7 @@ function checkCookieExists(cookieName: string) {
   return false;
 }
 
-//get token from cookies start
-const token = Cookies.get("token");
-const nama_user = Cookies.get("nama_user");
-//get token from cookies end
+
 
 // EDIT WARNA TEXT
 const useStyles = createStyles((theme) => ({
@@ -128,9 +127,30 @@ const useStyles = createStyles((theme) => ({
 
 //ICON DI FEATURES//
 
+
+let decodedToken: any;
+let username: string;
+let role_user: string;
+
 export default function HeaderMenu() {
+
+  //get token from cookies start
+  const token = Cookies.get('token');
+  if (token) {
+  decodedToken = jwt_decode(token);
+  username = decodedToken.username.toString().toLowerCase();
+  role_user = decodedToken.role_user.toString().toLowerCase();
+  console.log(role_user);
+  } else {
+  console.error('Token not found');
+  }
+  //get token from cookies end
+
+
   const { classes, theme } = useStyles();
   const [tokenExists, setTokenExists] = useState(false);
+
+  const nama_user = Cookies.get("nama_user");
 
   useEffect(() => {
     const exists = checkCookieExists("token");
@@ -164,7 +184,7 @@ export default function HeaderMenu() {
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Label>Application</Menu.Label>
+        <Menu.Label>Pelatihan</Menu.Label>
         <Menu.Item component={Link} href="/latihan" icon={<IconNotebook size={14} />}>
               Pelatihan
             </Menu.Item>
@@ -176,8 +196,34 @@ export default function HeaderMenu() {
             )}
       </Menu.Dropdown>
     </Menu>
-            
-            
+    
+    <NoSsr>
+    {role_user === 'admin' || role_user === 'penyelenggara' ? (
+      <Menu shadow="md" width={200}>
+    <Menu.Target>
+      <Button sx={{ backgroundColor: "#3F2661" }} radius="xs" className={classes.link}>
+        Menu
+      </Button>
+    </Menu.Target>
+
+    <Menu.Dropdown>
+      <Menu.Label>Menu</Menu.Label>
+      {role_user === 'admin' ? (
+
+        
+        <Menu.Item component={Link} href="/admin" icon={<IconServerCog size={14} />}>
+        Admin Dashboard
+      </Menu.Item>
+        ):null}
+        {role_user === 'penyelenggara' ? (
+      <Menu.Item component={Link} href="/penyelenggara" icon={<IconPencil size={14} />}>
+        Penyelenggara Dashboard
+      </Menu.Item>
+      ):null}
+    </Menu.Dropdown>
+  </Menu>
+) : null}
+</NoSsr>
           </Group>
           <Group sx={{ height: "100%",  marginRight: rem (30) }} className={classes.showMobile}>
             {/* Conditional rendering based on token existence */}
@@ -220,11 +266,8 @@ export default function HeaderMenu() {
                     <Menu.Dropdown>
                       <Menu.Label>Profile</Menu.Label>
                       <Menu.Item icon={<IconUser size={14} />}><Text>hi, {nama_user}</Text></Menu.Item>
-                      <Menu.Item component={Link} href="/admin" icon={<IconServerCog size={14} />}>Admin Dashboard</Menu.Item>
-                      <Menu.Item component={Link} href="/penyelenggara" icon={<IconPencil size={14} />}>Penyelenggara Dashboard</Menu.Item>
                       <Menu.Item component={Link} href="/pelatihanku" icon={<IconAddressBook size={14} />}>Pelatihan Saya</Menu.Item>
                       {/* <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item> */}
-
                       <Menu.Divider />
 
                       <Menu.Label>Account</Menu.Label>
