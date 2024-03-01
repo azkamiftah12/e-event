@@ -131,7 +131,7 @@ const JenisPekerjaan = () => {
     // Validate form fields
     const errors = form.validate();
     if (errors.hasErrors) {
-      // If there are validation errors, you can handle them accordingly
+      
       console.log(errors);
       return;
     }
